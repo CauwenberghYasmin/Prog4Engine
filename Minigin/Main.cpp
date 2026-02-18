@@ -25,7 +25,7 @@ static void load()
 
 	//adding texture component
 	auto scene01 = std::make_unique<dae::GameObject>();
-	//scene01->SetTexture("background.png");
+	scene01->SetTexture("background.png");
 	//-> say add instead(fill parameters in with constructor)
 	scene.Add(std::move(scene01));
 
