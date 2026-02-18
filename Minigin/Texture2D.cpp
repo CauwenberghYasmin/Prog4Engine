@@ -17,7 +17,10 @@ glm::vec2 dae::Texture2D::GetSize() const
 
 SDL_Texture* dae::Texture2D::GetSDLTexture() const
 {
-	return m_texture;
+    if(m_texture != nullptr)
+	    return m_texture;
+
+    return nullptr;
 }
 
 dae::Texture2D::Texture2D(const std::string &fullPath)

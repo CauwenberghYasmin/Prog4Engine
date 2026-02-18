@@ -9,17 +9,17 @@ namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextObject final : protected Component
+	class TextObject final : public Component
 	{
 	public:
-		void Update();
-		void Render() const;
+		void Update() override;
+		void Render() override;
 
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);
 		void SetColor(const SDL_Color& color);
 
-		TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 }, float id);
+		TextObject(const std::string& text, std::shared_ptr<Font> font, float id, const SDL_Color& color = { 255, 255, 255, 255 });
 		virtual ~TextObject() = default;
 		TextObject(const TextObject& other) = delete;
 		TextObject(TextObject&& other) = delete;

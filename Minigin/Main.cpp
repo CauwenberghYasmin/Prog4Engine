@@ -38,7 +38,7 @@ static void load()
 	//adding text component
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
-	auto textTitleComponent = std::make_unique<dae::TextObject>("Programming 4 Assignment", font, 1); //don't need this component ref anymore, so no need to safe the id
+	auto textTitleComponent = std::make_unique<dae::TextObject>("Programming 4 Assignment", font, 1.f); //don't need this component ref anymore, so no need to safe the id
 	textTitleComponent->SetColor({ 255, 255, 0, 255 });
 	textTitleComponent->SetPosition(292, 20);
 	
