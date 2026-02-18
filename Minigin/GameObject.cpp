@@ -15,6 +15,11 @@ void dae::GameObject::Render() const
 		i.first->Render();
 	}
 
+	if (m_texture != nullptr)	//draws game objects who don't have components
+	{
+		const auto& pos = m_transform.GetPosition();
+		Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+	}
 }
 
 void dae::GameObject::Update()

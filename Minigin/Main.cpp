@@ -35,9 +35,9 @@ static void load()
 	scene01->SetPosition(358, 180); //counts as transform component?
 	scene.Add(std::move(scene01));
 
-	//adding text component
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
+	//title assignment
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textTitleComponent = std::make_unique<dae::TextObject>("Programming 4 Assignment", font, 1.f); //don't need this component ref anymore, so no need to safe the id
 	textTitleComponent->SetColor({ 255, 255, 0, 255 });
 	textTitleComponent->SetPosition(292, 20);
@@ -45,8 +45,7 @@ static void load()
 	auto textObject = std::make_unique<dae::GameObject>();
 	textObject->AddComponent(std::move(textTitleComponent));
 
-	scene.Add(std::move (textObject));  // != to game object
-	// -> make game object and add the components to it!!
+	scene.Add(std::move (textObject));
 
 
 	//add fps component -> has on it's own: 
