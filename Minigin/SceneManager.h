@@ -14,6 +14,7 @@ namespace dae
 		Scene& CreateScene();
 
 		void Update();
+		void DelayUpdate();
 		void Render();
 	private:
 		friend class Singleton<SceneManager>;

@@ -8,7 +8,7 @@ namespace dae
 	/**
 	 * Simple RAII wrapper for an SDL_Texture
 	 */
-	class Texture2D final
+	class Texture2D final //not part polymorphism, is already in game object as memebr variable. 
 	{
 	public:
 		SDL_Texture* GetSDLTexture() const;

@@ -2,10 +2,13 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include<utility>
+#include<vector>
 
 dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update(){}
+void dae::GameObject::DelayUpdate(){}
 
 void dae::GameObject::Render() const
 {

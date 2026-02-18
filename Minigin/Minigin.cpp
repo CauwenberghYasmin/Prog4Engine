@@ -17,6 +17,7 @@
 #include "ResourceManager.h"
 #include <chrono>
 #include <thread>
+#include "GameTime.h"
 
 SDL_Window* g_window{};
 
@@ -107,6 +108,8 @@ void dae::Minigin::RunOneFrame()
 {
 	const auto current_time = std::chrono::high_resolution_clock::now();
 	const float delta_time = std::chrono::duration<float>(current_time - last_time).count();
+	dae::GameTime::GetInstance().SetDeltaTime(delta_time);
+
 	last_time = current_time;
 
 	m_quit = !InputManager::GetInstance().ProcessInput(); //input

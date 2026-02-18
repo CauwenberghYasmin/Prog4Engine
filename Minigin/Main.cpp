@@ -23,22 +23,26 @@ static void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
 
-	auto go = std::make_unique<dae::GameObject>();
-	go->SetTexture("background.png");
-	scene.Add(std::move(go));
+	//adding texture component
+	auto scene01 = std::make_unique<dae::GameObject>();
+	scene01->SetTexture("background.png");
+	scene.Add(std::move(scene01));
 
-	go = std::make_unique<dae::GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(358, 180);
-	scene.Add(std::move(go));
+	//adding 2nd texture component
+	scene01 = std::make_unique<dae::GameObject>();
+	scene01->SetTexture("logo.png");
+	scene01->SetPosition(358, 180); //counts as transform component?
+	scene.Add(std::move(scene01));
 
+	//adding text component
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textTitle = std::make_unique<dae::TextObject>("Programming 4 Assignment", font);
 	textTitle->SetColor({ 255, 255, 0, 255 });
 	textTitle->SetPosition(292, 20);
-
 	//scene.Add(textTitle); 
 
+
+	//add fps component -> has on it's own: 
 }
 
 int main(int, char*[]) {
