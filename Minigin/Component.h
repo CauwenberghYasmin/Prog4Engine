@@ -12,7 +12,11 @@ namespace dae
 		virtual void Render() = 0;
 		virtual void Update() = 0;
 
+		float GetID();
+
 	private:
-		float m_IdNumber;
+		float m_IdNumber; //can also be string
 	}; //no actual parameters to pass yet, made more for polymorphism
 }
+
+//DO RULE OF 5

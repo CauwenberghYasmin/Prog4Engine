@@ -114,7 +114,7 @@ void dae::Minigin::RunOneFrame()
 
 	m_quit = !InputManager::GetInstance().ProcessInput(); //input
 	SceneManager::GetInstance().Update();	//update-> every object needs seperate later
-	//do here a delayed update to delete components later
+	//do here a delayed update to delete components later	//have list of objects to remove!
 	Renderer::GetInstance().Render();	//render
 
 	

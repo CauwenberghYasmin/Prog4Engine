@@ -25,7 +25,8 @@ static void load()
 
 	//adding texture component
 	auto scene01 = std::make_unique<dae::GameObject>();
-	scene01->SetTexture("background.png");
+	//scene01->SetTexture("background.png");
+	//-> say add instead(fill parameters in with constructor)
 	scene.Add(std::move(scene01));
 
 	//adding 2nd texture component
@@ -39,7 +40,8 @@ static void load()
 	auto textTitle = std::make_unique<dae::TextObject>("Programming 4 Assignment", font);
 	textTitle->SetColor({ 255, 255, 0, 255 });
 	textTitle->SetPosition(292, 20);
-	//scene.Add(textTitle); 
+	//scene.Add(textTitle);  // != to game object
+	// -> make game object and add the components to it!!
 
 
 	//add fps component -> has on it's own: 

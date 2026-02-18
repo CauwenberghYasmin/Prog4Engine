@@ -14,7 +14,10 @@ namespace dae
 		Transform m_transform{};
 		std::shared_ptr<Texture2D> m_texture{};
 
-		std::vector<std::unique_ptr<Component>> m_ComponentVector{}; //has polymorphism so all components can be added to it
+		//make map?
+		std::vector<std::pair<std::unique_ptr<Component>, float>> m_ComponentVector{}; //has polymorphism so all components can be added to it
+		
+		std::vector <std::unique_ptr<Component>> m_DeleteList{};
 		//every component will have an id number so they can be easily found
 
 	public:
@@ -26,11 +29,9 @@ namespace dae
 		void SetPosition(float x, float y);
 
 		void AddComponent(std::unique_ptr <Component>&& pComponent); //only add with std::move!
-		void Remove();
-
-		//remove
-		//get
-		//check, returns boolean
+		void Remove(float id);
+		std::unique_ptr <Component> Get(float id);
+		bool Check(float id);
 
 
 		GameObject() = default;

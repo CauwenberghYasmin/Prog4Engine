@@ -9,5 +9,10 @@ Component::Component(float id):
 }
 
 
+float Component::GetID()
+{
+	return m_IdNumber;
+}
+
 
 }
