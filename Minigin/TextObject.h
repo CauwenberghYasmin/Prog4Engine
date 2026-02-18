@@ -3,12 +3,13 @@
 #include <memory>
 #include "GameObject.h"
 #include "Transform.h"
+#include "Component.h"
 
 namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextObject final //needs to be component class 
+	class TextObject final : protected Component
 	{
 	public:
 		void Update();
@@ -18,7 +19,7 @@ namespace dae
 		void SetPosition(float x, float y);
 		void SetColor(const SDL_Color& color);
 
-		TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
+		TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 }, float id);
 		virtual ~TextObject() = default;
 		TextObject(const TextObject& other) = delete;
 		TextObject(TextObject&& other) = delete;
@@ -31,5 +32,7 @@ namespace dae
 		Transform m_transform{};
 		std::shared_ptr<Font> m_font{};
 		std::shared_ptr<Texture2D> m_textTexture{};
+
+		//already inherits id
 	};
 }

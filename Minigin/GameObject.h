@@ -28,10 +28,6 @@ namespace dae
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 
-		void AddComponent(std::unique_ptr <Component>&& pComponent); //only add with std::move!
-		void Remove(float id);
-		std::unique_ptr <Component> Get(float id);
-		bool Check(float id);
 
 
 		GameObject() = default;
@@ -40,5 +36,24 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+		
+
+		void Remove(float id);
+		std::unique_ptr <Component> Get(float id);
+		bool Check(float id);
+
+
+
+		template<typename T>
+		void AddComponent(std::unique_ptr <T>&& pComponent) //only add with std::move!
+		{
+			static_assert(std::is_base_of_v<Component, T>, "T needs to inherit from component"); //check if inherits
+
+			if (pComponent != nullptr)
+			{
+				float id{ pComponent->GetID() };
+				m_ComponentVector.push_back(std::make_pair(std::move(pComponent), id));
+			}
+		}
 	};
 }

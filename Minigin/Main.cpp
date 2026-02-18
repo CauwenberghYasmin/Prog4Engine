@@ -23,13 +23,13 @@ static void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
 
-	//adding texture component
+	
 	auto scene01 = std::make_unique<dae::GameObject>();
 	scene01->SetTexture("background.png");
 	//-> say add instead(fill parameters in with constructor)
 	scene.Add(std::move(scene01));
 
-	//adding 2nd texture component
+	
 	scene01 = std::make_unique<dae::GameObject>();
 	scene01->SetTexture("logo.png");
 	scene01->SetPosition(358, 180); //counts as transform component?
@@ -37,10 +37,15 @@ static void load()
 
 	//adding text component
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textTitle = std::make_unique<dae::TextObject>("Programming 4 Assignment", font);
-	textTitle->SetColor({ 255, 255, 0, 255 });
-	textTitle->SetPosition(292, 20);
-	//scene.Add(textTitle);  // != to game object
+
+	auto textTitleComponent = std::make_unique<dae::TextObject>("Programming 4 Assignment", font, 1); //don't need this component ref anymore, so no need to safe the id
+	textTitleComponent->SetColor({ 255, 255, 0, 255 });
+	textTitleComponent->SetPosition(292, 20);
+	
+	auto textObject = std::make_unique<dae::GameObject>();
+	textObject->AddComponent(std::move(textTitleComponent));
+
+	scene.Add(std::move (textObject));  // != to game object
 	// -> make game object and add the components to it!!
 
 

@@ -27,14 +27,6 @@ void dae::GameObject::SetPosition(float x, float y)
 	m_transform.SetPosition(x, y, 0.0f);
 }
 
-void dae::GameObject::AddComponent(std::unique_ptr <Component>&& pComponent) //only add with std::move!
-{
-	if (pComponent != nullptr) //don't need to check if inherits from component, only those can be passed in the parameter list
-	{
-		float id{ pComponent->GetID() };
-		m_ComponentVector.push_back(std::make_pair(std::move(pComponent), id));
-	}
-}
 
 void dae::GameObject::Remove(float id) //look into maybe properly removing the slots! 
 {
