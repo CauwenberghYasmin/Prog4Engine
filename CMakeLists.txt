@@ -27,7 +27,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/TextObject.cpp
   Minigin/Texture2D.cpp
   Minigin/Transform.cpp
-)
+ "Minigin/Component.h" "Minigin/Component.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -106,7 +106,10 @@ endif()
 
 if (WIN32)
   # Add VLD (Visual Leak Detector) for memory leak detection on Windows
+  #list(APPEND CMAKE_PREFIX_PATH "C:\\Program Files (x86)\\Visual Leak Detector\\cmake")
   find_package(VLD CONFIG)
+  target_include_directories(${TARGET_NAME} PRIVATE ${VLD_INCLUDE_DIRS})
+  target_link_libraries(${TARGET_NAME} PRIVATE ${VLD_LIBRARIES})
 endif()
 
 # Add steam if available

@@ -15,6 +15,8 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include <chrono>
+#include <thread>
 
 SDL_Window* g_window{};
 
@@ -91,16 +93,34 @@ void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 #ifndef __EMSCRIPTEN__
-	while (!m_quit)
+	last_time = std::chrono::high_resolution_clock::now();
+	while (!m_quit)	//boolean of game loop
 		RunOneFrame();
 #else
 	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
 #endif
 }
 
+
+//= game loop!
 void dae::Minigin::RunOneFrame()
 {
-	m_quit = !InputManager::GetInstance().ProcessInput();
-	SceneManager::GetInstance().Update();
-	Renderer::GetInstance().Render();
-}
+	const auto current_time = std::chrono::high_resolution_clock::now();
+	const float delta_time = std::chrono::duration<float>(current_time - last_time).count();
+	last_time = current_time;
+
+	m_quit = !InputManager::GetInstance().ProcessInput(); //input
+	SceneManager::GetInstance().Update();	//update-> every object needs seperate later
+	//do here a delayed update to delete components later
+	Renderer::GetInstance().Render();	//render
+
+	
+	// ms per frame = 1000/frame rate
+	float fps{ 1 / delta_time };
+	
+	using float_ms = std::chrono::duration<float, std::milli>;
+	const auto frame_duration = float_ms(1000.f / fps);
+	std::chrono::duration<float, std::nano> sleep_time = (current_time + frame_duration) - std::chrono::high_resolution_clock::now();
+
+	std::this_thread::sleep_for(sleep_time);
+}        

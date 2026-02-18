@@ -2,6 +2,7 @@
 #include <string>
 #include <functional>
 #include <filesystem>
+#include <chrono>
 
 namespace dae
 {
@@ -18,5 +19,8 @@ namespace dae
 		Minigin(Minigin&& other) = delete;
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
+
+	private:
+		std::chrono::time_point<std::chrono::high_resolution_clock> last_time = std::chrono::high_resolution_clock::now();
 	};
 }
