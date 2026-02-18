@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Component.h"
+#include <SDL3/SDL.h>
 
 namespace dae
 {

@@ -44,11 +44,12 @@ static void load()
 	
 	auto textObject = std::make_unique<dae::GameObject>();
 	textObject->AddComponent(std::move(textTitleComponent));
-
 	scene.Add(std::move (textObject));
 
-
 	//add fps component -> has on it's own: 
+
+
+
 }
 
 int main(int, char*[]) {
