@@ -3,18 +3,14 @@
 #include "GameTime.h"
 #include "TextObject.h"
 #include <format>
+#include "Component.h"
 
-void dae::FPSComponent::Update()
-{
-	float dt = dae::GameTime::GetInstance().GetDeltaTime();
-	fps = 1 / dt;
-
-	textComp->SetText(std::format("FPS: {:.1f}", fps));
+void dae::FPSComponent::Update() {
+    float dt = dae::GameTime::GetInstance().GetDeltaTime();
+    fps = 1.0f / dt;
+    if (m_pTextComp) {
+        m_pTextComp->SetText(std::format("FPS: {:.1f}", fps));
+    }
 }
 
-
-dae::FPSComponent::FPSComponent(std::unique_ptr<TextObject> textComponent):
-	textComp{ std::move(textComponent) }
-{
-}
-
+void dae::FPSComponent::Render(){}

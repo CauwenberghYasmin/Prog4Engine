@@ -15,6 +15,7 @@
 #include "ResourceManager.h"
 #include "TextObject.h"
 #include "Scene.h"
+#include "FpsComponent.h"
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -48,8 +49,16 @@ static void load()
 
 	//add fps component -> has on it's own: 
 
+	auto textComp = std::make_unique<dae::TextObject>("FPS: 0", font, 2.f);
+	auto textPtr = textComp.get(); // Get the raw pointer to give to the FPS component
+	
+	auto fpsObject = std::make_unique<dae::GameObject>();
+	fpsObject->AddComponent(std::move(textComp));
 
+	auto fpsComp = std::make_unique<dae::FPSComponent>(textPtr, 3.f);
+	fpsObject->AddComponent(std::move(fpsComp));
 
+	scene.Add(std::move(fpsObject));
 }
 
 int main(int, char*[]) {
