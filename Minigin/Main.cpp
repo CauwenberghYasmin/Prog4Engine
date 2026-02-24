@@ -29,13 +29,11 @@ static void load()
 	scene01->SetTexture("background.png");
 	//-> say add instead(fill parameters in with constructor)
 	scene.Add(std::move(scene01));
-
 	
 	scene01 = std::make_unique<dae::GameObject>();
 	scene01->SetTexture("logo.png");
 	scene01->SetPosition(358, 180); //counts as transform component?
 	scene.Add(std::move(scene01));
-
 
 	//title assignment
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
@@ -48,7 +46,6 @@ static void load()
 	scene.Add(std::move (textObject));
 
 	//add fps component -> has on it's own: 
-
 	auto textComp = std::make_unique<dae::TextObject>("FPS: 0", font, 2.f);
 	auto textPtr = textComp.get(); // Get the raw pointer to give to the FPS component
 	
@@ -59,6 +56,10 @@ static void load()
 	fpsObject->AddComponent(std::move(fpsComp));
 
 	scene.Add(std::move(fpsObject));
+
+	//--------------------------------------------------------------------
+	//load game stuff
+
 }
 
 int main(int, char*[]) {

@@ -18,7 +18,7 @@ namespace dae {
 
         float m_DeltaTime = 0.0f;
     };
-} //adkbgf;kdrbg
+}
 
 //https://refactoring.guru/design-patterns/singleton
 
