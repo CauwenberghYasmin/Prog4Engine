@@ -104,13 +104,16 @@ if(NOT SDL3_ttf_FOUND)
   endif()
 endif()
 
-if (WIN32)
+
+#if (WIN32)
   # Add VLD (Visual Leak Detector) for memory leak detection on Windows
   #list(APPEND CMAKE_PREFIX_PATH "C:\\Program Files (x86)\\Visual Leak Detector\\cmake")
   find_package(VLD CONFIG)
   target_include_directories(${TARGET_NAME} PRIVATE ${VLD_INCLUDE_DIRS})
   target_link_libraries(${TARGET_NAME} PRIVATE ${VLD_LIBRARIES})
-endif()
+#endif()
+
+
 
 # Add steam if available
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
