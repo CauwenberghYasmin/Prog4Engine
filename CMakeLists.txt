@@ -108,10 +108,24 @@ endif()
 #if (WIN32)
   # Add VLD (Visual Leak Detector) for memory leak detection on Windows
   #list(APPEND CMAKE_PREFIX_PATH "C:\\Program Files (x86)\\Visual Leak Detector\\cmake")
-  find_package(VLD CONFIG)
-  target_include_directories(${TARGET_NAME} PRIVATE ${VLD_INCLUDE_DIRS})
-  target_link_libraries(${TARGET_NAME} PRIVATE ${VLD_LIBRARIES})
+ # find_package(VLD CONFIG)
+  #target_include_directories(${TARGET_NAME} PRIVATE ${VLD_INCLUDE_DIRS})
+  #target_link_libraries(${TARGET_NAME} PRIVATE ${VLD_LIBRARIES})
 #endif()
+
+
+#new way to include it so githuub doesn't fail (sorry)
+find_package(VLD CONFIG QUIET)
+
+if (VLD_FOUND)
+    message(STATUS "VLD found! Memory leak detection enabled.")
+    # Define USE_VLD so we can use it in minigin
+    target_compile_definitions(${TARGET_NAME} PRIVATE USE_VLD)
+    target_include_directories(${TARGET_NAME} PRIVATE ${VLD_INCLUDE_DIRS})
+    target_link_libraries(${TARGET_NAME} PRIVATE ${VLD_LIBRARIES})
+else()
+    message(STATUS "VLD not found. Building without memory leak detection.")
+endif()
 
 
 
@@ -242,3 +256,5 @@ else()
     COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:${TARGET_NAME}>/Data"
   )
 endif()
+
+

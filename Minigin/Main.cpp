@@ -9,6 +9,10 @@
 	#endif
 #endif
 
+//#ifdef USE_VLD
+//#include <vld.h>
+//#endif
+
 
 #include "Minigin.h"
 #include "SceneManager.h"
