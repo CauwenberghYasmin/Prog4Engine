@@ -3,15 +3,15 @@
   
 #include <vld.h>
 
-#if _DEBUG
-	#if __has_include(<vld.h>)
-	#include <vld.h>
-	#endif
-#endif
-
-//#ifdef USE_VLD
-//#include <vld.h>
+//#if _DEBUG
+//	#if __has_include(<vld.h>)
+//	#include <vld.h>
+//	#endif
 //#endif
+
+#ifdef USE_VLD
+#include <vld.h>
+#endif
 
 
 #include "Minigin.h"
