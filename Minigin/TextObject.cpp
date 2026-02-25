@@ -12,8 +12,9 @@
 
 
 dae::TextComponent::TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color)
-	: m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr),
-	Component(pGameObject, id)
+	: Component(pGameObject, id),
+	m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr)
+	
 { }
 
 void dae::TextComponent::Update()
