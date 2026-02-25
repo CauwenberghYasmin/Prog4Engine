@@ -1,7 +1,7 @@
 #pragma once
-#include <string>
+//#include <string>
 #include <memory>
-#include "Transform.h"
+//#include "Transform.h"
 #include "Component.h"
 #include <vector>
 #include<utility>
@@ -11,23 +11,59 @@ namespace dae
 	class Texture2D;
 	class GameObject final
 	{
-		Transform m_transform{};
-		std::shared_ptr<Texture2D> m_texture{};
-
-		//make map?
-		std::vector<std::pair<std::unique_ptr<Component>, float>> m_ComponentVector{}; //has polymorphism so all components can be added to it
 		
-		std::vector <std::unique_ptr<Component>> m_DeleteList{};
+		std::vector<std::pair<std::unique_ptr<Component>, int>> m_ComponentVector{}; //has polymorphism so all components can be added to it
+		
+		std::vector <int> m_DeleteList{};
 		//every component will have an id number so they can be easily found
 
 	public:
-		virtual void Update();
-		virtual void DelayUpdate();
-		virtual void Render() const;
+		void Update();
+		void DelayUpdate();
+		void Render() const;
 
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+		void Remove(float id);
+		bool Check(float id);
 
+
+		template<typename T>
+		void AddComponent(std::unique_ptr <T>&& pComponent) // the add function should set the owner, but you can only set the owner in the constructor.....
+		{
+			static_assert(std::is_base_of_v<Component, T>, "T needs to inherit from component"); //check if inherits
+
+			if (pComponent != nullptr ) //can add extra check to see if id is already used, but than you have ot iterate over all of the.... again...
+			{
+				int id{ pComponent->GetID() };
+				m_ComponentVector.push_back(std::make_pair(std::move(pComponent), id));
+			}
+		}
+		
+
+
+		template<typename T>
+		T* Get(int id)	//used most
+		{
+			for (auto& i : m_ComponentVector)
+			{
+				if (i.second == id)
+				{
+					return i.first.get(); //check with teach if this smart, or to make is a shared pointer
+				} //inside game object, might still use the pointer for other functions...? (like update?), or is that in their own derived class
+				//can also return a raw pointer with .get, but then you need to make sure to always delete it!!
+			}
+
+			return nullptr; //safety net?
+		}
+
+
+		template<typename T>
+		T* Get()	//overloading, will be used less
+		{
+			for (auto& component : m_ComponentVector)
+				if (typeid(*component.first) == typeid(T)) //only want exact same, not base class... (avoid dynamic cast)
+					return static_cast<T*>(component.first.get());
+			return nullptr;
+		}
 
 
 		GameObject() = default;
@@ -38,22 +74,5 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 		
 
-		void Remove(float id);
-		std::unique_ptr <Component> Get(float id);
-		bool Check(float id);
-
-
-
-		template<typename T>
-		void AddComponent(std::unique_ptr <T>&& pComponent) //only add with std::move!
-		{
-			static_assert(std::is_base_of_v<Component, T>, "T needs to inherit from component"); //check if inherits
-
-			if (pComponent != nullptr)
-			{
-				float id{ pComponent->GetID() };
-				m_ComponentVector.push_back(std::make_pair(std::move(pComponent), id));
-			}
-		}
 	};
 }

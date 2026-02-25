@@ -114,7 +114,7 @@ void dae::Minigin::RunOneFrame()
 
 	m_quit = !InputManager::GetInstance().ProcessInput(); //input
 	SceneManager::GetInstance().Update();	//update-> every object needs seperate later
-	//do here a delayed update to delete components later	//have list of objects to remove!
+	SceneManager::GetInstance().DelayUpdate(); //do here a delayed update to delete components later	//have list of objects to remove!
 	Renderer::GetInstance().Render();	//render
 
 	
@@ -125,5 +125,5 @@ void dae::Minigin::RunOneFrame()
 	const auto frame_duration = float_ms(1000.f / fps);
 	std::chrono::duration<float, std::nano> sleep_time = (current_time + frame_duration) - std::chrono::high_resolution_clock::now();
 
-	std::this_thread::sleep_for(sleep_time);
+	std::this_thread::sleep_for(sleep_time); //TODO:: need to change, ask in class!!
 }        

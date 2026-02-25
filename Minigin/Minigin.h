@@ -21,6 +21,6 @@ namespace dae
 		Minigin& operator=(Minigin&& other) = delete;
 
 	private:
-		std::chrono::time_point<std::chrono::high_resolution_clock> last_time = std::chrono::high_resolution_clock::now();
+		std::chrono::time_point<std::chrono::high_resolution_clock> last_time{}; //= std::chrono::high_resolution_clock::now();
 	};
 }

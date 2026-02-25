@@ -1,10 +1,10 @@
 #include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
+
 #include <utility>
 #include <vector>
 #include "Component.h"
+#include<algorithm>
 
 dae::GameObject::~GameObject() = default;
 
@@ -13,12 +13,6 @@ void dae::GameObject::Render() const
 	for (auto& i : m_ComponentVector)
 	{
 		i.first->Render();
-	}
-
-	if (m_texture != nullptr)	//draws game objects who don't have components
-	{
-		const auto& pos = m_transform.GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 	}
 }
 
@@ -29,48 +23,41 @@ void dae::GameObject::Update()
 		i.first->Update();
 	}
 }
-void dae::GameObject::DelayUpdate(){}
 
-
-void dae::GameObject::SetTexture(const std::string& filename)
+void dae::GameObject::DelayUpdate() //not actual delete, but remove from component vector
 {
-	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
+	
+	if (m_DeleteList.size() == 0) return;
+
+	m_ComponentVector.erase(std::remove_if(m_ComponentVector.end(), m_ComponentVector.begin(), //rbegin and rend doesn't work -> ask teachers!!
+		[&](const auto& component) {
+			return std::any_of(m_DeleteList.end(), m_DeleteList.begin(), [&](const auto& deleteID) {
+				return deleteID == component.second;
+				});
+		}),
+		m_ComponentVector.begin());	//iterating backwards over them
+
+	m_DeleteList.clear();
+
 }
 
-void dae::GameObject::SetPosition(float x, float y)
-{
-	m_transform.SetPosition(x, y, 0.0f);
-}
 
 
 void dae::GameObject::Remove(float id) //look into maybe properly removing the slots! 
 {
-	for (auto& i : m_ComponentVector)
+	for (auto& component : m_ComponentVector)
 	{
-		if (i.second == id)
+		if (component.second == id)
 		{
-			i.second = INT16_MIN; //safety measures
-			m_DeleteList.push_back(std::move(i.first)); //goes onto the delete list for the delayed update (TODO)
-			i.first = nullptr;	//safety measures
-			break;
+			m_DeleteList.push_back(std::move(component.second)); //goes onto the delete list for the delayed update
+			break; //don't need to continue loop if already found :)
 		}
 	}
 	//add safety net here?
 }
 
-std::unique_ptr<dae::Component> dae::GameObject::Get(float id)
-{
-	for (auto& i : m_ComponentVector)
-	{
-		if (i.second == id)
-		{
-			return std::move(i.first); //check with teach if this smart, or to make is a shared pointer
-		} //inside game object, might still use the pointer for other functions...? (like update?), or is that in their own derived class
-		//can also return a raw pointer with .get, but then you need to make sure to always delete it!!
-	}
 
-	return nullptr; //safety net?
-}
+
 bool dae::GameObject::Check(float id)
 {
 	for (auto& i : m_ComponentVector)

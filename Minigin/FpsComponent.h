@@ -6,24 +6,28 @@
 #include<memory>
 #include <SDL3/SDL.h>
 
+
 namespace dae
 {
-    class FPSComponent: public Component //-> no inherit, cause willl be part of textObject (is component)
+    class GameObject;
+    class FPSComponent final: public Component
     {
     public:
-        FPSComponent(dae::TextObject* pText, float id) : 
-            m_pTextComp(pText), Component(id) {}
+        FPSComponent(GameObject* pGameObject, int id) : 
+            Component(pGameObject, id) {}
 
         virtual void Update() override;
         virtual void Render() override;
+
+        float GetFps() { return fps; }
 
         FPSComponent(const FPSComponent&) = delete;
         ~FPSComponent() = default;
         FPSComponent& operator=(const FPSComponent&) = delete;
      
     private:
-        dae::TextObject* m_pTextComp{};
         float fps{};
+        float pastFps{};
         
     };
 

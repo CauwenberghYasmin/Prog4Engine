@@ -3,13 +3,13 @@
 namespace dae
 { 
 
-Component::Component(float id):
-	m_IdNumber{ id }
+Component::Component(GameObject* owner, int id):
+	m_pOwner{owner}, m_IdNumber { id}
 {
 }
 
 
-float Component::GetID()
+int Component::GetID()
 {
 	return m_IdNumber;
 }

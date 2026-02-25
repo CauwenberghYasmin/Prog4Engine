@@ -6,13 +6,17 @@
 #include "Texture2D.h"
 #include "Component.h"
 
+#include "GameObject.h"
+#include "RenderComponent.h"
 
-dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, float id, const SDL_Color& color)
+
+
+dae::TextComponent::TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color)
 	: m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr),
-	Component(id)
+	Component(pGameObject, id)
 { }
 
-void dae::TextObject::Update()
+void dae::TextComponent::Update()
 {
 	if (m_needsUpdate)
 	{
@@ -32,27 +36,26 @@ void dae::TextObject::Update()
 	}
 }
 
-void dae::TextObject::Render()
+void dae::TextComponent::Render() //need reference to render component
 {
-	if (m_textTexture != nullptr)
-	{
-		const auto& pos = m_transform.GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
-	}
+	auto renderComp = GetOwner()->Get<dae::RenderComponent>(); //get's first render object of the gameObject!
+
+	renderComp->SetPosition(m_transform.GetPosition().x, m_transform.GetPosition().y);
+	renderComp->SetTexture2D(m_textTexture);
 }
 
-void dae::TextObject::SetText(const std::string& text)
+void dae::TextComponent::SetText(const std::string& text)
 {
 	m_text = text;
 	m_needsUpdate = true;
 }
 
-void dae::TextObject::SetPosition(const float x, const float y)
+void dae::TextComponent::SetPosition(const float x, const float y)
 {
 	m_transform.SetPosition(x, y);
 }
 
-void dae::TextObject::SetColor(const SDL_Color& color) 
+void dae::TextComponent::SetColor(const SDL_Color& color) 
 { 
 	m_color = color; 
 	m_needsUpdate = true; 

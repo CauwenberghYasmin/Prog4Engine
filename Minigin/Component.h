@@ -3,19 +3,22 @@
 
 namespace dae
 {
+	class GameObject;
 	class Component//make template so the parameter list can be anything
 	{
 	public:
-		explicit Component(float id);
+		explicit Component(GameObject* owner, int id);
 		virtual ~Component() = default;
 
 		virtual void Render() = 0;
 		virtual void Update() = 0;
 
-		float GetID();
+		int GetID();
+		GameObject* GetOwner() { return m_pOwner; }
 
 	private:
-		float m_IdNumber; //can also be string
+		int m_IdNumber; //no unint32_t because I also want to be able to give in neg numbers 
+		GameObject* m_pOwner;
 	}; //no actual parameters to pass yet, made more for polymorphism
 }
 
