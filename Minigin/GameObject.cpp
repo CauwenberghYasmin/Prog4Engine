@@ -4,6 +4,7 @@
 #include "Component.h"
 #include<algorithm>
 #include "GameObject.h"
+
 #include <glm/glm.hpp>
 
 dae::GameObject::~GameObject() = default;
@@ -161,8 +162,6 @@ void dae::GameObject::SetParent(GameObject* newParent, bool keepWorldPosition)
 
 	if (m_pParent) m_pParent->AddChild(this);
 }
-
-
 
 
 

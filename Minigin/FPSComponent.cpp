@@ -14,7 +14,7 @@ void dae::FPSComponent::Update() {
     const std::string fpsString{ std::format("{:.2f}", fps) };
 
     //if (fps != pastFps)
-    if (std::abs(fps - pastFps) > 0.5) //only renew if difference is big enough
+    if (std::abs(fps - pastFps) > 1.5) //only renew if difference is big enough
     {
         auto textComp = GetOwner()->Get<TextComponent>();
         textComp->SetText(fpsString);

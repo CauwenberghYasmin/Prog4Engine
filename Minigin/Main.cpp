@@ -15,6 +15,7 @@
 #include "Scene.h"
 #include "FpsComponent.h"
 #include "RenderComponent.h"
+#include "RotatorComponent.h"
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -54,7 +55,7 @@ void CallScene01()
 	auto scene02 = std::make_unique<dae::GameObject>();
 	auto logo = std::make_unique<dae::RenderComponent>(scene02.get(), 23);
 	logo->SetTexture("logo.png");
-	logo->SetPosition(358, 180); //counts as transform component?
+	logo->SetPosition(358, 180);
 	scene02->AddComponent(std::move(logo));
 	scene.Add(std::move(scene02));
 
@@ -82,9 +83,32 @@ void CallScene01()
 	fpsObject->AddComponent(std::move(textRenderer2));
 	fpsObject->AddComponent(std::move(textComp));
 	fpsObject->AddComponent(std::move(fpsComp));
-
-
 	scene.Add(std::move(fpsObject));
+
+
+	auto Bird = std::make_unique<dae::GameObject>();
+	auto picture = std::make_unique<dae::RenderComponent>(Bird.get(), 563);
+	picture->SetTexture("flap.png");
+	picture->SetPosition(300, 300); 
+	Bird->AddComponent(std::move(picture));
+
+	auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{300, 300, 0}, true);
+	Bird->AddComponent(std::move(rotator));
+	scene.Add(std::move(Bird));
+
+
+	auto Bird2 = std::make_unique<dae::GameObject>();
+	auto picture2 = std::make_unique<dae::RenderComponent>(Bird2.get(), 563);
+	picture2->SetTexture("flap.png");
+	picture2->SetPosition(400, 400); 
+	Bird2->AddComponent(std::move(picture2));
+
+	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 523, Bird2->GetLocalPosition(), true);
+	Bird2->AddComponent(std::move(rotator2));
+
+	Bird2->SetParent(Bird.get(), false);
+	scene.Add(std::move(Bird2));
+
 }
 
 

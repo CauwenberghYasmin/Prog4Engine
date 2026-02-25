@@ -29,7 +29,6 @@ namespace dae //emiscript works
 		void SetPositionDirty() { m_positionIsDirty = true; }
 		void UpdateWorldPosition();
 		const glm::vec3& GetWorldPosition();
-		void SetLocalPosition(const glm::vec3& pos);
 
 		glm::vec3 m_localPosition{};
 		glm::vec3 m_worldPosition{};
@@ -48,9 +47,11 @@ namespace dae //emiscript works
 		void SetParent(GameObject* newParent, bool keepWorldPosition);
 		int GetChildCount();
 		GameObject* GetChildAtIndex(int index);
+		void SetLocalPosition(const glm::vec3& pos);
 
 		bool IsChild(GameObject* object); //checks if is child from this parentObject
-
+		glm::vec3 GetLocalPosition() { return m_localPosition; }
+		//void SetLocalPosition(const glm::vec3& pos) { m_localPosition = pos; }
 
 
 		void Remove(float id);
