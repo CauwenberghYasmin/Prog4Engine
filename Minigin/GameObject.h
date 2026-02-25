@@ -6,7 +6,7 @@
 #include <vector>
 #include<utility>
 
-namespace dae
+namespace dae //emiscript works
 {
 	class Texture2D;
 	class GameObject final
