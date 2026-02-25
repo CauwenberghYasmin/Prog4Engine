@@ -60,14 +60,17 @@ namespace dae
 		T* Get()	//overloading, will be used less
 		{
 			for (auto& component : m_ComponentVector)
-				if (typeid(*component.first) == typeid(T)) //only want exact same, not base class... (avoid dynamic cast)
+			{
+				auto* rawPtr = component.first.get();
+				if (typeid(rawPtr) == typeid(T)) //only want exact same, not base class... (avoid dynamic cast)
 					return static_cast<T*>(component.first.get());
+			}
 			return nullptr;
 		}
 
 
 		GameObject() = default;
-		virtual ~GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
