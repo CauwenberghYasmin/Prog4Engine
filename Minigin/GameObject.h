@@ -5,6 +5,7 @@
 #include "Component.h"
 #include <vector>
 #include<utility>
+#include <glm/glm.hpp>
 
 namespace dae //emiscript works
 {
@@ -13,14 +14,44 @@ namespace dae //emiscript works
 	{
 		
 		std::vector<std::pair<std::unique_ptr<Component>, int>> m_ComponentVector{}; //has polymorphism so all components can be added to it
-		
-		std::vector <int> m_DeleteList{};
+		std::vector <int> m_DeleteListComponents{};
+		std::vector <GameObject* > m_DeleteListChildren{}; //also delayed delete
+
 		//every component will have an id number so they can be easily found
 
+		GameObject* m_pParent{nullptr};
+		std::vector<GameObject*> m_pChildren{};
+
+
+		void AddChild(GameObject* child); //like set parent
+		void RemoveChild(GameObject* child);//set parent to nullptr
+
+		void SetPositionDirty() { m_positionIsDirty = true; }
+		void UpdateWorldPosition();
+		const glm::vec3& GetWorldPosition();
+		void SetLocalPosition(const glm::vec3& pos);
+
+		glm::vec3 m_localPosition{};
+		glm::vec3 m_worldPosition{};
+		bool m_positionIsDirty{ false };
+
+
 	public:
+
 		void Update();
 		void DelayUpdate();
 		void Render() const;
+
+
+		GameObject* GetParent();
+
+		void SetParent(GameObject* newParent, bool keepWorldPosition);
+		int GetChildCount();
+		GameObject* GetChildAtIndex(int index);
+
+		bool IsChild(GameObject* object); //checks if is child from this parentObject
+
+
 
 		void Remove(float id);
 		bool Check(float id);
@@ -31,7 +62,7 @@ namespace dae //emiscript works
 		{
 			static_assert(std::is_base_of_v<Component, T>, "T needs to inherit from component"); //check if inherits
 
-			if (pComponent != nullptr ) //can add extra check to see if id is already used, but than you have ot iterate over all of the.... again...
+			if (pComponent != nullptr ) //can add extra check to see if id is already used -> separate function
 			{
 				int id{ pComponent->GetID() };
 				m_ComponentVector.push_back(std::make_pair(std::move(pComponent), id));
@@ -62,8 +93,8 @@ namespace dae //emiscript works
 			for (auto& component : m_ComponentVector)
 			{
 				auto* rawPtr = component.first.get();
-				if (typeid(rawPtr) == typeid(T)) //only want exact same, not base class... (avoid dynamic cast)
-					return static_cast<T*>(component.first.get());
+				if (rawPtr && typeid(*rawPtr) == typeid(T))
+					return static_cast<T*>(rawPtr);				
 			}
 			return nullptr;
 		}

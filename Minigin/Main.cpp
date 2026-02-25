@@ -79,9 +79,9 @@ void CallScene01()
 	auto textComp = std::make_unique<dae::TextComponent>(fpsObject.get(), "FPS: 0", font, 2);
 	auto textRenderer2 = std::make_unique<dae::RenderComponent>(fpsObject.get(), 83);
 
-	fpsObject->AddComponent(std::move(fpsComp));
-	fpsObject->AddComponent(std::move(textComp));
 	fpsObject->AddComponent(std::move(textRenderer2));
+	fpsObject->AddComponent(std::move(textComp));
+	fpsObject->AddComponent(std::move(fpsComp));
 
 
 	scene.Add(std::move(fpsObject));
