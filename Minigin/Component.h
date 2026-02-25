@@ -17,8 +17,8 @@ namespace dae
 		GameObject* GetOwner() { return m_pOwner; }
 
 	private:
-		int m_IdNumber; //no unint32_t because I also want to be able to give in neg numbers 
 		GameObject* m_pOwner;
+		int m_IdNumber; //no unint32_t because I also want to be able to give in neg numbers 
 	}; //no actual parameters to pass yet, made more for polymorphism
 }
 
