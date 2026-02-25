@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "FPSComponent.h"
 #include"Component.h"
 #include "TextObject.h"
 #include<memory>
