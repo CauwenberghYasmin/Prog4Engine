@@ -1,4 +1,3 @@
-#pragma once
 #include "FpsComponent.h"
 #include "GameTime.h"
 #include "TextObject.h"
