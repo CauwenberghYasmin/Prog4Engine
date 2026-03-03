@@ -27,6 +27,9 @@ namespace dae
     private:
         float fps{};
         float pastFps{};
+
+        float m_Timer{};
+        float m_FrameCount{};
         
     };
 

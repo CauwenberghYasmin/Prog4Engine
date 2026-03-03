@@ -103,7 +103,7 @@ void CallScene01()
 	picture2->SetPosition(400, 400); 
 	Bird2->AddComponent(std::move(picture2));
 
-	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 523, Bird2->GetLocalPosition(), true);
+	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 523, Bird2->GetWorldPosition(), true);
 	Bird2->AddComponent(std::move(rotator2));
 
 	Bird2->SetParent(Bird.get(), false);

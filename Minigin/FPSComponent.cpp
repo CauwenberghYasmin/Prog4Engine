@@ -9,16 +9,27 @@
 
 void dae::FPSComponent::Update() {
     float dt = dae::GameTime::GetInstance().GetDeltaTime();
-    fps = 1.0f / dt;
+   
+    m_Timer += dt;
+    m_FrameCount++;
 
-    const std::string fpsString{ std::format("{:.2f}", fps) };
-
-    //if (fps != pastFps)
-    if (std::abs(fps - pastFps) > 1.5) //only renew if difference is big enough
+    
+    if (m_Timer >= 0.5f)
     {
-        auto textComp = GetOwner()->Get<TextComponent>();
-        textComp->SetText(fpsString);
-        pastFps = fps;
+        fps = static_cast<float>(m_FrameCount) / m_Timer;
+
+        if (std::abs(fps - pastFps) > 0.1f)
+        {
+            auto textComp = GetOwner()->Get<TextComponent>();
+            if (textComp) {
+                textComp->SetText(std::format("{:.1f} FPS", fps));
+            }
+            pastFps = fps;
+        }
+
+        // 4. Reset counters
+        m_Timer = 0.0f;
+        m_FrameCount = 0;
     }
 }
 

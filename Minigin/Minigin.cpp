@@ -119,11 +119,13 @@ void dae::Minigin::RunOneFrame()
 
 	
 	// ms per frame = 1000/frame rate
-	float fps{ 1 / delta_time };
-	
-	using float_ms = std::chrono::duration<float, std::milli>;
-	const auto frame_duration = float_ms(1000.f / fps);
-	std::chrono::duration<float, std::nano> sleep_time = (current_time + frame_duration) - std::chrono::high_resolution_clock::now();
+	const int target_fps = 165;
+	const std::chrono::milliseconds ms_per_frame(1000 / target_fps);
+
+	std::chrono::duration<float, std::nano> sleep_time = (current_time + ms_per_frame) - std::chrono::high_resolution_clock::now();
+
+	//no delta time -> calc is wrong, no need for dependacy on last frame!!!
+
 
 	std::this_thread::sleep_for(sleep_time); //TODO:: need to change, ask in class!!
 }        

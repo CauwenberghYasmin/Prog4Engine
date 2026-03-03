@@ -23,6 +23,8 @@ void dae::GameObject::Update()
 	{
 		i.first->Update();
 	}
+
+	UpdateWorldPosition(); //temp check
 }
 
 void dae::GameObject::DelayUpdate() //not actual delete, but remove from component vector
