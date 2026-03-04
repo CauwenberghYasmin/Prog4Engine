@@ -101,7 +101,7 @@ void calculateResultsEx01(int amountSamples)
 
 	std::vector<long long> tempResults{};
 	std::vector<long long> finalResults{};
-	finalResults.reserve(11); //have 11 steps
+	finalResults.resize(11); //have 11 steps
 
 	for (int amount = 0; amount < amountSamples; ++amount)
 	{
@@ -121,9 +121,9 @@ void calculateResultsEx01(int amountSamples)
 		}
 
 
-		for (int time{0} ; time < tempResults.size(); ++time)
+		for (int time{1} ; time < tempResults.size()-1; ++time)
 		{
-			finalResults[time] += tempResults[time];
+			finalResults[time-1] += tempResults[time];
 		}
 
 	}
@@ -154,11 +154,11 @@ void calculateResultsEx02(int amountSamples)
 
 	size_t size = static_cast<size_t>(std::pow(2, 26));
 	std::vector<gameObject> numbers{};
-	numbers.reserve(size);
+	numbers.resize(size);
 
 	std::vector<long long> tempResults{};
 	std::vector<long long> finalResults{};
-	finalResults.reserve(11); //have 11 steps
+	finalResults.resize(11); //have 11 steps
 
 	for (int amount = 0; amount < amountSamples; ++amount)
 	{
@@ -178,9 +178,9 @@ void calculateResultsEx02(int amountSamples)
 		}
 
 
-		for (int time{ 0 }; time < tempResults.size(); ++time)
+		for (int time{ 1 }; time < tempResults.size() - 1; ++time)
 		{
-			finalResults[time] += tempResults[time];
+			finalResults[time - 1] += tempResults[time];
 		}
 
 	}
@@ -215,7 +215,7 @@ void calculateResultsEx03(int amountSamples)
 
 	std::vector<long long> tempResults{};
 	std::vector<long long> finalResults{};
-	finalResults.reserve(11); //have 11 steps
+	finalResults.resize(11); //have 11 steps
 
 	for (int amount = 0; amount < amountSamples; ++amount)
 	{
@@ -235,9 +235,9 @@ void calculateResultsEx03(int amountSamples)
 		}
 
 
-		for (int time{ 0 }; time < tempResults.size(); ++time)
+		for (int time{ 1 }; time < tempResults.size() - 1; ++time)
 		{
-			finalResults[time] += tempResults[time];
+			finalResults[time - 1] += tempResults[time];
 		}
 
 	}
