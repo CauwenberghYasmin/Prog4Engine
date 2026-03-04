@@ -43,7 +43,6 @@ void dae::Renderer::Render() const
 	ImGui::NewFrame();
 
 	ImGui::ShowDemoWindow(); // For demonstration purposes, do not keep this in your engine
-
 	ImGui::Render();
 
 	const auto& color = GetBackgroundColor();
@@ -54,6 +53,10 @@ void dae::Renderer::Render() const
 
 	ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), m_renderer);
 	SDL_RenderPresent(m_renderer);
+
+
+
+
 }
 
 void dae::Renderer::Destroy() //doc shows shutdown, but I assume it's this?
@@ -121,7 +124,7 @@ void calculateResultsEx01(int amountSamples)
 		}
 
 
-		for (int time{1} ; time < tempResults.size()-1; ++time)
+		for (size_t time{1} ; time < tempResults.size()-1; ++time)
 		{
 			finalResults[time-1] += tempResults[time];
 		}
@@ -130,7 +133,7 @@ void calculateResultsEx01(int amountSamples)
 
 
 	//take average
-	for (int time{ 0 }; time < finalResults.size(); ++time)
+	for (size_t time{ 0 }; time < finalResults.size(); ++time)
 	{
 		finalResults[time] /= amountSamples;
 	} //don't forget to take out first and last later!
@@ -178,7 +181,7 @@ void calculateResultsEx02(int amountSamples)
 		}
 
 
-		for (int time{ 1 }; time < tempResults.size() - 1; ++time)
+		for (size_t time{ 1 }; time < tempResults.size() - 1; ++time)
 		{
 			finalResults[time - 1] += tempResults[time];
 		}
@@ -187,7 +190,7 @@ void calculateResultsEx02(int amountSamples)
 
 
 	//take average
-	for (int time{ 0 }; time < finalResults.size(); ++time)
+	for (size_t time{ 0 }; time < finalResults.size(); ++time)
 	{
 		finalResults[time] /= amountSamples;
 	} //don't forget to take out first and last later!
@@ -235,7 +238,7 @@ void calculateResultsEx03(int amountSamples)
 		}
 
 
-		for (int time{ 1 }; time < tempResults.size() - 1; ++time)
+		for (size_t time{ 1 }; time < tempResults.size() - 1; ++time)
 		{
 			finalResults[time - 1] += tempResults[time];
 		}
@@ -244,7 +247,7 @@ void calculateResultsEx03(int amountSamples)
 
 
 	//take average
-	for (int time{ 0 }; time < finalResults.size(); ++time)
+	for (size_t time{ 0 }; time < finalResults.size(); ++time)
 	{
 		finalResults[time] /= amountSamples;
 	} //don't forget to take out first and last later!
