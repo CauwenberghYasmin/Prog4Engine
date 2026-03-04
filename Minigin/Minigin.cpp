@@ -126,6 +126,5 @@ void dae::Minigin::RunOneFrame()
 
 	//no delta time -> calc is wrong, no need for dependacy on last frame!!!
 
-
 	std::this_thread::sleep_for(sleep_time); //TODO:: need to change, ask in class!!
 }        

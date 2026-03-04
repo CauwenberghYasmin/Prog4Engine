@@ -14,7 +14,7 @@ struct PlotConfig {
         // array of y values. If null, use ys_list (below)
         const float *ys = nullptr;
         // the number of values in each array
-        int count;
+        int count{};
         // at which offset to start plotting.
         // Warning: count+offset must be <= length of array!
         int offset = 0;
@@ -30,9 +30,9 @@ struct PlotConfig {
     } values;
     struct Scale {
         // Minimum plot value
-        float min;
+        float min{};
         // Maximum plot value
-        float max;
+        float max{};
         enum Type {
             Linear,
             Log10,

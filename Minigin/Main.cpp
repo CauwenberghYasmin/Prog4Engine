@@ -13,6 +13,8 @@
 #include "ResourceManager.h"
 #include "TextObject.h"
 #include "Scene.h"
+#include <imgui.h>
+#include <imgui_plot.h>
 #include "FpsComponent.h"
 #include "RenderComponent.h"
 #include "RotatorComponent.h"
@@ -21,7 +23,49 @@
 namespace fs = std::filesystem;
 
 void CallScene01();
+std::vector<float> calculateResultsEx01(int amountSamples)
+{
+	size_t size = static_cast<size_t>(std::pow(2, 26));
+	std::vector<int> numbers(size, 1);
 
+	std::vector<long long> tempResults{};
+	std::vector<float> finalResults{};
+	finalResults.resize(11); //have 11 steps
+
+	for (int amount = 0; amount < amountSamples; ++amount)
+	{
+		tempResults.clear();
+
+		for (int stepsize = 1; stepsize <= 1024; stepsize *= 2) {
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			for (size_t i = 0; i < numbers.size(); i += stepsize)
+				numbers[i] *= 2;
+
+			auto end = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+			tempResults.push_back(duration);
+		}
+
+
+		for (size_t time{ 1 }; time < tempResults.size() - 1; ++time)
+		{
+			finalResults[time - 1] += static_cast<float>(tempResults[time]);
+		}
+
+	}
+
+
+	//take average
+	for (size_t time{ 0 }; time < finalResults.size(); ++time)
+	{
+		finalResults[time] /= amountSamples;
+	} //don't forget to take out first and last later!
+
+	return (finalResults);
+}
 static void load()
 {
 	
@@ -32,9 +76,6 @@ static void load()
 
 
 	//get raw pointer out of smart by using.get()
-
-
-
 
 }
 
