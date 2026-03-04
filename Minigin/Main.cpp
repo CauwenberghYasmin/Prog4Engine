@@ -93,24 +93,23 @@ void CallScene01()
 	picture->SetPosition(300, 300); 
 	Bird->AddComponent(std::move(picture));
 
-	auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{300, 300, 0}, true, 150.f);
+	auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{ 270, 270, 0}, true, 2.f);
 	Bird->AddComponent(std::move(rotator));
 
 
 	auto Bird2 = std::make_unique<dae::GameObject>();
-	auto picture2 = std::make_unique<dae::RenderComponent>(Bird2.get(), 563);
+	auto picture2 = std::make_unique<dae::RenderComponent>(Bird2.get(), 576);
 	picture2->SetTexture("flap.png");
-	picture2->SetPosition(400, 400); 
+	picture2->SetPosition(60, 60); 
 	Bird2->AddComponent(std::move(picture2));
-
-	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 523, Bird2->GetWorldPosition(), true, 100.f);
+																			// give 0, instead of world pos parent!!! -> is local!!
+	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 513, glm::vec3{ 0, 0, 0 }, false, 4.f);
 	Bird2->AddComponent(std::move(rotator2));
 
 	Bird2->SetParent(Bird.get(), false);
 
 	scene.Add(std::move(Bird));
 	scene.Add(std::move(Bird2));
-
 }
 
 

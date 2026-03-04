@@ -84,41 +84,25 @@ namespace dae //emiscript works
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 		
-	//private:
+	private:
 		
 		std::vector<std::pair<std::unique_ptr<Component>, int>> m_ComponentVector{}; //has polymorphism so all components can be added to it
+		std::vector<GameObject*> m_pChildren{};
+
 		std::vector <int> m_DeleteListComponents{};
 		std::vector <GameObject* > m_DeleteListChildren{}; //also delayed delete
-
 		//every component will have an id number so they can be easily found
 
 		GameObject* m_pParent{nullptr};
-		std::vector<GameObject*> m_pChildren{};
-
-
 		void AddChild(GameObject* child); //like set parent
 		void RemoveChild(GameObject* child);//set parent to nullptr
 
-		void SetPositionDirty() 
-		{
-			m_positionIsDirty = true;
-
-			for (auto& child : m_pChildren)
-			{
-				child->SetPositionDirty();
-			}
-		}
 
 		void UpdateWorldPosition();
+		void SetPositionDirty();
 
 		glm::vec3 m_localPosition{};
 		glm::vec3 m_worldPosition{};
 		bool m_positionIsDirty{ false };
-
-
-
-
-		
-
 	};
 }

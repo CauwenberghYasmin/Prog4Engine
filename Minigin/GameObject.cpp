@@ -23,8 +23,6 @@ void dae::GameObject::Update()
 	{
 		i.first->Update();
 	}
-
-	UpdateWorldPosition(); //temp check
 }
 
 void dae::GameObject::DelayUpdate() //not actual delete, but remove from component vector
@@ -121,10 +119,6 @@ void dae::GameObject::AddChild(GameObject* child)
 	if (child == nullptr || child->GetParent() == this)
 		return;
 
-	//update pos, rotation, scale
-	child->GetParent()->RemoveChild(child);
-	//child->SetParent(this, false); //not used to avoid stack overflow
-	child->m_pParent = this;
 	m_pChildren.emplace_back(child);
 }
 
@@ -133,11 +127,7 @@ void dae::GameObject::RemoveChild(GameObject* child)//set parent to nullptr
 	if (child == nullptr || !IsChild(child))
 		return;
 
-	//update pos, rotation, scale
-
 	m_DeleteListChildren.emplace_back(child);
-	//child->SetParent(this, false); not used to avoid stack overflow
-	child->m_pParent = nullptr;
 }
 
 
@@ -155,14 +145,18 @@ void dae::GameObject::SetParent(GameObject* newParent, bool keepWorldPosition)
 	{
 		if (keepWorldPosition)
 			SetLocalPosition(GetWorldPosition() - newParent->GetWorldPosition());
+
 		SetPositionDirty();
 	}
 
-	if (m_pParent) m_pParent->RemoveChild(this);
+	if (m_pParent) 
+		m_pParent->RemoveChild(this);
+	
 	m_pParent = newParent;
 
 
-	if (m_pParent) m_pParent->AddChild(this);
+	if (m_pParent) 
+		m_pParent->AddChild(this);
 }
 
 
@@ -195,4 +189,14 @@ void dae::GameObject::UpdateWorldPosition()
 			m_worldPosition = m_pParent->GetWorldPosition() + m_localPosition;
 	}
 	m_positionIsDirty = false;
+}
+
+void dae::GameObject::SetPositionDirty()
+{
+	m_positionIsDirty = true;
+
+	for (auto& child : m_pChildren)//makes it recursive?
+	{
+		child->SetPositionDirty();
+	}
 }

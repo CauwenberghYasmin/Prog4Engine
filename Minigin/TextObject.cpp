@@ -54,6 +54,7 @@ void dae::TextComponent::SetText(const std::string& text)
 void dae::TextComponent::SetPosition(const float x, const float y)
 {
 	m_transform.SetPosition(x, y);
+	GetOwner()->SetLocalPosition(glm::vec3{ x, y, 0 });
 }
 
 void dae::TextComponent::SetColor(const SDL_Color& color) 
