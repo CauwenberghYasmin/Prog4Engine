@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include <imgui.h>
+#include <chrono>
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 
@@ -91,3 +92,160 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 }
 
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }
+
+//calculations for the graphs
+void calculateResultsEx01(int amountSamples)
+{
+	size_t size = static_cast<size_t>(std::pow(2, 26));
+	std::vector<int> numbers(size, 1);
+
+	std::vector<long long> tempResults{};
+	std::vector<long long> finalResults{};
+	finalResults.reserve(11); //have 11 steps
+
+	for (int amount = 0; amount < amountSamples; ++amount)
+	{
+		tempResults.clear();
+
+		for (int stepsize = 1; stepsize <= 1024; stepsize *= 2) {
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			for (size_t i = 0; i < numbers.size(); i += stepsize)
+				numbers[i] *= 2;
+
+			auto end = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+			tempResults.push_back(duration);
+		}
+
+
+		for (int time{0} ; time < tempResults.size(); ++time)
+		{
+			finalResults[time] += tempResults[time];
+		}
+
+	}
+
+
+	//take average
+	for (int time{ 0 }; time < finalResults.size(); ++time)
+	{
+		finalResults[time] /= amountSamples;
+	} //don't forget to take out first and last later!
+}
+void calculateResultsEx02(int amountSamples)
+{
+	struct transform {
+		float matrix[16] = {
+			1,0,0,0,
+			0,1,0,0,
+			0,0,1,0,
+			0,0,0,1
+		};
+	};
+
+	class gameObject {
+	public:
+		transform local; //no pointer
+		int id;
+	};
+
+	size_t size = static_cast<size_t>(std::pow(2, 26));
+	std::vector<gameObject> numbers{};
+	numbers.reserve(size);
+
+	std::vector<long long> tempResults{};
+	std::vector<long long> finalResults{};
+	finalResults.reserve(11); //have 11 steps
+
+	for (int amount = 0; amount < amountSamples; ++amount)
+	{
+		tempResults.clear();
+
+		for (int stepsize = 1; stepsize <= 1024; stepsize *= 2) {
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			for (size_t i = 0; i < numbers.size(); i += stepsize)
+				numbers[i].id *= 2;
+
+			auto end = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+			tempResults.push_back(duration);
+		}
+
+
+		for (int time{ 0 }; time < tempResults.size(); ++time)
+		{
+			finalResults[time] += tempResults[time];
+		}
+
+	}
+
+
+	//take average
+	for (int time{ 0 }; time < finalResults.size(); ++time)
+	{
+		finalResults[time] /= amountSamples;
+	} //don't forget to take out first and last later!
+}
+void calculateResultsEx03(int amountSamples)
+{
+	struct transform {
+		float matrix[16] = {
+			1,0,0,0,
+			0,1,0,0,
+			0,0,1,0,
+			0,0,0,1
+		};
+	};
+
+	class gameObjectAlt {
+	public:
+		transform* local; //no pointer
+		int id;
+	};
+
+	size_t size = static_cast<size_t>(std::pow(2, 26));
+	std::vector<gameObjectAlt> numbers{};
+	numbers.reserve(size);
+
+	std::vector<long long> tempResults{};
+	std::vector<long long> finalResults{};
+	finalResults.reserve(11); //have 11 steps
+
+	for (int amount = 0; amount < amountSamples; ++amount)
+	{
+		tempResults.clear();
+
+		for (int stepsize = 1; stepsize <= 1024; stepsize *= 2) {
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			for (size_t i = 0; i < numbers.size(); i += stepsize)
+				numbers[i].id *= 2;
+
+			auto end = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+			tempResults.push_back(duration);
+		}
+
+
+		for (int time{ 0 }; time < tempResults.size(); ++time)
+		{
+			finalResults[time] += tempResults[time];
+		}
+
+	}
+
+
+	//take average
+	for (int time{ 0 }; time < finalResults.size(); ++time)
+	{
+		finalResults[time] /= amountSamples;
+	} //don't forget to take out first and last later!
+}
