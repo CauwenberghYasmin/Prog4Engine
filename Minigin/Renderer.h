@@ -18,7 +18,6 @@ namespace dae
 		std::vector<float> calculateResultsEx01(int amountSamples);
 		std::vector<float> calculateResultsEx02(int amountSamples);
 		std::vector<float> calculateResultsEx03(int amountSamples);
-		bool hasBeenCalculted{ false };
 		std::vector<float> results{};
 		std::vector<float> results2{};
 		std::vector<float> results3{};
