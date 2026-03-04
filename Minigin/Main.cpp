@@ -85,6 +85,7 @@ void CallScene01()
 	fpsObject->AddComponent(std::move(fpsComp));
 	scene.Add(std::move(fpsObject));
 
+	//----------------birds------------------------
 
 	auto Bird = std::make_unique<dae::GameObject>();
 	auto picture = std::make_unique<dae::RenderComponent>(Bird.get(), 563);
@@ -92,9 +93,8 @@ void CallScene01()
 	picture->SetPosition(300, 300); 
 	Bird->AddComponent(std::move(picture));
 
-	auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{300, 300, 0}, true);
+	auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{300, 300, 0}, true, 150.f);
 	Bird->AddComponent(std::move(rotator));
-	scene.Add(std::move(Bird));
 
 
 	auto Bird2 = std::make_unique<dae::GameObject>();
@@ -103,10 +103,12 @@ void CallScene01()
 	picture2->SetPosition(400, 400); 
 	Bird2->AddComponent(std::move(picture2));
 
-	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 523, Bird2->GetWorldPosition(), true);
+	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 523, Bird2->GetWorldPosition(), true, 100.f);
 	Bird2->AddComponent(std::move(rotator2));
 
 	Bird2->SetParent(Bird.get(), false);
+
+	scene.Add(std::move(Bird));
 	scene.Add(std::move(Bird2));
 
 }

@@ -59,7 +59,7 @@ void dae::GameObject::DelayUpdate() //not actual delete, but remove from compone
 
 
 
-void dae::GameObject::Remove(float id) //look into maybe properly removing the slots! 
+void dae::GameObject::RemoveComponent(float id) //look into maybe properly removing the slots! 
 {
 	for (auto& component : m_ComponentVector)
 	{
@@ -73,7 +73,7 @@ void dae::GameObject::Remove(float id) //look into maybe properly removing the s
 
 
 
-bool dae::GameObject::Check(float id)
+bool dae::GameObject::CheckComponentExist(float id)
 {
 	for (auto& i : m_ComponentVector)
 	{

@@ -8,7 +8,7 @@ namespace dae
     class RotatorComponent final : public Component
     {
     public:
-        RotatorComponent(GameObject* pGameObject, int id, const glm::vec3& pivot, bool goesClockWise);
+        RotatorComponent(GameObject* pGameObject, int id, const glm::vec3& pivot, bool goesClockWise, float speed);
 
         virtual void Update() override;
         virtual void Render() override;
@@ -25,6 +25,7 @@ namespace dae
         bool m_GoesClockWise;
         float m_angle{ 0.f };
         float m_distance;
+        float m_Speed;
 
     };
 }
