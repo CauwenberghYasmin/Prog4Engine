@@ -4,8 +4,8 @@
 #include "Component.h"
 #include<algorithm>
 #include "GameObject.h"
-
 #include <glm/glm.hpp>
+
 
 dae::GameObject::~GameObject() = default;
 
@@ -27,7 +27,6 @@ void dae::GameObject::Update()
 
 void dae::GameObject::DelayUpdate() //not actual delete, but remove from component vector
 {
-	
 	if (m_DeleteListComponents.size() != 0)
 	{
 		m_ComponentVector.erase(std::remove_if(m_ComponentVector.end(), m_ComponentVector.begin(), //rbegin and rend doesn't work -> ask teachers!!
@@ -52,7 +51,6 @@ void dae::GameObject::DelayUpdate() //not actual delete, but remove from compone
 
 		m_DeleteListChildren.clear();
 	}
-
 }
 
 
@@ -114,7 +112,7 @@ bool dae::GameObject::IsChild(GameObject* object)
 }
 
 
-void dae::GameObject::AddChild(GameObject* child)
+void dae::GameObject::AddChild(GameObject* child) //ASK FEEDBACK
 {
 	if (child == nullptr || child->GetParent() == this)
 		return;
@@ -122,14 +120,13 @@ void dae::GameObject::AddChild(GameObject* child)
 	m_pChildren.emplace_back(child);
 }
 
-void dae::GameObject::RemoveChild(GameObject* child)//set parent to nullptr
+void dae::GameObject::RemoveChild(GameObject* child) //private 
 {
 	if (child == nullptr || !IsChild(child))
 		return;
 
-	m_DeleteListChildren.emplace_back(child);
+	m_DeleteListChildren.emplace_back(child); //get's handeld in delayed update
 }
-
 
 
 //from ppt -> look later into improving when more time
