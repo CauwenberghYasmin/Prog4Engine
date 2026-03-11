@@ -7,6 +7,11 @@ namespace dae
 	{
 	public:
 		bool ProcessInput();
+		//bind command
+		//unbind command
+
 	};
 
 }
+
+//need controller/gamepad class?

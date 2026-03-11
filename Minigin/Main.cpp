@@ -18,8 +18,9 @@
 #include "FpsComponent.h"
 #include "RenderComponent.h"
 #include "RotatorComponent.h"
-
 #include <filesystem>
+
+
 namespace fs = std::filesystem;
 
 void CallScene01();
@@ -128,29 +129,32 @@ void CallScene01()
 
 	//----------------birds------------------------
 
-	auto Bird = std::make_unique<dae::GameObject>();
-	auto picture = std::make_unique<dae::RenderComponent>(Bird.get(), 563);
-	picture->SetTexture("flap.png");
+	auto cook = std::make_unique<dae::GameObject>();
+	auto picture = std::make_unique<dae::RenderComponent>(cook.get(), 563);
+	picture->SetTexture("ForwardCook.png");
 	picture->SetPosition(300, 300); 
-	Bird->AddComponent(std::move(picture));
+	cook->AddComponent(std::move(picture));
 
-	auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{ 270, 270, 0}, true, 2.f);
-	Bird->AddComponent(std::move(rotator));
+	//auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{ 270, 270, 0}, true, 2.f);
+	//Bird->AddComponent(std::move(rotator));
+	//-> add move instead
 
 
-	auto Bird2 = std::make_unique<dae::GameObject>();
-	auto picture2 = std::make_unique<dae::RenderComponent>(Bird2.get(), 576);
-	picture2->SetTexture("flap.png");
-	picture2->SetPosition(60, 60); 
-	Bird2->AddComponent(std::move(picture2));
+
+	auto hotdog = std::make_unique<dae::GameObject>();
+	auto picture2 = std::make_unique<dae::RenderComponent>(hotdog.get(), 576);
+	picture2->SetTexture("ForwardHotDog.png");
+	picture2->SetPosition(360, 360); 
+	hotdog->AddComponent(std::move(picture2));
 																			// give 0, instead of world pos parent!!! -> is local!!
-	auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 513, glm::vec3{ 0, 0, 0 }, false, 4.f);
-	Bird2->AddComponent(std::move(rotator2));
+	//auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 513, glm::vec3{ 0, 0, 0 }, false, 4.f);
+	//Bird2->AddComponent(std::move(rotator2));
+	//same here, add move!
 
-	Bird2->SetParent(Bird.get(), false);
+	//Bird2->SetParent(Bird.get(), false);
 
-	scene.Add(std::move(Bird));
-	scene.Add(std::move(Bird2));
+	scene.Add(std::move(cook));
+	scene.Add(std::move(hotdog));
 }
 
 

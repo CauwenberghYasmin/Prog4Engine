@@ -3,9 +3,13 @@
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
 #include "InputManager.h"
+#include <windows.h>
+#include <XInput.h>
 
 bool dae::InputManager::ProcessInput()
 {
+
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_EVENT_QUIT) {
@@ -24,4 +28,11 @@ bool dae::InputManager::ProcessInput()
 	}
 	return true;
 }
-////
+
+
+//get state controller/keyboard
+//-> executes required command
+
+
+
+
