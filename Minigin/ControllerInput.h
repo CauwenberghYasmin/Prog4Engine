@@ -22,5 +22,5 @@ private:
 
 	unsigned int m_ControllerIndex{}; //max 4! 
 
-	std::vector<Bindings> m_Bindings{};
+	//std::vector<Bindings> m_Bindings{};
 };

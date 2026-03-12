@@ -24,7 +24,7 @@ void ControllerInput::processInput() //from the ppt
 
 
 
-	for (auto& binding : m_Bindings)
+	//for (auto& binding : m_Bindings)
 	{
 		//execute bindings?
 		//-> yeah when you call the bindings here, they will get executed!!!

@@ -19,7 +19,7 @@ namespace dae
 	
 
 
-		std::vector<ControllerInput>m_ControllerInput{};
+		//std::vector<ControllerInput>m_ControllerInput{};
 		KeyboardInput* m_KeyboardInput{};
 	};
 

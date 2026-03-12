@@ -1,4 +1,4 @@
-//#include <glm/glm.hpp>
+#include <glm/glm.hpp>
 #include "Component.h"
 
 namespace dae
@@ -29,7 +29,7 @@ namespace dae
         MovementComponent& operator=(const MovementComponent&) = delete;
 
     private:
-        float m_MovementSpeed{};
+        float m_MovementSpeed;
         bool m_ShouldMove{ false };
         glm::vec3 m_Direction{};
       
