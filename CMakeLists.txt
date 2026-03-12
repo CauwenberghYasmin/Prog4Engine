@@ -27,7 +27,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/TextObject.cpp
   Minigin/Texture2D.cpp
   Minigin/Transform.cpp
- "Minigin/Component.h" "Minigin/Component.cpp" "Minigin/GameTime.h" "Minigin/FpsComponent.h" "Minigin/FPSComponent.cpp" "Minigin/RenderComponent.h" "Minigin/RenderComponent.cpp" "Minigin/RotatorComponent.h" "Minigin/RotatorComponent.cpp" "Minigin/imgui_plot.cpp" "Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h")
+ "Minigin/Component.h" "Minigin/Component.cpp" "Minigin/GameTime.h" "Minigin/FpsComponent.h" "Minigin/FPSComponent.cpp" "Minigin/RenderComponent.h" "Minigin/RenderComponent.cpp" "Minigin/RotatorComponent.h" "Minigin/RotatorComponent.cpp" "Minigin/imgui_plot.cpp" "Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h" "Minigin/InputOptions.h" "Minigin/ControllerInput.cpp" "Minigin/Bindings.h" "Minigin/MovementComponent.h" "Minigin/MovementComponent.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -122,8 +122,8 @@ add_library(imgui STATIC
   ${imgui_SOURCE_DIR}/imgui_widgets.cpp
   ${imgui_SOURCE_DIR}/imgui_demo.cpp
   ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl3.cpp
-  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer3.cpp
- "Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h")
+  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer3.cpp)
+ #"Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h" "Minigin/InputOptions.h" "Minigin/ControllerInput.cpp" "Minigin/Bindings.h" "Minigin/MovementComponent.h" "Minigin/MovementComponent.cpp")
 
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
 target_link_libraries(imgui PUBLIC SDL3::SDL3)

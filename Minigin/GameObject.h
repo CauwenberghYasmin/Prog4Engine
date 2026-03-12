@@ -1,11 +1,11 @@
 #pragma once
+#include <glm/glm.hpp>
 //#include <string>
 #include <memory>
 //#include "Transform.h"
 #include "Component.h"
 #include <vector>
 #include<utility>
-#include <glm/glm.hpp>
 
 namespace dae //emiscript works
 {

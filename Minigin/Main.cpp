@@ -76,7 +76,6 @@ static void load()
 	//load game stuff
 
 
-	//get raw pointer out of smart by using.get()
 
 }
 
@@ -139,6 +138,7 @@ void CallScene01()
 	//Bird->AddComponent(std::move(rotator));
 	//-> add move instead
 
+	//so lowkey like "create binding, this thing calls thing function" 
 
 
 	auto hotdog = std::make_unique<dae::GameObject>();

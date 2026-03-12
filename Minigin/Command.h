@@ -1,6 +1,5 @@
 #pragma once
 
-
 class Command
 {
 public:
@@ -34,7 +33,7 @@ class MoveCommand : public GameActorCommand {
 public:
 	void Execute() override
 	{
-		//GetGameActor()->move();
+		// GetGameActor()->move();
 	}
 };
 
