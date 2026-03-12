@@ -28,12 +28,13 @@ void ControllerInput::processInput() //from the ppt
 	{
 		//execute bindings?
 		//-> yeah when you call the bindings here, they will get executed!!!
+		//use switch case? check whitch one is needed?
 	}
 }
 
 
 
-
+//ppt!
 bool ControllerInput::IsDownThisFrame(unsigned int button) const
 {
 	return m_ButtonsPressedThisFrame & button;

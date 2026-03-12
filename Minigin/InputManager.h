@@ -12,14 +12,14 @@ namespace dae
 	public:
 		bool ProcessInput();
 		//bind command
-		//unbind command
+		//unbind command! -> only pushing out of binding vector or replace the trigger key?
 
 		//ControllerInput* GetControllerInput(int controllerIndex);
 		//KeyboardInput* GetKeyboardInput();
 	
 
 
-		//std::vector<ControllerInput>m_ControllerInput{};
+		//std::vector<ControllerInput>m_ControllerInput{}; //-> go over, set max to 4!!!
 		KeyboardInput* m_KeyboardInput{};
 	};
 

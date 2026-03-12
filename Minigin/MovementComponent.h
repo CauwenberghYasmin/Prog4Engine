@@ -10,14 +10,12 @@ namespace dae
         Right
     };
 
-    class TransformComponent;
     class GameObject;
-    class MovementComponent final : public Component
+    class MovementComponent final : public Component //not needed anymore, you can do the move in the command itself, so no extra component!
     {
     public:
         MovementComponent(GameObject* pGameObject, int id, float movementSpeed = 50.f);
-            //Component(pGameObject, id), m_MovementSpeed(movementSpeed)
-      
+  
 
         virtual void Update() override;
         void Move(Direction direction);

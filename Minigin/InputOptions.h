@@ -8,7 +8,7 @@ enum class InputState
 	Pressed,
 };
 
-enum class InputKeybinds
+enum class InputKeybinds //how calc from XINput to normal input????
 {
 	//keyboard inputs
 	KEYBOARD_BEGIN,
