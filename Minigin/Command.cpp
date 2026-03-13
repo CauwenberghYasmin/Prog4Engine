@@ -13,8 +13,8 @@ namespace dae {
 	{
 	}
 
-	MoveCommand::MoveCommand(GameObject* pGameObject) :
-		GameObjectCommand(pGameObject)
+	MoveCommand::MoveCommand(GameObject* pGameObject, Direction direction, float speed) :
+		GameObjectCommand(pGameObject), m_Direction (direction), m_Speed(speed)
 	{
 	}
 
@@ -27,26 +27,26 @@ namespace dae {
 
 	void MoveCommand::Execute() //how to I pass the direction enum??
 	{
-		glm::vec3 m_Direction{ 0,0,0 };
+		glm::vec3 displacementVector{ 0,0,0 };
 		float deltaTime = dae::GameTime::GetInstance().GetDeltaTime();
 
-		//switch (direction)
-		//{
-		//case Direction::Left:
-		//	m_Direction.x -= m_MovementSpeed; //look into normalized value * speed or smth
-		//	break;
-		//case Direction::Right:
-		//	m_Direction.x += m_MovementSpeed; //maybe use geometric algebra from class!!!
-		//	break;
-		//case Direction::Up:
-		//	m_Direction.y -= m_MovementSpeed;
-		//	break;
-		//case Direction::Down:
-		//	m_Direction.y += m_MovementSpeed;
-		//	break;
-		//}
+		switch (m_Direction) //game only requires straight up, down, left and right. no circle movement behaviours!
+		{
+		case Direction::Left:
+			displacementVector.x -= m_Speed * deltaTime; //look into normalized value * speed or smth
+			break;
+		case Direction::Right:
+			displacementVector.x += m_Speed * deltaTime; //maybe use geometric algebra from class!!!
+			break;
+		case Direction::Up:
+			displacementVector.y -= m_Speed * deltaTime;
+			break;
+		case Direction::Down:
+			displacementVector.y += m_Speed * deltaTime;
+			break;
+		}
 
-		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + (m_Direction * deltaTime));
+		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + (displacementVector * deltaTime));
 	}
 
 	void SprayCommand::Execute()

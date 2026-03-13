@@ -3,7 +3,7 @@
 //go  over inheritance notes again to make sure!! (virtual, etc...)
 
 namespace dae {
-
+	enum Direction {Up, Down, Left, Right};
 
 	class Command
 	{
@@ -29,11 +29,16 @@ namespace dae {
 	class MoveCommand : public GameObjectCommand {
 	public:
 
-		explicit MoveCommand(GameObject* pGameObject);
+		explicit MoveCommand(GameObject* pGameObject, Direction direction, float speed);
 		//don't make own destructor if not necessairy!
 
 		void Execute() override; //implement code from the moveComponent (is deleted now)
+		void SetSpeed(float newSpeed) { m_Speed = newSpeed; } //sprint in game?
 
+
+	private:
+		Direction m_Direction{};
+		float m_Speed{}; //not const yet, should find way to change it!
 		//don't cache gameObject again, it'a already saved in parent class
 	};
 
