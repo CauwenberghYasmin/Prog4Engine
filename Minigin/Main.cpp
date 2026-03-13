@@ -1,6 +1,5 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
-  
 
 #if _DEBUG
 	#if __has_include(<vld.h>)
@@ -73,7 +72,8 @@ static void load()
 	CallScene01();
 
 	//--------------------------------------------------------------------
-	//load game stuff
+	//load game stuff for testing
+	//-> make seperate engine eventually!!!!
 
 
 
