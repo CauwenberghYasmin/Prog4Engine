@@ -10,7 +10,6 @@
 ControllerInput::ControllerInput(unsigned int id):
 	m_ControllerIndex (id)
 {
-
 }
 
 void ControllerInput::processInput() //from the ppt
@@ -26,15 +25,15 @@ void ControllerInput::processInput() //from the ppt
 	m_ButtonsReleasedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
 
 
-	for (auto& binding : m_pBindings)
+	for (auto& binding : m_pBindings) //else if statements, if one is true, the other won't be true anymore, right?
 	{
-		if (binding->m_TriggerState == InputState::JustPressed && IsDownThisFrame(binding->m_KeyBind)) //could you make this a switch case? -> look into it
+		if (binding->m_TriggerState == InputState::JustPressed && IsDownThisFrame(binding->m_KeyBind))
 			binding->m_Command->Execute();
 
-		if (binding->m_TriggerState == InputState::JustReleased && IsUpThisFrame(binding->m_KeyBind))
+		else if (binding->m_TriggerState == InputState::JustReleased && IsUpThisFrame(binding->m_KeyBind))
 			binding->m_Command->Execute();
 
-		if (binding->m_TriggerState == InputState::Pressed && IsPressed(binding->m_KeyBind))
+		else if (binding->m_TriggerState == InputState::Pressed && IsPressed(binding->m_KeyBind))
 			binding->m_Command->Execute();
 	}
 }

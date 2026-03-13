@@ -1,25 +1,19 @@
 #include <glm/glm.hpp>
 #include "Component.h"
+//--------------------------------------------------------------------------------
+// look into how safely remove file!!
+//--------------------------------------------------------------------------------
+
+
+
 
 namespace dae
 {
-    enum class Direction {
-        Up,
-        Down,
-        Left,
-        Right
-    };
-
     class GameObject;
     class MovementComponent final : public Component //not needed anymore, you can do the move in the command itself, so no extra component!
     {
     public:
         MovementComponent(GameObject* pGameObject, int id, float movementSpeed = 50.f);
-  
-
-        //virtual void Update() override;
-        //void Move(Direction direction);
-
         
         //revise done correctly
         MovementComponent(const MovementComponent&) = delete;

@@ -15,7 +15,7 @@ enum class InputKeybinds //how calc from XINput to normal input????
 	W,
 	A,
 	S,
-	D,
+	D, //for walk
 	E,
 	F,
 	Z, //button used for spray
