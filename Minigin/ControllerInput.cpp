@@ -2,6 +2,9 @@
 #include "ControllerInput.h"
 #include <windows.h>
 #include <XInput.h>
+#include "Binding.h"
+#include <memory>
+#include "Command.h"
 
 
 ControllerInput::ControllerInput(unsigned int id):
@@ -23,15 +26,32 @@ void ControllerInput::processInput() //from the ppt
 	m_ButtonsReleasedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
 
 
-
-	//for (auto& binding : m_Bindings)
+	for (auto& binding : m_pBindings)
 	{
-		//execute bindings?
-		//-> yeah when you call the bindings here, they will get executed!!!
-		//use switch case? check whitch one is needed?
+		if (binding->m_TriggerState == InputState::JustPressed && IsDownThisFrame(binding->m_KeyBind)) //could you make this a switch case? -> look into it
+			binding->m_Command->Execute();
+
+		if (binding->m_TriggerState == InputState::JustReleased && IsUpThisFrame(binding->m_KeyBind))
+			binding->m_Command->Execute();
+
+		if (binding->m_TriggerState == InputState::Pressed && IsPressed(binding->m_KeyBind))
+			binding->m_Command->Execute();
 	}
 }
 
+void ControllerInput::addBinding(std::unique_ptr <Binding>&& pBinder)
+{
+	m_pBindings.emplace_back(std::move(pBinder));
+}
+
+void ControllerInput::RemoveBinding(Binding* pBinding) //ask teacher if this is correct!!!
+{
+	auto point = remove_if(m_pBindings.begin(), m_pBindings.end(),
+		[&pBinding](std::unique_ptr<Binding>& bind) {
+			return pBinding == bind.get();
+		});
+	m_pBindings.erase(point, m_pBindings.end());
+}
 
 
 //ppt!

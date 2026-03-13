@@ -17,8 +17,8 @@ public:
 
 	//add rule of 5
 
-private:
+//do make them private with getter functions!
+	InputState m_TriggerState{};
 	Command* m_Command{}; //does not own ->so no delete!
 	int m_KeyBind{};
-	InputState m_TriggerState{};
 };

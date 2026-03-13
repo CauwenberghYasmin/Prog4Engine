@@ -17,8 +17,8 @@ namespace dae
         MovementComponent(GameObject* pGameObject, int id, float movementSpeed = 50.f);
   
 
-        virtual void Update() override;
-        void Move(Direction direction);
+        //virtual void Update() override;
+        //void Move(Direction direction);
 
         
         //revise done correctly

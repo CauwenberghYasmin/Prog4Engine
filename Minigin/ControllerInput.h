@@ -2,8 +2,9 @@
 #include <vector>
 #include <windows.h>
 #include <XInput.h>
+#include <memory>
 
-class Bindings;
+class Binding;
 class ControllerInput
 {
 public: 
@@ -15,6 +16,9 @@ public:
 	bool IsUpThisFrame(unsigned int button) const;
 	bool IsPressed(unsigned int button) const;
 
+	void addBinding(std::unique_ptr <Binding>&& pBinder);
+	void RemoveBinding(Binding* pBinding);
+
 private:
 	XINPUT_STATE m_CurrentState{};
 	unsigned int m_ButtonsPressedThisFrame{};
@@ -22,5 +26,5 @@ private:
 
 	unsigned int m_ControllerIndex{}; //max 4! 
 
-	//std::vector<Bindings> m_Bindings{};
+	std::vector<std::unique_ptr<Binding>> m_pBindings{};
 };
