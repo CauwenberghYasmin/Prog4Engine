@@ -12,17 +12,24 @@
 #include "ResourceManager.h"
 #include "TextObject.h"
 #include "Scene.h"
-#include <imgui.h>
-#include <imgui_plot.h>
 #include "FpsComponent.h"
 #include "RenderComponent.h"
 #include "RotatorComponent.h"
 #include <filesystem>
+#include "InputManager.h"
+#include "InputOptions.h"
+#include "Command.h"
+#include "KeyboardInput.h"
+#include "Xinput.h"
 
+enum Direction { Up, Down, Left, Right };
 
 namespace fs = std::filesystem;
 
+namespace dae {
+
 void CallScene01();
+
 std::vector<float> calculateResultsEx01(int amountSamples)
 {
 	size_t size = static_cast<size_t>(std::pow(2, 26));
@@ -79,9 +86,12 @@ static void load()
 
 }
 
+
+
 void CallScene01()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
+	auto& inputManager = dae::InputManager::GetInstance();
 
 
 	auto scene01 = std::make_unique<dae::GameObject>();
@@ -137,8 +147,22 @@ void CallScene01()
 	//auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{ 270, 270, 0}, true, 2.f);
 	//Bird->AddComponent(std::move(rotator));
 	//-> add move instead
-
 	//so lowkey like "create binding, this thing calls thing function" 
+	
+
+	float cookSpeed{ 9600.f };
+	inputManager.GetKeyboardInput()->AddBinding(
+		std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed)),SDL_SCANCODE_W, InputState::Pressed);
+	inputManager.GetKeyboardInput()->AddBinding(
+		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Down, cookSpeed)),
+		SDL_SCANCODE_S, InputState::Pressed);
+	inputManager.GetKeyboardInput()->AddBinding(
+		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Left, cookSpeed)),
+		SDL_SCANCODE_A, InputState::Pressed);
+	inputManager.GetKeyboardInput()->AddBinding(
+		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
+		SDL_SCANCODE_D, InputState::Pressed);
+
 
 
 	auto hotdog = std::make_unique<dae::GameObject>();
@@ -146,6 +170,22 @@ void CallScene01()
 	picture2->SetTexture("ForwardHotDog.png");
 	picture2->SetPosition(360, 360); 
 	hotdog->AddComponent(std::move(picture2));
+
+
+	//inputManager.GetControllerInput(0)->AddBinding(
+	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Up, 200.f)),
+	//	XINPUT_GAMEPAD_DPAD_UP, InputState::Pressed);
+	//inputManager.GetControllerInput(0)->AddBinding(
+	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Down, 200.f)),
+	//	XINPUT_GAMEPAD_DPAD_DOWN, InputState::Pressed);
+	//inputManager.GetControllerInput(0)->AddBinding(
+	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Left, 200.f)),
+	//	XINPUT_GAMEPAD_DPAD_LEFT, InputState::Pressed);
+	//inputManager.GetControllerInput(0)->AddBinding(
+	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, 200.f)),
+	//	XINPUT_GAMEPAD_DPAD_RIGHT, InputState::Pressed);
+
+
 																			// give 0, instead of world pos parent!!! -> is local!!
 	//auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 513, glm::vec3{ 0, 0, 0 }, false, 4.f);
 	//Bird2->AddComponent(std::move(rotator2));
@@ -155,6 +195,7 @@ void CallScene01()
 
 	scene.Add(std::move(cook));
 	scene.Add(std::move(hotdog));
+}
 }
 
 
@@ -167,6 +208,6 @@ int main(int, char*[]) {
 		data_location = "../Data/";
 #endif
 	dae::Minigin engine(data_location);
-	engine.Run(load);
+	engine.Run(dae::load);
     return 0;
 }

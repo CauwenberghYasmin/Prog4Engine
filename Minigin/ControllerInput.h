@@ -3,12 +3,13 @@
 #include <windows.h>
 #include <XInput.h>
 #include <memory>
+#include "InputOptions.h"
+#include "Binding.h"
 
 namespace dae {
 
-
-
-	class Binding;
+	
+	class Command;
 	class ControllerInput
 	{
 	public:
@@ -20,7 +21,7 @@ namespace dae {
 		bool IsUpThisFrame(unsigned int button) const;
 		bool IsPressed(unsigned int button) const;
 
-		void addBinding(std::unique_ptr <Binding>&& pBinder);
+		void AddBinding(std::unique_ptr<Command>&& command, int keybind, InputState triggerState);
 		void RemoveBinding(Binding* pBinding);
 
 	private:

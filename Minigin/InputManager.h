@@ -1,26 +1,22 @@
 #pragma once
 #include "Singleton.h"
-#include <vector>
-
+#include "ControllerInput.h"
+#include "KeyboardInput.h"
 
 namespace dae
 {
-	class ControllerInput;
-	class KeyboardInput;
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();
-		//bind command
-		//unbind command! -> only pushing out of binding vector or replace the trigger key?
-
-		//ControllerInput* GetControllerInput(int controllerIndex);
-		//KeyboardInput* GetKeyboardInput();
+		
+		ControllerInput* GetControllerInput(int controllerIndex);
+		KeyboardInput* GetKeyboardInput();
 	
+	private:
 
-
-		//std::vector<ControllerInput>m_ControllerInput{}; //-> go over, set max to 4!!!
-		KeyboardInput* m_KeyboardInput{};
+		ControllerInput m_ControllerInput[4]{ 0, 1, 2, 3 }; //set max to 4!!
+		KeyboardInput m_KeyboardInput{};
 	};
 
 }

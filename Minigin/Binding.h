@@ -1,21 +1,17 @@
 #pragma once
 #include "InputOptions.h"
+#include "Command.h"
+#include <memory>
 
 namespace dae {
 
 
 
 	//struct Inputstate;
-	class Command;
 	class Binding
 	{
 	public:
-		explicit Binding(Command* command, int keyBind, InputState triggerState) : //add id to remove from binding?
-			m_Command(command),
-			m_KeyBind(keyBind),
-			m_TriggerState(triggerState)
-		{
-		}
+		Binding(std::unique_ptr<Command> command, int keyBind, InputState triggerState);
 
 		~Binding() = default;
 
@@ -23,7 +19,7 @@ namespace dae {
 
 	//do make them private with getter functions!
 		InputState m_TriggerState{};
-		Command* m_Command{}; //does not own ->so no delete!
+		std::unique_ptr<Command> m_Command{}; //does not own ->so no delete!
 		int m_KeyBind{};
 	};
 

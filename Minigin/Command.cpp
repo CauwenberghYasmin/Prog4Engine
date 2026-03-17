@@ -1,7 +1,7 @@
 #include "Command.h"
 #include "GameTime.h"
 #include "GameObject.h"
-
+#include <iostream>
 
 namespace dae {
 
@@ -59,6 +59,4 @@ namespace dae {
 			//make somewhere a collision system so that the enemies know what they are hit
 			//make counter of amount of sprays go down (event system?)
 	}
-
-
 }

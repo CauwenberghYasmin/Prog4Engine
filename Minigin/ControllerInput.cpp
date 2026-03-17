@@ -5,6 +5,7 @@
 #include "Binding.h"
 #include <memory>
 #include "Command.h"
+#include "InputOptions.h"
 
 namespace dae
 {
@@ -39,9 +40,9 @@ namespace dae
 		}
 	}
 
-	void ControllerInput::addBinding(std::unique_ptr <Binding>&& pBinder)
+	void ControllerInput::AddBinding(std::unique_ptr<Command>&& command, int keybind, InputState triggerState)
 	{
-		m_pBindings.emplace_back(std::move(pBinder));
+		m_pBindings.emplace_back(std::make_unique<Binding>(std::move(command), keybind, triggerState));
 	}
 
 	void ControllerInput::RemoveBinding(Binding* pBinding) //ask teacher if this is correct!!!
@@ -59,10 +60,12 @@ namespace dae
 	{
 		return m_ButtonsPressedThisFrame & button;
 	}
+
 	bool ControllerInput::IsUpThisFrame(unsigned int button) const
 	{
 		return m_ButtonsReleasedThisFrame & button;
 	}
+
 	bool ControllerInput::IsPressed(unsigned int button) const
 	{
 		return m_CurrentState.Gamepad.wButtons & button;

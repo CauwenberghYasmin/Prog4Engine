@@ -1,5 +1,6 @@
 #pragma once
 
+namespace dae {
 
 enum class InputState
 {
@@ -42,3 +43,4 @@ enum class InputKeybinds //how calc from XINput to normal input????
 	BUTTON_NORTH,
 	CONTROLLER_END,
 };
+}
