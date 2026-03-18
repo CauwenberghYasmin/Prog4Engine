@@ -18,6 +18,7 @@ namespace dae {
 	protected:
 		GameObject* m_GameObject; //cache object that calls it!
 		GameObject* GetGameObject() const { return m_GameObject; }
+
 	public:
 		explicit GameObjectCommand(GameObject* pGameObject);
 		virtual ~GameObjectCommand() = default;//don't delete -> does not own the pointer!
@@ -53,7 +54,7 @@ namespace dae {
 
 	private:
 		int m_AmountHealthChange{};
-		HealthComponent* m_ObjectsHealthComponent;
+		HealthComponent* m_ObjectsHealthComponent{};
 	};
 
 

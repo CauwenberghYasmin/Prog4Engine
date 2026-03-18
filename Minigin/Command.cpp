@@ -5,6 +5,7 @@
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
 #include <assert.h>
+#include "ObserverManager.h"
 
 namespace dae {
 
@@ -12,7 +13,7 @@ namespace dae {
 
 	//constructor base class -> derive from it an dcall the base constructor!
 	GameObjectCommand::GameObjectCommand(GameObject* pGameObject) :
-		m_GameObject{ pGameObject }
+		m_GameObject{ pGameObject } 
 	{
 	}
 
@@ -73,6 +74,8 @@ namespace dae {
 		
 		
 		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange); 
+		dae::ObserverManager::GetInstance().NotifyObserver(m_GameObject, Event::PlayerDies);
+		 
 		//Notify observers -> they will change the text
 	
 	}
