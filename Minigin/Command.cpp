@@ -67,14 +67,21 @@ namespace dae {
 	void HealthCommand::Execute()
 	{
 		assert(m_ObjectsHealthComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
-		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange);
-		//use m_AmountHealthChange
+		//instead of executing the changehealth here, we notify the observer here
+		// in the switch case in the observer, we do the actual health change
+		//the text component in main wi'll render the old result untill it has been updated.
+		
+		
+		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange); 
+		//Notify observers -> they will change the text
+	
 	}
 	
 	void ScoreCommand::Execute()
 	{
 		assert(m_ObjectsScoreComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
 		m_ObjectsScoreComponent->AddScorePoints(m_AmountScoreChange);
+		
 	}
 
 

@@ -14,7 +14,7 @@ namespace dae
 	{
 	public:
 		GameObject() = default;
-		~GameObject();
+		~GameObject() = default;
 
 		void Update();
 		void DelayUpdate();

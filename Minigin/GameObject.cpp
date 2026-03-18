@@ -7,8 +7,6 @@
 #include <glm/glm.hpp>
 
 
-dae::GameObject::~GameObject() = default;
-
 void dae::GameObject::Render() const
 {
 	for (auto& i : m_ComponentVector)
@@ -197,3 +195,5 @@ void dae::GameObject::SetPositionDirty()
 		child->SetPositionDirty();
 	}
 }
+
+
