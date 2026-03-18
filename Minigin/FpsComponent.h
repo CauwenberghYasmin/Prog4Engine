@@ -12,7 +12,7 @@ namespace dae
     class FPSComponent final: public Component
     {
     public:
-        FPSComponent(GameObject* pGameObject, int id) : 
+        FPSComponent(GameObject* pGameObject, int id) : //move constructor to cpp file!
             Component(pGameObject, id) {}
 
         virtual void Update() override;
