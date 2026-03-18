@@ -11,7 +11,7 @@ namespace dae {
 	class Binding
 	{
 	public:
-		Binding(std::unique_ptr<Command> command, int keyBind, InputState triggerState);
+		Binding(std::unique_ptr<Command>&& command, int keyBind, InputState triggerState);
 
 		~Binding() = default;
 

@@ -42,7 +42,10 @@ namespace dae
 
 	void ControllerInput::AddBinding(std::unique_ptr<Command>&& command, int keybind, InputState triggerState)
 	{
-		m_pBindings.emplace_back(std::make_unique<Binding>(std::move(command), keybind, triggerState));
+		std::unique_ptr binding = std::make_unique<Binding>(std::move(command), keybind, triggerState);
+
+		if (binding != nullptr)
+		m_pBindings.push_back(std::move(binding));
 	}
 
 	void ControllerInput::RemoveBinding(Binding* pBinding) //ask teacher if this is correct!!!

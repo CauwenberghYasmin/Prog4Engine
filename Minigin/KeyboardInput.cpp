@@ -13,7 +13,7 @@ void KeyboardInput::ProcessInput()
 	m_PreviousState = m_CurrentState;
 	m_CurrentState = SDL_GetKeyboardState(nullptr);
 
-	for (auto& binding : m_Bindings)
+	for (auto& binding : m_pBindings)
 	{
 		if (binding->m_TriggerState == InputState::JustPressed && WasPressedThisFrame(binding->m_KeyBind)) 
 			binding->m_Command->Execute();
@@ -30,7 +30,7 @@ void KeyboardInput::ProcessInput()
 void KeyboardInput::AddBinding(std::unique_ptr<Command>&& command, SDL_Scancode keybind, InputState triggerState)
 {
 	//int scancode = ConvertToScancode(keybind); //make convertor and put it in the function below!!
-	m_Bindings.emplace_back(std::make_unique<Binding>(std::move(command), keybind, triggerState));
+	m_pBindings.emplace_back(std::make_unique<Binding>(std::move(command), keybind, triggerState));
 }
 
 bool KeyboardInput::WasPressedThisFrame(unsigned int button) const

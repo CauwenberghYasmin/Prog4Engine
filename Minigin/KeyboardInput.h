@@ -28,7 +28,7 @@ private:
 	const bool* m_CurrentState{ nullptr };
 	const bool* m_PreviousState{ nullptr };
 
-	std::vector<std::unique_ptr<Binding>> m_Bindings;
+	std::vector<std::unique_ptr<Binding>> m_pBindings;
 };
 
 }

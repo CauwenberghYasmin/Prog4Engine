@@ -7,6 +7,8 @@
 #include <windows.h>
 #include <XInput.h>
 #include "KeyboardInput.h"
+#include <assert.h>
+
 namespace dae
 {
 
@@ -42,7 +44,7 @@ namespace dae
 
 	ControllerInput* InputManager::GetControllerInput(int controllerIndex)
 	{
-		if (controllerIndex < 4) return nullptr;
+		assert(controllerIndex < 4 && "index has to be between 0 and 3"); //index between 0-3!
 
 		return &m_ControllerInput[controllerIndex];
 	}

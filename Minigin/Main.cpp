@@ -152,7 +152,7 @@ void CallScene01()
 
 	float cookSpeed{ 9600.f };
 	inputManager.GetKeyboardInput()->AddBinding(
-		std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed)),SDL_SCANCODE_W, InputState::Pressed);
+		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed)),SDL_SCANCODE_W, InputState::Pressed);
 	inputManager.GetKeyboardInput()->AddBinding(
 		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Down, cookSpeed)),
 		SDL_SCANCODE_S, InputState::Pressed);
@@ -171,19 +171,19 @@ void CallScene01()
 	picture2->SetPosition(360, 360); 
 	hotdog->AddComponent(std::move(picture2));
 
-
-	//inputManager.GetControllerInput(0)->AddBinding(
-	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Up, 200.f)),
-	//	XINPUT_GAMEPAD_DPAD_UP, InputState::Pressed);
-	//inputManager.GetControllerInput(0)->AddBinding(
-	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Down, 200.f)),
-	//	XINPUT_GAMEPAD_DPAD_DOWN, InputState::Pressed);
-	//inputManager.GetControllerInput(0)->AddBinding(
-	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Left, 200.f)),
-	//	XINPUT_GAMEPAD_DPAD_LEFT, InputState::Pressed);
-	//inputManager.GetControllerInput(0)->AddBinding(
-	//	(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, 200.f)),
-	//	XINPUT_GAMEPAD_DPAD_RIGHT, InputState::Pressed);
+	float HotdogSpeed{ 15600.f };
+	inputManager.GetControllerInput(0)->AddBinding(
+		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Up, HotdogSpeed)),
+		XINPUT_GAMEPAD_DPAD_UP, InputState::Pressed);
+	inputManager.GetControllerInput(0)->AddBinding(
+		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Down, HotdogSpeed)),
+		XINPUT_GAMEPAD_DPAD_DOWN, InputState::Pressed);
+	inputManager.GetControllerInput(0)->AddBinding(
+		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Left, HotdogSpeed)),
+		XINPUT_GAMEPAD_DPAD_LEFT, InputState::Pressed);
+	inputManager.GetControllerInput(0)->AddBinding(
+		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
+		XINPUT_GAMEPAD_DPAD_RIGHT, InputState::Pressed);
 
 
 																			// give 0, instead of world pos parent!!! -> is local!!
