@@ -2,6 +2,9 @@
 #include "GameTime.h"
 #include "GameObject.h"
 #include <iostream>
+#include "HealthComponent.h"
+#include "ScoreComponent.h"
+#include <assert.h>
 
 namespace dae {
 
@@ -23,6 +26,18 @@ namespace dae {
 	{
 	}
 
+	HealthCommand::HealthCommand(GameObject* pGameObject, int ChangeHealthAmount) :
+		GameObjectCommand(pGameObject), m_AmountHealthChange (ChangeHealthAmount)
+	{
+		m_ObjectsHealthComponent = m_GameObject->GetComponent<HealthComponent>(); //cashing health component
+	}
+
+
+	ScoreCommand::ScoreCommand(GameObject* pGameObject, int ChangeScorePoints) :
+		GameObjectCommand(pGameObject), m_AmountScoreChange(ChangeScorePoints)
+	{
+		m_ObjectsScoreComponent = m_GameObject->GetComponent<ScoreComponent>(); //cashing health component
+	}
 
 
 	void MoveCommand::Execute() //how to I pass the direction enum??
@@ -49,6 +64,21 @@ namespace dae {
 		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + (displacementVector * deltaTime));
 	}
 
+	void HealthCommand::Execute()
+	{
+		assert(m_ObjectsHealthComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
+		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange);
+		//use m_AmountHealthChange
+	}
+	
+	void ScoreCommand::Execute()
+	{
+		assert(m_ObjectsScoreComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
+		m_ObjectsScoreComponent->AddScorePoints(m_AmountScoreChange);
+	}
+
+
+
 	void SprayCommand::Execute()
 	{
 		//GetGameActor()->Spray(); //put in cpp file so can include the h file
@@ -59,4 +89,5 @@ namespace dae {
 			//make somewhere a collision system so that the enemies know what they are hit
 			//make counter of amount of sprays go down (event system?)
 	}
+
 }

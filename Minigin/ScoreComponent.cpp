@@ -5,7 +5,7 @@
 namespace dae {
 
 
-ScoreComponent::ScoreComponent(GameObject* pGameObject, int id, int startingScore)
+ScoreComponent::ScoreComponent(GameObject* pGameObject, int id, int startingScore) //startingscore = 0
 	:Component(pGameObject, id), m_CurrentScore(startingScore) //starting score in case scores get transferred through levels, etc.
 {
 }

@@ -1,5 +1,4 @@
 #pragma once
-
 //go  over inheritance notes again to make sure!! (virtual, etc...)
 
 namespace dae {
@@ -41,6 +40,38 @@ namespace dae {
 		float m_Speed{}; //not const yet, should find way to change it!
 		//don't cache gameObject again, it'a already saved in parent class
 	};
+
+
+
+
+	class HealthComponent;
+	class HealthCommand : public GameObjectCommand {
+	public:
+
+		explicit HealthCommand(GameObject* pGameObject, int ChangeHealthAmount); //add neg for damage, pos for heal!
+		void Execute() override; //implement code from the moveComponent (is deleted now)
+
+	private:
+		int m_AmountHealthChange{};
+		HealthComponent* m_ObjectsHealthComponent;
+	};
+
+
+
+
+
+	class ScoreComponent;
+	class ScoreCommand : public GameObjectCommand {
+	public:
+
+		explicit ScoreCommand(GameObject* pGameObject, int ChangeScorePoints); //add neg for damage, pos for heal!
+		void Execute() override; //implement code from the moveComponent (is deleted now)
+
+	private:
+		int m_AmountScoreChange{};
+		ScoreComponent* m_ObjectsScoreComponent;
+	};
+
 
 
 

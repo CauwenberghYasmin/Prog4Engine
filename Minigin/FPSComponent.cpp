@@ -20,7 +20,7 @@ void dae::FPSComponent::Update() {
 
         if (std::abs(fps - pastFps) > 0.1f)
         {
-            auto textComp = GetOwner()->Get<TextComponent>();
+            auto textComp = GetOwner()->GetComponent<TextComponent>();
             if (textComp) {
                 textComp->SetText(std::format("{:.1f} FPS", fps));
             }

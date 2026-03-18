@@ -51,7 +51,7 @@ namespace dae
 		}
 		
 		template<typename T>
-		T* Get(int id)	//used most
+		T* GetComponent(int id)	//used most
 		{
 			for (auto& i : m_ComponentVector)
 			{
@@ -67,7 +67,7 @@ namespace dae
 
 
 		template<typename T>
-		T* Get()	//overloading, will be used less
+		T* GetComponent()	//overloading, will be used less
 		{
 			for (auto& component : m_ComponentVector)
 			{

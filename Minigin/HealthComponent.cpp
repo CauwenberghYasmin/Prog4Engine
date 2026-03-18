@@ -25,14 +25,15 @@ bool HealthComponent::isDead()	//will later properly add an event dispatcher whe
 	return false;
 }
 
-void HealthComponent::DoDamage(int amountDamage)
-{
-	m_CurrentHealth -= amountDamage;
+//void HealthComponent::DoDamage(int amountDamage)
+//{
+//	m_CurrentHealth -= amountDamage;
+//
+//	if (m_CurrentHealth < 0)
+//		m_CurrentHealth = 0;
+//}
 
-	if (m_CurrentHealth < 0)
-		m_CurrentHealth = 0;
-}
-void HealthComponent::HealCharacter(int amountHealing)
+void HealthComponent::ChangeHealth(int amountHealing)
 {
 	m_CurrentHealth += amountHealing;
 }

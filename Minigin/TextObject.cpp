@@ -39,7 +39,7 @@ void dae::TextComponent::Update()
 
 void dae::TextComponent::Render() //need reference to render component
 {
-	auto renderComp = GetOwner()->Get<dae::RenderComponent>(); //get's first render object of the gameObject!, so one object can't have multiple text components...
+	auto renderComp = GetOwner()->GetComponent<dae::RenderComponent>(); //get's first render object of the gameObject!, so one object can't have multiple text components...
 
 	renderComp->SetPosition(m_transform.GetPosition().x, m_transform.GetPosition().y);
 	renderComp->SetTexture2D(m_textTexture);

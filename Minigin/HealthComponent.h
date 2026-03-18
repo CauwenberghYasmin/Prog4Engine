@@ -13,8 +13,8 @@ namespace dae
 
         int GetCurrentHealth();
         bool isDead();
-        void DoDamage(int amountDamage);
-        void HealCharacter(int amountHealing);
+        //void DoDamage(int amountDamage);
+        void ChangeHealth(int amountHealthChange); //add pos for healing, add negative for damage
         void ResetHealth();
 
         HealthComponent(const HealthComponent&) = delete;
