@@ -121,8 +121,33 @@ void CallScene01()
 
 	auto textRenderer = std::make_unique<dae::RenderComponent>(textObject.get(), 13);
 	textObject->AddComponent(std::move(textRenderer));	//everything that wants to get rendered (like text) needs a render component!
-
 	scene.Add(std::move(textObject));
+
+	//----controls------
+	auto ControlsTextObject = std::make_unique<dae::GameObject>();
+
+	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 21);
+	auto textControllerComponent = std::make_unique<dae::TextComponent>(ControlsTextObject.get(), "Use D-Pad to move HotDogMan, x to inflict damage, and A to pick up pellets.", textFont, 1); //don't need this component ref anymore, so no need to safe the id
+	textControllerComponent->SetColor({ 255, 255, 255, 255 });
+	textControllerComponent->SetPosition(10, 100);
+	ControlsTextObject->AddComponent(std::move(textControllerComponent));
+
+	auto textControllerRenderer = std::make_unique<dae::RenderComponent>(ControlsTextObject.get(), 17);
+	ControlsTextObject->AddComponent(std::move(textControllerRenderer));	//everything that wants to get rendered (like text) needs a render component!
+	scene.Add(std::move(ControlsTextObject));
+	//-------------
+	auto ControlsTextObject2 = std::make_unique<dae::GameObject>();
+
+	auto textControllerComponent2 = std::make_unique<dae::TextComponent>(ControlsTextObject2.get(), "Use WASD to move Chef, Z to inflict damage, and X to pick up pellets. ", textFont, 1);
+	textControllerComponent2->SetColor({ 255, 255, 255, 255 });
+	textControllerComponent2->SetPosition(10, 130);
+	ControlsTextObject2->AddComponent(std::move(textControllerComponent2));
+
+	auto textControllerRenderer2 = std::make_unique<dae::RenderComponent>(ControlsTextObject2.get(), 17);
+	ControlsTextObject2->AddComponent(std::move(textControllerRenderer2));
+	scene.Add(std::move(ControlsTextObject2));
+
+	//-----end controlls-----
 
 	//add fps component -> has on it's own: 
 	auto fpsObject = std::make_unique<dae::GameObject>();
@@ -136,7 +161,7 @@ void CallScene01()
 	fpsObject->AddComponent(std::move(fpsComp));
 	scene.Add(std::move(fpsObject));
 
-	//----------------birds------------------------
+	//----------------Players------------------------
 
 	auto cook = std::make_unique<dae::GameObject>();
 	auto picture = std::make_unique<dae::RenderComponent>(cook.get(), 563);
@@ -146,8 +171,6 @@ void CallScene01()
 
 	//auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{ 270, 270, 0}, true, 2.f);
 	//Bird->AddComponent(std::move(rotator));
-	//-> add move instead
-	//so lowkey like "create binding, this thing calls thing function" 
 	
 
 	float cookSpeed{ 9600.f };
@@ -189,8 +212,6 @@ void CallScene01()
 																			// give 0, instead of world pos parent!!! -> is local!!
 	//auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 513, glm::vec3{ 0, 0, 0 }, false, 4.f);
 	//Bird2->AddComponent(std::move(rotator2));
-	//same here, add move!
-
 	//Bird2->SetParent(Bird.get(), false);
 
 	scene.Add(std::move(cook));
