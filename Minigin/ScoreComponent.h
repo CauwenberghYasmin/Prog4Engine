@@ -21,6 +21,9 @@ namespace dae
         ScoreComponent(const ScoreComponent&) = delete;
         ScoreComponent& operator=(const ScoreComponent&) = delete;
 
+        void Render() {}; //adding these because both are pure functions
+        void Update() {};
+
     private:
         int m_CurrentScore{};
     };

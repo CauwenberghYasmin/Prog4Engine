@@ -14,6 +14,8 @@
 #include "Scene.h"
 #include "FpsComponent.h"
 #include "RenderComponent.h"
+#include "HealthComponent.h"
+#include "ScoreComponent.h"
 #include "RotatorComponent.h"
 #include <filesystem>
 #include "InputManager.h"
@@ -127,7 +129,7 @@ void CallScene01()
 	auto ControlsTextObject = std::make_unique<dae::GameObject>();
 
 	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 21);
-	auto textControllerComponent = std::make_unique<dae::TextComponent>(ControlsTextObject.get(), "Use D-Pad to move HotDogMan, x to inflict damage, and A to pick up pellets.", textFont, 1); //don't need this component ref anymore, so no need to safe the id
+	auto textControllerComponent = std::make_unique<dae::TextComponent>(ControlsTextObject.get(), "Use D-Pad to move HotDogMan, X to inflict damage, and A to pick up pellets.", textFont, 1); //don't need this component ref anymore, so no need to safe the id
 	textControllerComponent->SetColor({ 255, 255, 255, 255 });
 	textControllerComponent->SetPosition(10, 100);
 	ControlsTextObject->AddComponent(std::move(textControllerComponent));
@@ -169,13 +171,18 @@ void CallScene01()
 	picture->SetPosition(300, 300); 
 	cook->AddComponent(std::move(picture));
 
-	//auto rotator = std::make_unique<dae::RotatorComponent>(Bird.get(), 523, glm::vec3{ 270, 270, 0}, true, 2.f);
-	//Bird->AddComponent(std::move(rotator));
+	//adding health component
+	auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 37802, 3);
+	cook->AddComponent(std::move(HealthComponent));
+
+	auto ScoreComponent = std::make_unique<dae::ScoreComponent>(cook.get(), 372102);
+	cook->AddComponent(std::move(ScoreComponent));
 	
 
 	float cookSpeed{ 9600.f };
 	inputManager.GetKeyboardInput()->AddBinding(
-		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed)),SDL_SCANCODE_W, InputState::Pressed);
+		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed))
+		,SDL_SCANCODE_W, InputState::Pressed);
 	inputManager.GetKeyboardInput()->AddBinding(
 		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Down, cookSpeed)),
 		SDL_SCANCODE_S, InputState::Pressed);
@@ -186,13 +193,29 @@ void CallScene01()
 		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
 		SDL_SCANCODE_D, InputState::Pressed);
 
+	//added binding, but still need to add component + set starting health 
+	const int amountLivesTaken{ -1 };
+	inputManager.GetKeyboardInput()->AddBinding(
+		(std::make_unique<dae::HealthCommand>(cook.get(), amountLivesTaken)),
+		SDL_SCANCODE_Z, InputState::Pressed);
+	const int amountScoreAdded {150};
+	inputManager.GetKeyboardInput()->AddBinding(
+		(std::make_unique<dae::HealthCommand>(cook.get(), amountScoreAdded)),
+		SDL_SCANCODE_X, InputState::Pressed);
 
-
+	//----------------------hotdog man---------------------------------------
 	auto hotdog = std::make_unique<dae::GameObject>();
 	auto picture2 = std::make_unique<dae::RenderComponent>(hotdog.get(), 576);
 	picture2->SetTexture("ForwardHotDog.png");
 	picture2->SetPosition(360, 360); 
 	hotdog->AddComponent(std::move(picture2));
+
+	//adding health component
+	auto HealthComponent2 = std::make_unique<dae::HealthComponent>(hotdog.get(), 4135, 3);
+	hotdog->AddComponent(std::move(HealthComponent2));
+
+	auto ScoreComponent2 = std::make_unique<dae::ScoreComponent>(hotdog.get(), 12589);
+	hotdog->AddComponent(std::move(ScoreComponent2));
 
 	float HotdogSpeed{ 15600.f };
 	inputManager.GetControllerInput(0)->AddBinding(
@@ -208,6 +231,14 @@ void CallScene01()
 		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
 		XINPUT_GAMEPAD_DPAD_RIGHT, InputState::Pressed);
 
+	const int amountLivesTaken2{ -1 };
+	inputManager.GetControllerInput(0)->AddBinding(
+		(std::make_unique<dae::HealthCommand>(hotdog.get(), amountLivesTaken2)),
+		XINPUT_GAMEPAD_X, InputState::Pressed);
+	const int amountScoreAdded2{ 150 };
+	inputManager.GetControllerInput(0)->AddBinding(
+		(std::make_unique<dae::HealthCommand>(hotdog.get(), amountScoreAdded2)),
+		XINPUT_GAMEPAD_A, InputState::Pressed);
 
 																			// give 0, instead of world pos parent!!! -> is local!!
 	//auto rotator2 = std::make_unique<dae::RotatorComponent>(Bird2.get(), 513, glm::vec3{ 0, 0, 0 }, false, 4.f);

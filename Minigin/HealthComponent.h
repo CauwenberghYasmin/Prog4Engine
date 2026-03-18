@@ -17,6 +17,9 @@ namespace dae
         void ChangeHealth(int amountHealthChange); //add pos for healing, add negative for damage
         void ResetHealth();
 
+        void Render() {}; //adding these because both are pure functions
+        void Update() {};
+
         HealthComponent(const HealthComponent&) = delete;
         HealthComponent& operator=(const HealthComponent&) = delete;
 
