@@ -112,7 +112,7 @@ bool dae::GameObject::IsChild(GameObject* object)
 
 void dae::GameObject::AddChild(GameObject* child) //ASK FEEDBACK
 {
-	if (child == nullptr || child->GetParent() == this)
+	if (child == nullptr)
 		return;
 
 	m_pChildren.emplace_back(child);

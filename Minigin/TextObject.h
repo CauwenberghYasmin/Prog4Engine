@@ -10,6 +10,7 @@ namespace dae
 	class Font;
 	class Texture2D;
 	class GameObject;
+	class RenderComponent;
 	class TextComponent final : public Component
 	{
 	public:
@@ -20,7 +21,8 @@ namespace dae
 		void SetPosition(float x, float y);
 		void SetColor(const SDL_Color& color);
 
-		TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color = { 255, 255, 255, 255 });
+		TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, int renderID, const SDL_Color& color = { 255, 255, 255, 255 });
+		TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color = { 255, 255, 255, 255 }); //overloading to find specific render instance
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
@@ -31,8 +33,12 @@ namespace dae
 		std::string m_text{};
 		SDL_Color m_color{ 255, 255, 255, 255 };
 		Transform m_transform{};
+		int m_RenderID{};
+		RenderComponent* m_pRenderComponent{};
 		std::shared_ptr<Font> m_font{};
-
 		std::shared_ptr<Texture2D> m_textTexture{};
+
+
+		bool m_RendererFound{ false };
 	};
 }

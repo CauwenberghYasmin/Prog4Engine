@@ -5,17 +5,24 @@
 #include "Font.h"
 #include "Texture2D.h"
 #include "Component.h"
-
 #include "GameObject.h"
 #include "RenderComponent.h"
 
 
 
-dae::TextComponent::TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color)
+dae::TextComponent::TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color) //add render component id?
 	: Component(pGameObject, id),
-	m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr)
-	
-{ }
+	m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr), m_RenderID(0)
+{	
+
+}
+
+
+dae::TextComponent::TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, int renderID, const SDL_Color& color) //add render component id?
+	: Component(pGameObject, id),
+	m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr), m_RenderID(renderID)
+{	
+}
 
 void dae::TextComponent::Update()
 {
@@ -39,10 +46,21 @@ void dae::TextComponent::Update()
 
 void dae::TextComponent::Render() //need reference to render component
 {
-	auto renderComp = GetOwner()->GetComponent<dae::RenderComponent>(); //get's first render object of the gameObject!, so one object can't have multiple text components...
+	if (m_RenderID == 0 && m_RendererFound ==false)
+	{
+		m_pRenderComponent = (GetOwner()->GetComponent<RenderComponent>());
+		m_RendererFound = true;
+	}
+	if (m_RenderID != 0 && m_RendererFound == false)
+	{
+		m_pRenderComponent = (GetOwner()->GetComponent<RenderComponent>(m_RenderID));
+		m_RendererFound = true;
+	}
 
-	renderComp->SetPosition(m_transform.GetPosition().x, m_transform.GetPosition().y);
-	renderComp->SetTexture2D(m_textTexture);
+	m_pRenderComponent->SetPosition(m_transform.GetPosition().x, m_transform.GetPosition().y);
+	m_pRenderComponent->SetTexture2D(m_textTexture);
+
+
 }
 
 void dae::TextComponent::SetText(const std::string& text)

@@ -1,6 +1,7 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "ObserverManager.h"
 
 namespace dae {
 
@@ -36,6 +37,7 @@ bool HealthComponent::isDead()	//will later properly add an event dispatcher whe
 void HealthComponent::ChangeHealth(int amountHealing)
 {
 	m_CurrentHealth += amountHealing;
+	dae::ObserverManager::GetInstance().NotifyObserver(GetOwner(), Event::PlayerDies);
 }
 
 void HealthComponent::ResetHealth()

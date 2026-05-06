@@ -57,7 +57,7 @@ namespace dae
 			{
 				if (i.second == id)
 				{
-					return i.first.get(); //check with teach if this smart, or to make is a shared pointer
+					return static_cast<T*>(i.first.get()); //check with teach if this smart, or to make is a shared pointer
 				} //inside game object, might still use the pointer for other functions...? (like update?), or is that in their own derived class
 				//can also return a raw pointer with .get, but then you need to make sure to always delete it!!
 			}

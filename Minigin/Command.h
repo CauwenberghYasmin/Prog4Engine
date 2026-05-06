@@ -49,11 +49,12 @@ namespace dae {
 	class HealthCommand : public GameObjectCommand {
 	public:
 
-		explicit HealthCommand(GameObject* pGameObject, int ChangeHealthAmount); //add neg for damage, pos for heal!
+		explicit HealthCommand(GameObject* pGameObject, int ChangeHealthAmount, GameObject* textDisplay); //add neg for damage, pos for heal!
 		void Execute() override; //implement code from the moveComponent (is deleted now)
 
 	private:
 		int m_AmountHealthChange{};
+		GameObject* m_TextDisplay{};
 		HealthComponent* m_ObjectsHealthComponent{};
 	};
 
