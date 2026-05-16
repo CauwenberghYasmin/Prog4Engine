@@ -249,7 +249,7 @@ void CallScene01()
 
 	inputManager.GetKeyboardInput()->AddBinding(
 		(std::make_unique<dae::HealthCommand>(cook.get(), -1)),
-		SDL_SCANCODE_X, InputState::Pressed); //should be justpressed or just released BOTH DONT WORK YET
+		SDL_SCANCODE_X, InputState::JustPressed); //should be justpressed or just released BOTH DONT WORK YET
 
 	scene.Add(std::move(cook));
 	}

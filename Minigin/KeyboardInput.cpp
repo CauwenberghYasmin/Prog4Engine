@@ -7,11 +7,15 @@
 
 namespace dae {
 
-
 void KeyboardInput::ProcessInput()
 {
-	m_PreviousState = m_CurrentState;
-	m_CurrentState = SDL_GetKeyboardState(nullptr);
+	int numKeys;
+	m_CurrentState = SDL_GetKeyboardState(&numKeys);
+
+	if (m_PreviousState.empty()) //for first very frame game!
+	{
+		m_PreviousState.assign(m_CurrentState, m_CurrentState + numKeys);
+	}
 
 	for (auto& binding : m_pBindings)		//FIX JUST PRESSED AND JUST RELEASED
 	{
@@ -24,22 +28,19 @@ void KeyboardInput::ProcessInput()
 		if (binding->m_TriggerState == InputState::Pressed && IsButtonPressed(binding->m_KeyBind))
 			binding->m_Command->Execute();
 	}
+
+	m_PreviousState.assign(m_CurrentState, m_CurrentState + numKeys); //at end!
 }
 
 
 void KeyboardInput::AddBinding(std::unique_ptr<Command>&& command, SDL_Scancode keybind, InputState triggerState)
 {
-	//int scancode = ConvertToScancode(keybind); //make convertor and put it in the function below!!
 	m_pBindings.emplace_back(std::make_unique<Binding>(std::move(command), keybind, triggerState));
 }
 
 bool KeyboardInput::WasPressedThisFrame(unsigned int button) const
 {
-	if (m_PreviousState == nullptr)
-		return m_CurrentState[button];
-
-	bool didButtonChange = m_CurrentState[button] ^ m_PreviousState[button];
-	return didButtonChange && m_CurrentState[button];
+	return m_CurrentState[button] && !m_PreviousState[button];
 }
 
 bool KeyboardInput::IsButtonPressed(unsigned int button) const
@@ -49,12 +50,7 @@ bool KeyboardInput::IsButtonPressed(unsigned int button) const
 
 bool KeyboardInput::WasReleasedThisFrame(unsigned int button) const
 {
-	if (m_PreviousState == nullptr)
-		return !m_CurrentState[button];
-
-
-	bool didButtonChange = m_CurrentState[button] ^ m_PreviousState[button];
-	return didButtonChange && !m_CurrentState[button];
+	return !m_CurrentState[button] && m_PreviousState[button];
 }
 
 

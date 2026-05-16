@@ -23,10 +23,10 @@ public:
 	void AddBinding(std::unique_ptr<Command>&& command, SDL_Scancode keybind, InputState triggerState);
 
 private:
-	//int ConvertToScancode(InputKeybinds keybind);
+	//checkExist()
 
-	const bool* m_CurrentState{ nullptr };
-	const bool* m_PreviousState{ nullptr };
+	std::vector<Uint8> m_PreviousState; //apparently arrya and not pointer???
+	const bool* m_CurrentState = nullptr;
 
 	std::vector<std::unique_ptr<Binding>> m_pBindings;
 };

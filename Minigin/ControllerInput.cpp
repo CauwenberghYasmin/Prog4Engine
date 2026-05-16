@@ -22,7 +22,7 @@ namespace dae
 		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 
 		XInputGetState(m_ControllerIndex, &m_CurrentState);
-		auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ previousState.Gamepad.wButtons;
+		auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ previousState.Gamepad.wButtons; //XOR OPERATION 
 		m_ButtonsPressedThisFrame = buttonChanges & m_CurrentState.Gamepad.wButtons;
 		m_ButtonsReleasedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
 
