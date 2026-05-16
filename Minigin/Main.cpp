@@ -1,11 +1,13 @@
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
 
 #if _DEBUG
 	#if __has_include(<vld.h>)
 	#include <vld.h>
 	#endif
 #endif
+
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
+
 
 #include "Minigin.h"
 #include "SceneManager.h"
@@ -22,7 +24,6 @@
 #include "InputOptions.h"
 #include "Command.h"
 #include "KeyboardInput.h"
-#include "Xinput.h"
 #include <string>
 #include "ObserverManager.h"
 #include "Observer.h"
@@ -212,16 +213,16 @@ void CallScene01()
 	float HotdogSpeed{ 15600.f };
 	inputManager.GetControllerInput(0)->AddBinding(
 		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Up, HotdogSpeed)),
-		XINPUT_GAMEPAD_DPAD_UP, InputState::Pressed);
+		ControllerInputs::DPAD_UP, InputState::Pressed);
 	inputManager.GetControllerInput(0)->AddBinding(
 		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Down, HotdogSpeed)),
-		XINPUT_GAMEPAD_DPAD_DOWN, InputState::Pressed);
+		ControllerInputs::DPAD_DOWN, InputState::Pressed);
 	inputManager.GetControllerInput(0)->AddBinding(
 		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Left, HotdogSpeed)),
-		XINPUT_GAMEPAD_DPAD_LEFT, InputState::Pressed);
+		ControllerInputs::DPAD_LEFT, InputState::Pressed);
 	inputManager.GetControllerInput(0)->AddBinding(
 		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
-		XINPUT_GAMEPAD_DPAD_RIGHT, InputState::Pressed);
+		ControllerInputs::DPAD_RIGHT, InputState::Pressed);
 	
 	scene.Add(std::move(hotdog));
 	

@@ -15,7 +15,7 @@ namespace dae
 	
 	private:
 
-		ControllerInput m_ControllerInput[4]{ 0, 1, 2, 3 }; //set max to 4!!
+		ControllerInput m_ControllerInput[2]{ 0, 1}; //we have max 2 plaeyrs
 		KeyboardInput m_KeyboardInput{};
 	};
 

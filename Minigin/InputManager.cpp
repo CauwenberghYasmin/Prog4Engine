@@ -1,11 +1,9 @@
-#include <SDL3/SDL.h>
+
 #include "InputManager.h"
 #include "ControllerInput.h"
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
 #include "InputManager.h"
-#include <windows.h>
-#include <XInput.h>
 #include "KeyboardInput.h"
 #include <assert.h>
 
@@ -44,7 +42,7 @@ namespace dae
 
 	ControllerInput* InputManager::GetControllerInput(int controllerIndex)
 	{
-		assert(controllerIndex < 4 && "index has to be between 0 and 3"); //index between 0-3!
+		assert(controllerIndex < 2 && "only 0 and 1"); //index between 0-3!
 
 		return &m_ControllerInput[controllerIndex];
 	}
