@@ -36,8 +36,8 @@ namespace dae
 		Transform m_transform{};
 		int m_RenderID{};
 		std::shared_ptr<Font> m_font{};
-		std::shared_ptr<Texture2D> m_textTexture{};
 		RenderComponent* m_pRenderComponent{};
+		std::shared_ptr<Texture2D> m_textTexture{};
 
 
 		bool m_RendererFound{ false };
