@@ -35,9 +35,9 @@ namespace dae
 		SDL_Color m_color{ 255, 255, 255, 255 };
 		Transform m_transform{};
 		int m_RenderID{};
-		RenderComponent* m_pRenderComponent{};
 		std::shared_ptr<Font> m_font{};
 		std::shared_ptr<Texture2D> m_textTexture{};
+		RenderComponent* m_pRenderComponent{};
 
 
 		bool m_RendererFound{ false };
