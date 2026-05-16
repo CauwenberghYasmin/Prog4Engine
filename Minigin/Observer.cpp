@@ -3,32 +3,37 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
-#include "TextObject.h"
+#include "TextComponent.h"
 
 namespace dae 
 {
 
 
-	GameEvent::GameEvent() :
-		IObserver()
+	GameEvent::GameEvent(GameObject* listener) :
+		m_pListener (listener),IObserver()
 	{
 	}
 
 
-
-	//maybe change it so that notify passes the origin and the destination: (passes cook and the textobject:
-	// needs cook to get the health (origin)
-	// needs text to set the text (destination!))
-	//=> this way we dont have the render issue!!!
 	void GameEvent::Notify(Event event, GameObject* actor)
 	{
 
 		switch (event) {
 		case Event::PlayerDies:
-			int newHealth{ actor->GetComponent<HealthComponent>()->GetCurrentHealth() }; //need cook component
-			std::string newText{ std::string("Amount Lives: " + std::to_string(newHealth)) }; //need text component
-			actor->GetComponent <TextComponent>()->SetText(std::string(newText));
-			break;
+			if (event == Event::PlayerDies)
+			{
+				HealthComponent* pHealth = actor->GetComponent<HealthComponent>();
+				TextComponent* m_pTextComponent = m_pListener->GetComponent<TextComponent>(); //prefer to cash it somewhere, but it's all pretty hard coded here
+																							 //not in constructor, since now it's gameobject and not component -> BETTER
+				if (pHealth != nullptr && m_pTextComponent != nullptr)
+				{
+					int currentHealth = pHealth->GetCurrentHealth();
+
+					std::string newText = "Amount Lives: " + std::to_string(currentHealth);
+					m_pTextComponent->SetText(newText);
+				}
+			}
+
 			//case Event::PlayerRecievesScore:
 			//	break;
 		}

@@ -7,7 +7,7 @@ namespace dae
     class HealthComponent final : public Component
     {
     public:
-        HealthComponent(GameObject* pGameObject, int id, int startingHealth);
+        HealthComponent(GameObject* pGameObject, int startingHealth, int id = 0 );
         ~HealthComponent() = default;
        
 

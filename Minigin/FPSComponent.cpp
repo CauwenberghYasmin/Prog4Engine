@@ -1,6 +1,6 @@
 #include "FpsComponent.h"
 #include "GameTime.h"
-#include "TextObject.h"
+#include "TextComponent.h"
 #include "Component.h"
 #include "GameObject.h"
 #include <string>

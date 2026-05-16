@@ -18,11 +18,12 @@ namespace dae
 		void Render() override;
 
 		void SetText(const std::string& text);
+		std::string GetText();
 		void SetPosition(float x, float y);
 		void SetColor(const SDL_Color& color);
 
 		TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, int renderID, const SDL_Color& color = { 255, 255, 255, 255 });
-		TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id, const SDL_Color& color = { 255, 255, 255, 255 }); //overloading to find specific render instance
+		TextComponent(GameObject* pGameObject, const std::string& text, std::shared_ptr<Font> font, int id = 0, const SDL_Color& color = { 255, 255, 255, 255 }); //overloading to find specific render instance
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;

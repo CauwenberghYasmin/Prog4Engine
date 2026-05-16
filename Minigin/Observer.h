@@ -2,7 +2,8 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
-#include "TextObject.h"
+#include "TextComponent.h"
+#include "Component.h"
 
 
 namespace dae {
@@ -22,6 +23,22 @@ struct IObserver
 	virtual ~IObserver() = default;
 	virtual void Notify(Event event, GameObject* actor) = 0;
 };
+
+class GameEvent : public IObserver //used for display
+{
+public:
+	GameEvent(GameObject* listener); //component is the listener
+
+	void Notify(Event event, GameObject* actor) override; //pass subject here
+private:
+	GameObject* m_pListener;
+};
+
+//ALSO ADD EVENT BUSS
+//TYPE WHERE YOU DONT CASH ANYTHING
+//YOU JUST ADD AN EXTRA PARAMETER IN NOTIFY
+//EX: an enemy died, 100 points
+//so it can update the score
 
 
 //class Achievement : public IObserver
@@ -44,16 +61,6 @@ struct IObserver
 //};
 
 
-class GameEvent : public IObserver //used for display
-{
-public:
-	GameEvent();
-
-	void Notify(Event event, GameObject* actor) override;
-private:
-	//create TextObject here and make the observer draw it?
-	//try cashing the component?
-};
 
 
 

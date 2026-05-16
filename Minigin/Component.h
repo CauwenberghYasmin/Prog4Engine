@@ -7,7 +7,7 @@ namespace dae
 	class Component//make template so the parameter list can be anything
 	{
 	public:
-		explicit Component(GameObject* owner, int id);
+		explicit Component(GameObject* owner, int id = 0);
 		virtual ~Component() = default;
 
 		virtual void Render() = 0;

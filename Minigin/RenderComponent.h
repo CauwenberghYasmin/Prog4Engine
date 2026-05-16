@@ -12,7 +12,7 @@ namespace dae
     class RenderComponent final : public Component //can only render 1 tthing at a time!!
     {
     public:
-        RenderComponent(GameObject* pGameObject, int id):
+        RenderComponent(GameObject* pGameObject, int id = 0):
             Component(pGameObject, id) {
         }
         ~RenderComponent() = default;

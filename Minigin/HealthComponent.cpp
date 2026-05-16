@@ -37,7 +37,7 @@ bool HealthComponent::isDead()	//will later properly add an event dispatcher whe
 void HealthComponent::ChangeHealth(int amountHealing)
 {
 	m_CurrentHealth += amountHealing;
-	dae::ObserverManager::GetInstance().NotifyObserver(GetOwner(), Event::PlayerDies);
+	dae::ObserverManager::GetInstance().NotifyObserver(GetOwner(), Event::PlayerDies); //yes this is how to send stuff!
 }
 
 void HealthComponent::ResetHealth()

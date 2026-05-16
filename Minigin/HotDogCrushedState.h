@@ -1,13 +1,15 @@
 #pragma once
+#include "HotDogState.h"
 
 //when die by hamburger
-class HotDogCrushedState final
+class HotDogCrushedState final : public HotDogState
 {
 public:
-
+	//once in crush state:
+	//return to pool
+	//wait for command to be revived (new level?)
 
 private:
-	//save target (determines which direction the hotdog should walk towards)
-	//THEY DONT GO BACKWARDS, SO ONLY RECALC AFTER LADDER
+
 
 };

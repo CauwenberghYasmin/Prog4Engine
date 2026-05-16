@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include"Component.h"
-#include "TextObject.h"
+#include "TextComponent.h"
 #include<memory>
 #include <SDL3/SDL.h>
 
@@ -12,7 +12,7 @@ namespace dae
     class FPSComponent final: public Component
     {
     public:
-        FPSComponent(GameObject* pGameObject, int id) : //move constructor to cpp file!
+        FPSComponent(GameObject* pGameObject, int id = 0) : //move constructor to cpp file!
             Component(pGameObject, id) {}
 
         virtual void Update() override;

@@ -27,8 +27,8 @@ namespace dae {
 	{
 	}
 
-	HealthCommand::HealthCommand(GameObject* pGameObject, int ChangeHealthAmount, GameObject* textDisplay) :
-		GameObjectCommand(pGameObject), m_AmountHealthChange (ChangeHealthAmount), m_TextDisplay(textDisplay)
+	HealthCommand::HealthCommand(GameObject* pGameObject, int ChangeHealthAmount) :
+		GameObjectCommand(pGameObject), m_AmountHealthChange (ChangeHealthAmount)
 	{
 		m_ObjectsHealthComponent = m_GameObject->GetComponent<HealthComponent>(); //cashing health component
 	}
@@ -67,17 +67,9 @@ namespace dae {
 
 	void HealthCommand::Execute()
 	{
-		assert(m_ObjectsHealthComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
-		//instead of executing the changehealth here, we notify the observer here
-		// in the switch case in the observer, we do the actual health change
-		//the text component in main wi'll render the old result untill it has been updated.
-		
-		
-		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange); 
-		dae::ObserverManager::GetInstance().NotifyObserver(m_TextDisplay, Event::PlayerDies); //can change text display to getOwner()->getCOmponent<textObject>
-		 
-		//Notify observers -> they will change the text
-	
+		assert(m_ObjectsHealthComponent != nullptr && "Healthcomponent = nullptr command");
+
+		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange); //inside here observer!
 	}
 	
 	void ScoreCommand::Execute()

@@ -62,7 +62,7 @@ namespace dae
 				//can also return a raw pointer with .get, but then you need to make sure to always delete it!!
 			}
 
-			return nullptr; //safety net?
+			return nullptr; //safety net
 		}
 
 

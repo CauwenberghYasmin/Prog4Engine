@@ -1,13 +1,15 @@
 #pragma once
+#include "HotDogState.h"
 
 //PEPPER SPRAY
-class HotDogStunState final
+class HotDogStunState final : public HotDogState
 {
 public:
-
+	//in stun: have a timer
+	//timer runs out = go back to walking state
+	//while timer out: set bool for not attacking: player wont take damage
 
 private:
-	//save target (determines which direction the hotdog should walk towards)
-	//THEY DONT GO BACKWARDS, SO ONLY RECALC AFTER LADDER
+
 
 };

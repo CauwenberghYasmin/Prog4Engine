@@ -10,7 +10,7 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "TextObject.h"
+#include "TextComponent.h"
 #include "Scene.h"
 #include "FpsComponent.h"
 #include "RenderComponent.h"
@@ -108,7 +108,7 @@ void CallScene01()
 
 	auto scene01 = std::make_unique<dae::GameObject>();
 
-	auto background = std::make_unique<dae::RenderComponent>(scene01.get(), 33);
+	auto background = std::make_unique<dae::RenderComponent>(scene01.get());
 	background->SetTexture("background.png");
 	
 	scene01->AddComponent(std::move(background));
@@ -116,7 +116,7 @@ void CallScene01()
 
 
 	auto scene02 = std::make_unique<dae::GameObject>();
-	auto logo = std::make_unique<dae::RenderComponent>(scene02.get(), 23);
+	auto logo = std::make_unique<dae::RenderComponent>(scene02.get());
 	logo->SetTexture("logo.png");
 	logo->SetPosition(358, 180);
 	scene02->AddComponent(std::move(logo));
@@ -126,12 +126,12 @@ void CallScene01()
 	auto textObject = std::make_unique<dae::GameObject>();
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textTitleComponent = std::make_unique<dae::TextComponent>(textObject.get(), "Programming 4 Assignment", font, 1); //don't need this component ref anymore, so no need to safe the id
+	auto textTitleComponent = std::make_unique<dae::TextComponent>(textObject.get(), "Programming 4 Assignment", font); //don't need this component ref anymore, so no need to safe the id
 	textTitleComponent->SetColor({ 255, 255, 0, 255 });
 	textTitleComponent->SetPosition(292, 20);
 	textObject->AddComponent(std::move(textTitleComponent));
 
-	auto textRenderer = std::make_unique<dae::RenderComponent>(textObject.get(), 13);
+	auto textRenderer = std::make_unique<dae::RenderComponent>(textObject.get());
 	textObject->AddComponent(std::move(textRenderer));	//everything that wants to get rendered (like text) needs a render component!
 	scene.Add(std::move(textObject));
 
@@ -139,23 +139,23 @@ void CallScene01()
 	auto ControlsTextObject = std::make_unique<dae::GameObject>();
 
 	auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 21);
-	auto textControllerComponent = std::make_unique<dae::TextComponent>(ControlsTextObject.get(), "Use D-Pad to move HotDogMan, X to inflict damage, and A to pick up pellets.", textFont, 1); //don't need this component ref anymore, so no need to safe the id
+	auto textControllerComponent = std::make_unique<dae::TextComponent>(ControlsTextObject.get(), "Use D-Pad to move HotDogMan, X to inflict damage, and A to pick up pellets.", textFont); //don't need this component ref anymore, so no need to safe the id
 	textControllerComponent->SetColor({ 255, 255, 255, 255 });
 	textControllerComponent->SetPosition(10, 100);
 	ControlsTextObject->AddComponent(std::move(textControllerComponent));
 
-	auto textControllerRenderer = std::make_unique<dae::RenderComponent>(ControlsTextObject.get(), 17);
+	auto textControllerRenderer = std::make_unique<dae::RenderComponent>(ControlsTextObject.get());
 	ControlsTextObject->AddComponent(std::move(textControllerRenderer));	//everything that wants to get rendered (like text) needs a render component!
 	scene.Add(std::move(ControlsTextObject));
 	//-------------
 	auto ControlsTextObject2 = std::make_unique<dae::GameObject>();
 
-	auto textControllerComponent2 = std::make_unique<dae::TextComponent>(ControlsTextObject2.get(), "Use WASD to move Chef, Z to inflict damage, and X to pick up pellets. ", textFont, 1);
+	auto textControllerComponent2 = std::make_unique<dae::TextComponent>(ControlsTextObject2.get(), "Use WASD to move Chef, Z to inflict damage, and X to pick up pellets. ", textFont);
 	textControllerComponent2->SetColor({ 255, 255, 255, 255 });
 	textControllerComponent2->SetPosition(10, 130);
 	ControlsTextObject2->AddComponent(std::move(textControllerComponent2));
 
-	auto textControllerRenderer2 = std::make_unique<dae::RenderComponent>(ControlsTextObject2.get(), 17);
+	auto textControllerRenderer2 = std::make_unique<dae::RenderComponent>(ControlsTextObject2.get());
 	ControlsTextObject2->AddComponent(std::move(textControllerRenderer2));
 	scene.Add(std::move(ControlsTextObject2));
 
@@ -164,9 +164,9 @@ void CallScene01()
 	//add fps component -> has on it's own: 
 	auto fpsObject = std::make_unique<dae::GameObject>();
 
-	auto fpsComp = std::make_unique<dae::FPSComponent>(fpsObject.get(), 14);
-	auto textComp = std::make_unique<dae::TextComponent>(fpsObject.get(), "FPS: 0", font, 2);
-	auto textRenderer2 = std::make_unique<dae::RenderComponent>(fpsObject.get(), 83);
+	auto fpsComp = std::make_unique<dae::FPSComponent>(fpsObject.get());
+	auto textComp = std::make_unique<dae::TextComponent>(fpsObject.get(), "FPS: 0", font);
+	auto textRenderer2 = std::make_unique<dae::RenderComponent>(fpsObject.get());
 
 	fpsObject->AddComponent(std::move(textRenderer2));
 	fpsObject->AddComponent(std::move(textComp));
@@ -176,13 +176,13 @@ void CallScene01()
 	//----------------Players------------------------
 
 	auto cook = std::make_unique<dae::GameObject>();
-	auto picture = std::make_unique<dae::RenderComponent>(cook.get(), 563);
+	auto picture = std::make_unique<dae::RenderComponent>(cook.get());
 	picture->SetTexture("ForwardCook.png");
 	picture->SetPosition(300, 300); 
 	cook->AddComponent(std::move(picture));
 
 	//adding health component
-	auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 37802, 3);
+	auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 3);
 //	int startHealthCook{ HealthComponent->GetCurrentHealth() };
 	cook->AddComponent(std::move(HealthComponent));
 
@@ -217,7 +217,7 @@ void CallScene01()
 
 	//----------------------hotdog man---------------------------------------
 	auto hotdog = std::make_unique<dae::GameObject>();
-	auto picture2 = std::make_unique<dae::RenderComponent>(hotdog.get(), 576);
+	auto picture2 = std::make_unique<dae::RenderComponent>(hotdog.get());
  	picture2->SetTexture("ForwardHotDog.png");
  	picture2->SetPosition(360, 360); 
 	hotdog->AddComponent(std::move(picture2));
@@ -290,12 +290,12 @@ void CallScene01()
 	//--------------Score output 01--------------------------
 	auto scoreOutput1 = std::make_unique<dae::GameObject>();
 
-	auto textscore = std::make_unique<dae::TextComponent>(scoreOutput1.get(), std::string("Amount score: 0"), textFont, 1); //don't need this component ref anymore, so no need to safe the id
+	auto textscore = std::make_unique<dae::TextComponent>(scoreOutput1.get(), std::string("Amount score: 0"), textFont); //don't need this component ref anymore, so no need to safe the id
 	textscore->SetColor({ 255, 255, 255, 255 });
 	textscore->SetPosition(20, 330);
 	scoreOutput1->AddComponent(std::move(textscore));
 
-	auto scoreOutput1Renderer = std::make_unique<dae::RenderComponent>(scoreOutput1.get(), 17);
+	auto scoreOutput1Renderer = std::make_unique<dae::RenderComponent>(scoreOutput1.get());
 	scoreOutput1->AddComponent(std::move(scoreOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
 
 
@@ -312,7 +312,7 @@ void CallScene01()
 	//textHealth2->SetPosition(20, 380);
 	//HealthOutput2->AddComponent(std::move(textHealth2));
 
-	auto HealthOutput1Renderer2 = std::make_unique<dae::RenderComponent>(HealthOutput2.get(), 17);
+	auto HealthOutput1Renderer2 = std::make_unique<dae::RenderComponent>(HealthOutput2.get());
 	HealthOutput2->AddComponent(std::move(HealthOutput1Renderer2));	//everything that wants to get rendered (like text) needs a render component!
 	scene.Add(std::move(HealthOutput2));
 
@@ -324,7 +324,7 @@ void CallScene01()
 	//textscore2->SetPosition(20, 410);
 	//scoreOutput2->AddComponent(std::move(textscore2));
 
-	auto scoreOutput1Renderer2 = std::make_unique<dae::RenderComponent>(scoreOutput2.get(), 17);
+	auto scoreOutput1Renderer2 = std::make_unique<dae::RenderComponent>(scoreOutput2.get());
 	scoreOutput2->AddComponent(std::move(scoreOutput1Renderer2));	//everything that wants to get rendered (like text) needs a render component!
 	scene.Add(std::move(scoreOutput2));
 

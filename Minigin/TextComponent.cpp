@@ -1,6 +1,6 @@
 ﻿#include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "TextObject.h"
+#include "TextComponent.h"
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
@@ -67,6 +67,11 @@ void dae::TextComponent::SetText(const std::string& text)
 {
 	m_text = text;
 	m_needsUpdate = true;
+}
+
+std::string dae::TextComponent::GetText()
+{
+	return m_text;
 }
 
 void dae::TextComponent::SetPosition(const float x, const float y)
