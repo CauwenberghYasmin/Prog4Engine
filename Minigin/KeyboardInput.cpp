@@ -13,7 +13,7 @@ void KeyboardInput::ProcessInput()
 	m_PreviousState = m_CurrentState;
 	m_CurrentState = SDL_GetKeyboardState(nullptr);
 
-	for (auto& binding : m_pBindings)
+	for (auto& binding : m_pBindings)		//FIX JUST PRESSED AND JUST RELEASED
 	{
 		if (binding->m_TriggerState == InputState::JustPressed && WasPressedThisFrame(binding->m_KeyBind)) 
 			binding->m_Command->Execute();

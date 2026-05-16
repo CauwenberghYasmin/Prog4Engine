@@ -183,14 +183,8 @@ void CallScene01()
 
 	//adding health component
 	auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 3);
-//	int startHealthCook{ HealthComponent->GetCurrentHealth() };
 	cook->AddComponent(std::move(HealthComponent));
 
-	//score should not be a component of cook!!!!
-	//auto ScoreComponent = std::make_unique<dae::ScoreComponent>(cook.get(), 372102);
-//	int startScoreCook{ ScoreComponent->GetCurrentScore() };
-	//cook->AddComponent(std::move(ScoreComponent));
-  	
 
 	float cookSpeed{ 9600.f };
 	inputManager.GetKeyboardInput()->AddBinding(
@@ -206,14 +200,6 @@ void CallScene01()
 		(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
 		SDL_SCANCODE_D, InputState::Pressed);
 
-	//added binding, but still need to add component + set starting health 
-	
-	//const int amountScoreAdded {150};
-	//inputManager.GetKeyboardInput()->AddBinding(
-	//	(std::make_unique<dae::HealthCommand>(cook.get(), amountScoreAdded)),
-	//	SDL_SCANCODE_X, InputState::Pressed);
-
-	
 
 	//----------------------hotdog man---------------------------------------
 	auto hotdog = std::make_unique<dae::GameObject>();
@@ -221,15 +207,6 @@ void CallScene01()
  	picture2->SetTexture("ForwardHotDog.png");
  	picture2->SetPosition(360, 360); 
 	hotdog->AddComponent(std::move(picture2));
-
-	//adding health component
-	//auto HealthComponent2 = std::make_unique<dae::HealthComponent>(hotdog.get(), 4135, 3);
-	//int startHealtDog{ HealthComponent2->GetCurrentHealth() };
-	//hotdog->AddComponent(std::move(HealthComponent2));
-
-	//auto ScoreComponent2 = std::make_unique<dae::ScoreComponent>(hotdog.get(), 12589);
-	//int startScoreDog{ ScoreComponent2->GetCurrentScore() };
-	//hotdog->AddComponent(std::move(ScoreComponent2));
 
 
 	float HotdogSpeed{ 15600.f };
@@ -246,94 +223,36 @@ void CallScene01()
 		(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
 		XINPUT_GAMEPAD_DPAD_RIGHT, InputState::Pressed);
 	
-
-	//const int amountLivesTaken2{ -1 };
-	//inputManager.GetControllerInput(0)->AddBinding(
-	//	(std::make_unique<dae::HealthCommand>(hotdog.get(), amountLivesTaken2, HealthOutput1.get())),
-	//	XINPUT_GAMEPAD_X, InputState::Pressed);
-	//add!
-	//const int amountScoreAdded2{ 150 };
-	//inputManager.GetControllerInput(0)->AddBinding(
-	//	(std::make_unique<dae::HealthCommand>(hotdog.get(), amountScoreAdded2)),
-	//	XINPUT_GAMEPAD_A, InputState::Pressed);
-
-
+	scene.Add(std::move(hotdog));
 	
 	//--------------health output 01--------------------------
-	//auto HealthOutput1 = std::make_unique<dae::GameObject>();
+	auto TextOutputHealth = std::make_unique<dae::GameObject>();
 
 
 	//-----------------the health renderer should be a different object to begin with---------------------------
 	// 
-	//auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(cook.get(), 3748204);
-	//cook->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
+	auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(TextOutputHealth.get());
+	TextOutputHealth->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
 
+	auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("Amount Lives: 3"), textFont); //don't need this component ref anymore, so no need to safe the id
+	textHealth->SetColor({ 255, 255, 255, 255 });
+	textHealth->SetPosition(20, 300);
+	TextOutputHealth->AddComponent(std::move(textHealth));
+	
 
-	//auto textHealth = std::make_unique<dae::TextComponent>(cook.get(), std::string("Amount Lives: 3"), textFont, 1, 3748204); //don't need this component ref anymore, so no need to safe the id
-	//textHealth->SetColor({ 255, 255, 255, 255 });
-	//textHealth->SetPosition(20, 300);
-	//HealthOutput1->AddComponent(std::move(textHealth));
-	//cook->AddComponent(std::move(textHealth));
+	//MAKING OBSERVERS AND CONNECTING THEM!!!!!!!
+	auto healthObserver = std::make_unique<GameEvent>(TextOutputHealth.get());
+	dae::ObserverManager::GetInstance().AddObserver(cook.get(), std::move(healthObserver));
 
-	//const int amountLivesTaken{ -1 };
-	//inputManager.GetKeyboardInput()->AddBinding(
-	//	(std::make_unique<dae::HealthCommand>(cook.get(), amountLivesTaken, HealthOutput1.get())),
-	//	SDL_SCANCODE_Z, InputState::Pressed);
+	scene.Add(std::move(TextOutputHealth));
+	//-----------------------------------------------------------------------------
 
-	//GameEvent* event{ new GameEvent };//FOR TESTING, MAKE UNIQUE POINTER!!!
-	//ObserverManager.AddObserver(HealthOutput1.get(), event);
-	//scene.Add(std::move(HealthOutput1));
-
-	//try to find a way to pass the text component +
-	//HealthOutput1->SetParent(cook.get(), true);
-
-	//--------------Score output 01--------------------------
-	auto scoreOutput1 = std::make_unique<dae::GameObject>();
-
-	auto textscore = std::make_unique<dae::TextComponent>(scoreOutput1.get(), std::string("Amount score: 0"), textFont); //don't need this component ref anymore, so no need to safe the id
-	textscore->SetColor({ 255, 255, 255, 255 });
-	textscore->SetPosition(20, 330);
-	scoreOutput1->AddComponent(std::move(textscore));
-
-	auto scoreOutput1Renderer = std::make_unique<dae::RenderComponent>(scoreOutput1.get());
-	scoreOutput1->AddComponent(std::move(scoreOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
-
-
-
-
-	//scoreOutput1->SetParent(cook.get(), true);
-	scene.Add(std::move(scoreOutput1));
-
-	//--------------health output 02--------------------------
-	auto HealthOutput2 = std::make_unique<dae::GameObject>();
-
-	//auto textHealth2 = std::make_unique<dae::TextComponent>(HealthOutput2.get(), std::string("Amount Lives: " + std::to_string(startHealtDog)), textFont, 1); //don't need this component ref anymore, so no need to safe the id
-	//textHealth2->SetColor({ 255, 255, 255, 255 });
-	//textHealth2->SetPosition(20, 380);
-	//HealthOutput2->AddComponent(std::move(textHealth2));
-
-	auto HealthOutput1Renderer2 = std::make_unique<dae::RenderComponent>(HealthOutput2.get());
-	HealthOutput2->AddComponent(std::move(HealthOutput1Renderer2));	//everything that wants to get rendered (like text) needs a render component!
-	scene.Add(std::move(HealthOutput2));
-
-	//--------------Score output 02--------------------------
-	auto scoreOutput2 = std::make_unique<dae::GameObject>();
-
-	//auto textscore2 = std::make_unique<dae::TextComponent>(scoreOutput2.get(), std::string("Amount score: " + std::to_string(startScoreDog)), textFont, 1); //don't need this component ref anymore, so no need to safe the id
-	//textscore2->SetColor({ 255, 255, 255, 255 });
-	//textscore2->SetPosition(20, 410);
-	//scoreOutput2->AddComponent(std::move(textscore2));
-
-	auto scoreOutput1Renderer2 = std::make_unique<dae::RenderComponent>(scoreOutput2.get());
-	scoreOutput2->AddComponent(std::move(scoreOutput1Renderer2));	//everything that wants to get rendered (like text) needs a render component!
-	scene.Add(std::move(scoreOutput2));
-
-	//add  text object that need to change!! -> and save that object in cash
-
+	inputManager.GetKeyboardInput()->AddBinding(
+		(std::make_unique<dae::HealthCommand>(cook.get(), -1)),
+		SDL_SCANCODE_X, InputState::Pressed); //should be justpressed or just released BOTH DONT WORK YET
 
 	scene.Add(std::move(cook));
-	scene.Add(std::move(hotdog));
-}
+	}
 }
 
 

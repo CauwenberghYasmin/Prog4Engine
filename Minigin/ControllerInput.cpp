@@ -27,7 +27,7 @@ namespace dae
 		m_ButtonsReleasedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
 
 
-		for (auto& binding : m_pBindings) //else if statements, if one is true, the other won't be true anymore, right?
+		for (auto& binding : m_pBindings) ////FIX JUST PRESSED AND JUST RELEASED
 		{
 			if (binding->m_TriggerState == InputState::JustPressed && IsDownThisFrame(binding->m_KeyBind))
 				binding->m_Command->Execute();
