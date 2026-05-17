@@ -11,8 +11,8 @@ namespace dae {
 enum class Event
 {
 	PlayerDies,
-	PlayerRecievesScore,
-	PlayerWinsFirstGame
+	//PlayerRecievesScore,
+	//PlayerWinsFirstGame
 };
 
 

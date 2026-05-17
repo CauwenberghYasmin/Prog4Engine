@@ -1,4 +1,4 @@
-#pragma once
+
 #include "Observer.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
@@ -10,7 +10,7 @@ namespace dae
 
 
 	GameEvent::GameEvent(GameObject* listener) :
-		m_pListener (listener),IObserver()
+		IObserver(), m_pListener(listener)
 	{
 	}
 
