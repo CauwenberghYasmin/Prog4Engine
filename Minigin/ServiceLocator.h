@@ -14,7 +14,7 @@ public:
 		_ss_instance = ss == nullptr ? std::make_unique<null_sound_system>() : std::move(ss); } //if null send back nullSoundSystem -> silent failure instead of crash!! (maybe add debug so know silent failure?)
 
 private:
-	static std::unique_ptr<sound_system> _ss_instance;
+	inline static std::unique_ptr<sound_system> _ss_instance { nullptr };
 };
 
 }

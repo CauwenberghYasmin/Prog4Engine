@@ -17,6 +17,7 @@
 #include "Observer.h"
 #include "ServiceLocator.h"
 #include "SdlSoundSystem.h"
+#include "SoundSystem.h"
 
 enum Direction { Up, Down, Left, Right };
 
@@ -46,7 +47,7 @@ namespace dae {
 
 		auto& scene = dae::SceneManager::GetInstance().CreateScene();
 		auto& inputManager = dae::InputManager::GetInstance();
-			ServiceLocator::register_sound_system(std::make_unique<sdl_sound_system>());
+		dae::ServiceLocator::register_sound_system(std::make_unique<sdl_sound_system>());
 
 
 
