@@ -1,4 +1,4 @@
-#pragma once
+
 #include "ControllerInput.h"
 #include "Binding.h"
 #include <memory>
