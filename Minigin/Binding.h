@@ -18,9 +18,9 @@ namespace dae {
 		//add rule of 5
 
 	//do make them private with getter functions!
-		InputState m_TriggerState{};
 		std::unique_ptr<Command> m_Command{}; //does not own ->so no delete!
 		int m_KeyBind{};
+		InputState m_TriggerState{};
 	};
 
 }
