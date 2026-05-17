@@ -100,7 +100,7 @@ namespace dae
  
 
     ControllerInput::ControllerInput(unsigned int id) :
-    	m_ControllerIndex(id), m_pImpl(std::make_unique<ControllerImpl>())
+    	m_pImpl(std::make_unique<ControllerImpl>()), m_ControllerIndex(id)
     {
     }
 
