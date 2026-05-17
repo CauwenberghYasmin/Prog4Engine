@@ -27,16 +27,26 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   "Minigin/TextComponent.cpp"
   Minigin/Texture2D.cpp
   Minigin/Transform.cpp
- "Minigin/Component.h" "Minigin/Component.cpp" "Minigin/GameTime.h" 
- "Minigin/FpsComponent.h" "Minigin/FPSComponent.cpp" "Minigin/RenderComponent.h" 
- "Minigin/RenderComponent.cpp" "Minigin/RotatorComponent.h" "Minigin/RotatorComponent.cpp" 
+ "Minigin/Component.h" 
+ "Minigin/Component.cpp" 
+ "Minigin/GameTime.h" 
+ "Minigin/FpsComponent.h" 
+ "Minigin/FPSComponent.cpp" 
+ "Minigin/RenderComponent.h" 
+ "Minigin/RenderComponent.cpp" 
+ "Minigin/RotatorComponent.h" 
+ "Minigin/RotatorComponent.cpp" 
  "Minigin/imgui_plot.cpp" "Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h" 
  "Minigin/InputOptions.h" "Minigin/ControllerInput.cpp" "Minigin/Binding.h" "Minigin/MovementComponent.h" 
  "Minigin/MovementComponent.cpp" "Minigin/Command.cpp" "Minigin/KeyboardInput.cpp" "Minigin/Binding.cpp" 
  "Minigin/HealthComponent.h" "Minigin/HealthComponent.cpp" "Minigin/ScoreComponent.h" "Minigin/ScoreComponent.cpp" 
  "Minigin/Observer.h" "Minigin/ObserverManager.h" "Minigin/ObserverManager.cpp" "Minigin/Observer.cpp" 
  "Minigin/HotDogState.h" "Minigin/HotDogChaseState.h" "Minigin/HotDogStunState.h" "Minigin/HotDogClimbingState.h" 
- "Minigin/HotDogCrushedState.h" "Minigin/HotDogBehaviourComponent.h" "Minigin/HotDogBehaviourComponent.cpp" "Minigin/Game.h" "Minigin/BurgerTime.cpp" "Minigin/BurgerTime.h" "Minigin/Game.cpp")
+ "Minigin/HotDogCrushedState.h" "Minigin/HotDogBehaviourComponent.h" "Minigin/HotDogBehaviourComponent.cpp" 
+ "Minigin/Game.h" 
+ "BurgerTime/BurgerTime.cpp"
+ "BurgerTime/BurgerTime.h"
+ "Minigin/Game.cpp")
 
 
 # enable c++20 features
@@ -164,6 +174,7 @@ find_package(Steamworks QUIET)
 
 target_include_directories("${TARGET_NAME}" PUBLIC 
   ${CMAKE_SOURCE_DIR}/Minigin/
+  ${CMAKE_SOURCE_DIR}/BurgerTime/
   ${glm_SOURCE_DIR}
   ${sdl3_SOURCE_DIR}/include
   ${sdl3_image_SOURCE_DIR}/include
