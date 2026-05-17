@@ -1,30 +1,30 @@
-#include <glm/glm.hpp>
-#include "Component.h"
-//--------------------------------------------------------------------------------
-// look into how safely remove file!!
-//--------------------------------------------------------------------------------
-
-
-
-
-namespace dae
-{
-    class GameObject;
-    class MovementComponent final : public Component //not needed anymore, you can do the move in the command itself, so no extra component!
-    {
-    public:
-        MovementComponent(GameObject* pGameObject, int id, float movementSpeed = 50.f);
-        
-        //revise done correctly
-        MovementComponent(const MovementComponent&) = delete;
-        ~MovementComponent() = default;
-        MovementComponent& operator=(const MovementComponent&) = delete;
-
-    private:
-        float m_MovementSpeed;
-        bool m_ShouldMove{ false };
-        glm::vec3 m_Direction{};
-      
-    };
-
-}
+//#include <glm/glm.hpp>
+//#include "Component.h"
+////--------------------------------------------------------------------------------
+//// look into how safely remove file!!
+////--------------------------------------------------------------------------------
+//
+//
+//
+//
+//namespace dae
+//{
+//    class GameObject;
+//    class MovementComponent final : public Component //not needed anymore, you can do the move in the command itself, so no extra component!
+//    {
+//    public:
+//        MovementComponent(GameObject* pGameObject, int id, float movementSpeed = 50.f);
+//        
+//        //revise done correctly
+//        MovementComponent(const MovementComponent&) = delete;
+//        ~MovementComponent() = default;
+//        MovementComponent& operator=(const MovementComponent&) = delete;
+//
+//    private:
+//        float m_MovementSpeed;
+//        bool m_ShouldMove{ false };
+//        glm::vec3 m_Direction{};
+//      
+//    };
+//
+//}

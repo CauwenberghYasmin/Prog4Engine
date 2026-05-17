@@ -33,6 +33,7 @@ namespace dae {
 	{
 		m_transform.SetPosition(x, y, 0.0f);
 		GetOwner()->SetLocalPosition(glm::vec3{ x,y,0 });
+		
 	}
 
 	//make set scale function?

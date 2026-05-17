@@ -3,6 +3,8 @@
 #include <functional>
 #include <filesystem>
 #include <chrono>
+#include "Game.h"
+#include "BurgerTime.h"
 
 namespace dae
 {
@@ -10,9 +12,9 @@ namespace dae
 	{
 		bool m_quit{};
 	public:
-		explicit Minigin(const std::filesystem::path& dataPath);
+		explicit Minigin(const std::filesystem::path& dataPath, std::unique_ptr<Game> currentGame);
 		~Minigin();
-		void Run(const std::function<void()>& load);
+		void Run();
 		void RunOneFrame();
 
 		Minigin(const Minigin& other) = delete;
@@ -22,5 +24,7 @@ namespace dae
 
 	private:
 		std::chrono::time_point<std::chrono::high_resolution_clock> last_time{}; //= std::chrono::high_resolution_clock::now();
+		std::unique_ptr<Game> m_CurrentGame;
+	
 	};
 }
