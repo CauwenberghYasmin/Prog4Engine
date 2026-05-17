@@ -7,8 +7,6 @@
 #include "FpsComponent.h"
 #include "RenderComponent.h"
 #include "HealthComponent.h"
-#include "ScoreComponent.h"
-#include "RotatorComponent.h"
 #include <filesystem>
 #include "InputManager.h"
 #include "InputOptions.h"
@@ -17,6 +15,8 @@
 #include <string>
 #include "ObserverManager.h"
 #include "Observer.h"
+#include "ServiceLocator.h"
+#include "SdlSoundSystem.h"
 
 enum Direction { Up, Down, Left, Right };
 
@@ -34,9 +34,21 @@ namespace dae {
 	
 	void BurgerTime::Initialize()
 	{
+		//#if _DEBUG
+		//	ServiceLocator::register_sound_system(
+		//		std::make_unique<logging_sound_system>(std::make_unique<sdl_sound_system>()));
+		//#else
+		//#endif
+
+		//auto& ss = servicelocator::get_sound_system();
+		//ss.play(10, 100); //->  how to actually play the sound!!!
+
+
 		auto& scene = dae::SceneManager::GetInstance().CreateScene();
 		auto& inputManager = dae::InputManager::GetInstance();
-		//auto& ObserverManager = dae::ObserverManager::GetInstance();
+			ServiceLocator::register_sound_system(std::make_unique<sdl_sound_system>());
+
+
 
 
 		auto scene01 = std::make_unique<dae::GameObject>();

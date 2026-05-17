@@ -42,11 +42,12 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
  "Minigin/HealthComponent.h" "Minigin/HealthComponent.cpp" "Minigin/ScoreComponent.h" "Minigin/ScoreComponent.cpp" 
  "Minigin/Observer.h" "Minigin/ObserverManager.h" "Minigin/ObserverManager.cpp" "Minigin/Observer.cpp" 
  "Minigin/HotDogState.h" "Minigin/HotDogChaseState.h" "Minigin/HotDogStunState.h" "Minigin/HotDogClimbingState.h" 
- "Minigin/HotDogCrushedState.h" "Minigin/HotDogBehaviourComponent.h" "Minigin/HotDogBehaviourComponent.cpp" 
+ "Minigin/HotDogCrushedState.h" "Minigin/HotDogBehaviourComponent.h" 
+ "Minigin/HotDogBehaviourComponent.cpp" 
  "Minigin/Game.h" 
  "BurgerTime/BurgerTime.cpp"
  "BurgerTime/BurgerTime.h"
- "Minigin/Game.cpp")
+ "Minigin/Game.cpp" "Minigin/SoundSystem.h" "Minigin/ServiceLocator.h" "Minigin/SdlSoundSystem.h" "Minigin/SdlSoundSystem.cpp" "Minigin/LoggingSoundSystem.h" "Minigin/NullSoundSystem.h")
 
 
 # enable c++20 features
