@@ -34,10 +34,10 @@ namespace dae
 		std::string m_text{};
 		SDL_Color m_color{ 255, 255, 255, 255 };
 		Transform m_transform{};
-		int m_RenderID{};
 		std::shared_ptr<Font> m_font{};
-		RenderComponent* m_pRenderComponent{};
+		int m_RenderID{};
 		std::shared_ptr<Texture2D> m_textTexture{};
+		RenderComponent* m_pRenderComponent{};
 
 
 		bool m_RendererFound{ false };
