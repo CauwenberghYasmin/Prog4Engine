@@ -77,7 +77,6 @@ namespace dae {
 		assert(m_ObjectsScoreComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
 		//m_ObjectsScoreComponent->AddScorePoints(m_AmountScoreChange);
 		m_AmountScoreChange++;
-		
 	}
 
 

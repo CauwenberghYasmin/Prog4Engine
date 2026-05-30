@@ -34,7 +34,7 @@ namespace dae {
 	BurgerTime::~BurgerTime() = default;
 
 	
-	void BurgerTime::Initialize()
+	void BurgerTime::Initialize() //0,0 IS TOP LEFT CORNER
 	{
 		#if _DEBUG
 			dae::ServiceLocator::register_sound_system(std::make_unique<sdl_sound_system>());
@@ -46,18 +46,19 @@ namespace dae {
 		auto& scene = dae::SceneManager::GetInstance().CreateScene();
 		auto& inputManager = dae::InputManager::GetInstance();
 
-		auto& soundSystem = ServiceLocator::get_sound_system();
-		soundSystem.PlaySound(10, 100); //->  how to actually play the sound!!!
 
+		sdl_sound_system& soundSystem = dynamic_cast<sdl_sound_system&>(ServiceLocator::get_sound_system());
+		soundSystem.RegisterSound(1, "Data/sounds/bubbels.wav");
 
 
 		auto scene01 = std::make_unique<dae::GameObject>();
+
 
 		auto background = std::make_unique<dae::RenderComponent>(scene01.get());
 		background->SetTexture("background.png");
 
 		scene01->AddComponent(std::move(background));
-		scene.Add(std::move(scene01));
+		//scene.Add(std::move(scene01));
 
 
 		auto scene02 = std::make_unique<dae::GameObject>();
@@ -194,10 +195,17 @@ namespace dae {
 
 		inputManager.GetKeyboardInput()->AddBinding(
 			(std::make_unique<dae::HealthCommand>(cook.get(), -1)),
-			SDL_SCANCODE_X, InputState::JustPressed); //should be justpressed or just released BOTH DONT WORK YET
+			SDL_SCANCODE_X, InputState::JustPressed);
+
+		inputManager.GetKeyboardInput()->AddBinding(
+			(std::make_unique<dae::HealthCommand>(cook.get(), -1)),
+			SDL_SCANCODE_Z, InputState::JustPressed); //should be justpressed or just released BOTH DONT WORK YET
 
 		scene.Add(std::move(cook));
 	}
+
+
+
 }
 
 

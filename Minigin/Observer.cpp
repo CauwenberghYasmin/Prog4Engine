@@ -4,6 +4,8 @@
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
 #include "TextComponent.h"
+#include "ServiceLocator.h"
+#include "sdlsoundsystem.h"
 
 namespace dae 
 {
@@ -31,6 +33,8 @@ namespace dae
 
 					std::string newText = "Amount Lives: " + std::to_string(currentHealth);
 					m_pTextComponent->SetText(newText);
+
+					ServiceLocator::get_sound_system().PlaySound(1, 50);
 				}
 			}
 

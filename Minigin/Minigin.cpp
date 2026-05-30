@@ -70,8 +70,8 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath, std::unique_ptr<Gam
 
 	g_window = SDL_CreateWindow(
 		"Programming 4 assignment",
-		1024,
-		576,
+		1023, // calc bits needed!
+		867,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 

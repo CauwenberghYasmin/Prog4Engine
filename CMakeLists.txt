@@ -129,28 +129,28 @@ find_package(SDL3_mixer CONFIG QUIET)
 if(NOT SDL3_mixer_FOUND)
   if (WIN32)
     FetchContent_Declare(
-      SDL3_mixer
-      URL https://www.libsdl.org/projects/SDL_mixer/release/SDL3_mixer-devel-3.2.2-VC.zip
-      DOWNLOAD_NO_PROGRESS ON
-      DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
+            SDL3_mixer
+            URL https://github.com/libsdl-org/SDL_mixer/releases/download/release-3.2.0/SDL3_mixer-devel-3.2.0-VC.zip
+            DOWNLOAD_NO_PROGRESS ON
+            DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
     )
     FetchContent_MakeAvailable(SDL3_mixer)
     list(PREPEND CMAKE_PREFIX_PATH "${sdl3_mixer_SOURCE_DIR}")
     find_package(SDL3_mixer CONFIG REQUIRED)
   else()
     FetchContent_Declare(
-      SDL3_mixer
-      GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
-      GIT_TAG main
-      GIT_SHALLOW TRUE
-      GIT_PROGRESS TRUE
+            SDL3_mixer
+            GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
+            GIT_TAG release-3.2.0      # ← actual SDL3_mixer release, not SDL2
+            GIT_SHALLOW TRUE
+            GIT_PROGRESS TRUE
     )
     set(SDL3MIXER_INSTALL OFF)
     if(EMSCRIPTEN)
       add_compile_options(-sUSE_SDL_MIXER=2)
       add_link_options(-sUSE_SDL_MIXER=2)
     endif()
-    FetchContent_MakeAvailable(SDL3_mixer) #does structure stuff
+    FetchContent_MakeAvailable(SDL3_mixer)
   endif()
 endif()
 
@@ -200,17 +200,33 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
-target_include_directories("${TARGET_NAME}" PUBLIC 
-  ${CMAKE_SOURCE_DIR}/Minigin/
-  ${CMAKE_SOURCE_DIR}/BurgerTime/
-  ${glm_SOURCE_DIR}
-  ${sdl3_SOURCE_DIR}/include
-  ${sdl3_image_SOURCE_DIR}/include
-  ${sdl3_ttf_SOURCE_DIR}/include
-  ${sdl3_mixer_SOURCE_DIR}/include
-  ${imgui_SOURCE_DIR}
-  ${VLD_INCLUDE_DIR}
+target_include_directories("${TARGET_NAME}" PUBLIC
+        ${CMAKE_SOURCE_DIR}/Minigin/
+        ${CMAKE_SOURCE_DIR}/BurgerTime/
+        ${imgui_SOURCE_DIR}
 )
+
+#target_include_directories("${TARGET_NAME}" PRIVATE
+#        ${glm_SOURCE_DIR}
+#        ${sdl3_SOURCE_DIR}/include
+#        ${sdl3_ttf_SOURCE_DIR}/include
+#        ${sdl3_mixer_SOURCE_DIR}/include
+#)
+
+target_include_directories("${TARGET_NAME}" PRIVATE ${glm_SOURCE_DIR})
+
+if(sdl3_SOURCE_DIR)
+  target_include_directories("${TARGET_NAME}" PRIVATE ${sdl3_SOURCE_DIR}/include)
+endif()
+
+if(sdl3_ttf_SOURCE_DIR)
+  target_include_directories("${TARGET_NAME}" PRIVATE ${sdl3_ttf_SOURCE_DIR}/include)
+endif()
+
+if(sdl3_mixer_SOURCE_DIR)
+  target_include_directories("${TARGET_NAME}" PRIVATE ${sdl3_mixer_SOURCE_DIR}/include)
+endif()
+
 
 target_link_libraries("${TARGET_NAME}" PUBLIC 
   SDL3::SDL3 

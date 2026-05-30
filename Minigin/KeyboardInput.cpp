@@ -15,11 +15,11 @@ namespace dae {
                 int numKeys;
                 const bool* currentStateRaw = SDL_GetKeyboardState(&numKeys);
 
-                if (m_PreviousState.empty())
-                {
-                    m_CurrentState.assign(currentStateRaw, currentStateRaw + numKeys);
-                    m_PreviousState = m_CurrentState;
-                }
+                 if (m_PreviousState.empty()) //move to constructor!
+                 {
+                     m_CurrentState.assign(currentStateRaw, currentStateRaw + numKeys);
+                     m_PreviousState = m_CurrentState;
+                 }
                 else
                 {
                     m_PreviousState = m_CurrentState;

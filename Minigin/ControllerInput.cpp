@@ -18,7 +18,6 @@ namespace dae
     public:
         void Update(unsigned int controllerIndex)
         {
-            // 2. Guard the actual hardware polling logic
 #ifdef _WIN32
             CopyMemory(&previousState, &currentState, sizeof(XINPUT_STATE));
             ZeroMemory(&currentState, sizeof(XINPUT_STATE));
@@ -29,7 +28,6 @@ namespace dae
             buttonsPressedThisFrame = buttonChanges & currentState.Gamepad.wButtons;
             buttonsReleasedThisFrame = buttonChanges & (~currentState.Gamepad.wButtons);
 #else
-    // Do nothing on Mac/Linux, or reset states to 0
             (void)controllerIndex;
 #endif
         }
@@ -39,8 +37,8 @@ namespace dae
 #ifdef _WIN32
             return buttonsPressedThisFrame & ToXInput(button);
 #else
-            (void)button; // Stops "unused variable" warnings
-            return false; // Safe fallback for non-Windows platforms
+            (void)button; //people without windows just shouldn't play my game sniff
+            return false;
 #endif
         }
 
