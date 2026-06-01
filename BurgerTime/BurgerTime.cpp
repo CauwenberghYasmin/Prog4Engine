@@ -19,6 +19,7 @@
 #include "SdlSoundSystem.h"
 #include "LoggingSoundSystem.h"
 #include "SoundSystem.h"
+#include "ReadLevelFile.h"
 
 enum Direction { Up, Down, Left, Right };
 
@@ -51,35 +52,32 @@ namespace dae {
 		soundSystem.RegisterSound(1, "Data/sounds/bubbels.wav");
 
 
-		auto scene01 = std::make_unique<dae::GameObject>();
-
-
-		auto background = std::make_unique<dae::RenderComponent>(scene01.get());
-		background->SetTexture("background.png");
-
-		scene01->AddComponent(std::move(background));
+		//auto scene01 = std::make_unique<dae::GameObject>();
+		//auto background = std::make_unique<dae::RenderComponent>(scene01.get());
+		//background->SetTexture("background.png");
+		//scene01->AddComponent(std::move(background));
 		//scene.Add(std::move(scene01));
 
 
-		auto scene02 = std::make_unique<dae::GameObject>();
-		auto logo = std::make_unique<dae::RenderComponent>(scene02.get());
-		logo->SetTexture("logo.png");
-		logo->SetPosition(358, 180);
-		scene02->AddComponent(std::move(logo));
-		scene.Add(std::move(scene02));
+		//auto scene02 = std::make_unique<dae::GameObject>();
+		//auto logo = std::make_unique<dae::RenderComponent>(scene02.get());
+		//logo->SetTexture("logo.png");
+		//logo->SetPosition(358, 180);
+		//scene02->AddComponent(std::move(logo));
+		//scene.Add(std::move(scene02));
 
 		//title assignment
-		auto textObject = std::make_unique<dae::GameObject>();
+		//auto textObject = std::make_unique<dae::GameObject>();
 
 		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-		auto textTitleComponent = std::make_unique<dae::TextComponent>(textObject.get(), "Programming 4 Assignment", font); //don't need this component ref anymore, so no need to safe the id
-		textTitleComponent->SetColor({ 255, 255, 0, 255 });
-		textTitleComponent->SetPosition(292, 20);
-		textObject->AddComponent(std::move(textTitleComponent));
+		//auto textTitleComponent = std::make_unique<dae::TextComponent>(textObject.get(), "Programming 4 Assignment", font); //don't need this component ref anymore, so no need to safe the id
+		//textTitleComponent->SetColor({ 255, 255, 0, 255 });
+		//textTitleComponent->SetPosition(292, 20);
+		//textObject->AddComponent(std::move(textTitleComponent));
 
-		auto textRenderer = std::make_unique<dae::RenderComponent>(textObject.get());
-		textObject->AddComponent(std::move(textRenderer));	//everything that wants to get rendered (like text) needs a render component!
-		scene.Add(std::move(textObject));
+		//auto textRenderer = std::make_unique<dae::RenderComponent>(textObject.get());
+		//textObject->AddComponent(std::move(textRenderer));	//everything that wants to get rendered (like text) needs a render component!
+		//scene.Add(std::move(textObject));
 
 		//----controls------
 		auto ControlsTextObject = std::make_unique<dae::GameObject>();
@@ -92,7 +90,7 @@ namespace dae {
 
 		auto textControllerRenderer = std::make_unique<dae::RenderComponent>(ControlsTextObject.get());
 		ControlsTextObject->AddComponent(std::move(textControllerRenderer));	//everything that wants to get rendered (like text) needs a render component!
-		scene.Add(std::move(ControlsTextObject));
+		//scene.Add(std::move(ControlsTextObject));
 		//-------------
 		auto ControlsTextObject2 = std::make_unique<dae::GameObject>();
 
@@ -103,7 +101,7 @@ namespace dae {
 
 		auto textControllerRenderer2 = std::make_unique<dae::RenderComponent>(ControlsTextObject2.get());
 		ControlsTextObject2->AddComponent(std::move(textControllerRenderer2));
-		scene.Add(std::move(ControlsTextObject2));
+		//scene.Add(std::move(ControlsTextObject2));
 
 		//-----end controlls-----
 
@@ -117,7 +115,7 @@ namespace dae {
 		fpsObject->AddComponent(std::move(textRenderer2));
 		fpsObject->AddComponent(std::move(textComp));
 		fpsObject->AddComponent(std::move(fpsComp));
-		scene.Add(std::move(fpsObject));
+		//scene.Add(std::move(fpsObject));
 
 		//----------------Players------------------------
 
@@ -171,7 +169,7 @@ namespace dae {
 
 		scene.Add(std::move(hotdog));
 
-		//--------------health output 01--------------------------
+		//-------------------health output 01--------------------------
 		auto TextOutputHealth = std::make_unique<dae::GameObject>();
 
 
@@ -202,9 +200,18 @@ namespace dae {
 			SDL_SCANCODE_Z, InputState::JustPressed); //should be justpressed or just released BOTH DONT WORK YET
 
 		scene.Add(std::move(cook));
+
+		ReadLevelFile file {};
+		file.LoadlevelFromFile(scene, "Data/levelFiles/Level03.txt");
 	}
+	//-> initialize the start screen
+	//call here functions to create scene2, 3, and att things + change current scene in the scene manager
 
+	void BurgerTime::loadScene01() { //add BurgerTime::!!!!
+		//fileLoader(fileLevel01)
+		//pass scene to add things, but string filePth
 
+	}
 
 }
 

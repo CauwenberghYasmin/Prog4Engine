@@ -10,7 +10,7 @@ public:
 	virtual ~BurgerTime() override;
 
 	virtual void Initialize() override; //put everything from main in here!
-
+	void loadScene01();
 private:
 
 }; //cpp file should have to load funciton from main 

@@ -27,16 +27,16 @@ struct sdl_sound_system::Impl
     std::unordered_map<MIX_Track*, sound_id> _track_history; //keep track
     size_t loopIndex = 0;
 
-    std::thread             _thread;
-    std::mutex              _mutex;
+    std::jthread _thread;
+    std::mutex _mutex;
     std::condition_variable _cv;
     std::queue<SoundRequest> _queue;
-    bool                    _running = true;
+    bool _running = true;
 
     Impl()
     {
         if (SDL_WasInit(SDL_INIT_AUDIO) == 0) {
-            std::cerr << "CRITICAL: SDL_INIT_AUDIO not initialized! Call SDL_Init(SDL_INIT_AUDIO) before sound system.\n";
+            std::cerr << "SDL_INIT_AUDIO fail\n";
         }
 
         if (!MIX_Init()) {
@@ -58,7 +58,7 @@ struct sdl_sound_system::Impl
             _tracks.push_back(t);
         }
 
-        _thread = std::thread(&Impl::process_queue, this);
+        _thread = std::jthread(&Impl::process_queue, this);
     }
 
     ~Impl()
@@ -67,23 +67,35 @@ struct sdl_sound_system::Impl
             std::lock_guard<std::mutex> lock(_mutex);
             _running = false;
         }
-        _cv.notify_one();
+        _cv.notify_all();
 
         if (_thread.joinable())
             _thread.join();
 
-        MIX_StopAllTracks(_mixer, 0);
+        if (_mixer)
+            MIX_StopAllTracks(_mixer, 0);
 
         for (MIX_Track* t : _tracks)
-            MIX_DestroyTrack(t);
+            if (t) MIX_DestroyTrack(t);
         _tracks.clear();
+        _track_history.clear(); 
 
         for (auto& [id, audio] : _audio)
-            MIX_DestroyAudio(audio);
+            if (audio) MIX_DestroyAudio(audio);
         _audio.clear();
 
-        MIX_DestroyMixer(_mixer);
-        MIX_Quit();
+
+        if (SDL_WasInit(SDL_INIT_AUDIO) != 0)
+        {
+            //ERRORS IN SECTION BELOW, FIX IT!!! (if comment, have memory leaks!!)
+            if (_mixer)
+            {
+                MIX_DestroyMixer(_mixer);
+                _mixer = nullptr;
+            }
+
+            MIX_Quit();
+        }
     }
 
     void push(const SoundRequest& req)
@@ -100,7 +112,7 @@ struct sdl_sound_system::Impl
         while (true)
         {
             std::unique_lock<std::mutex> lock(_mutex);
-            _cv.wait_for(lock, std::chrono::milliseconds(100), [this] {
+            _cv.wait_for(lock, std::chrono::milliseconds(100), [this] { //DONT USE SLEEP FOR!!! -> CAUSE ISSUES DISTRUCTOR
                 return !_queue.empty() || !_running;
             });
 
@@ -122,7 +134,6 @@ struct sdl_sound_system::Impl
             case SoundRequest::SoundType::Load:
                 _paths[req.id] = req.filepath;
                 break;
-
             case SoundRequest::SoundType::Play:
                 handle_play(req);
                 break;
@@ -134,7 +145,6 @@ struct sdl_sound_system::Impl
                     }
                 }
                 break;
-
             case SoundRequest::SoundType::StopAll:
                 MIX_StopAllTracks(_mixer, 0);
                 break;

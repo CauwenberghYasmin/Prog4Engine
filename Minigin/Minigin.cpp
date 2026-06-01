@@ -18,6 +18,7 @@
 #include <chrono>
 #include <thread>
 #include "GameTime.h"
+#include "ServiceLocator.h"
 
 SDL_Window* g_window{};
 
@@ -62,7 +63,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath, std::unique_ptr<Gam
 {
 	PrintSDLVersion();
 	
-	if (!SDL_InitSubSystem(SDL_INIT_VIDEO))
+	if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 	{
 		SDL_Log("Renderer error: %s", SDL_GetError());
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -86,6 +87,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath, std::unique_ptr<Gam
 
 dae::Minigin::~Minigin()
 {
+	ServiceLocator::register_sound_system(nullptr);//check if it actually works!!
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;

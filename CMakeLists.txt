@@ -47,7 +47,9 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
  "Minigin/Game.h" 
  "BurgerTime/BurgerTime.cpp"
  "BurgerTime/BurgerTime.h"
- "Minigin/Game.cpp" "Minigin/SoundSystem.h" "Minigin/ServiceLocator.h" "Minigin/SdlSoundSystem.h" "Minigin/SdlSoundSystem.cpp" "Minigin/LoggingSoundSystem.h" "Minigin/NullSoundSystem.h")
+ "Minigin/Game.cpp" "Minigin/SoundSystem.h" "Minigin/ServiceLocator.h" "Minigin/SdlSoundSystem.h" "Minigin/SdlSoundSystem.cpp" "Minigin/LoggingSoundSystem.h" "Minigin/NullSoundSystem.h"
+        Minigin/ReadLevelFile.cpp
+        Minigin/ReadLevelFile.h)
 
 
 # enable c++20 features
