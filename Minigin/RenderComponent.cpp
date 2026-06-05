@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "GameObject.h"
+#include "Texture2D.h"
 
 namespace dae {
 
@@ -29,11 +30,15 @@ namespace dae {
 		m_texture = texture;
 	}
 
+	glm::vec2 RenderComponent::GetTextureSize() const {
+		return m_texture->GetSize();
+	}
+
 	void RenderComponent::SetPosition(float x, float y) //only for render and not gameObject -> doesn't always need to be drawn/need a pos
 	{
 		m_transform.SetPosition(x, y, 0.0f);
-		GetOwner()->SetLocalPosition(glm::vec3{ x,y,0 });
-		
+		currentPosition = {x,y};
+		GetOwner()->SetLocalPosition(glm::vec3{ x, y,0 });
 	}
 
 	//make set scale function?

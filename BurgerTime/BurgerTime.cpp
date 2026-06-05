@@ -20,12 +20,14 @@
 #include "LoggingSoundSystem.h"
 #include "SoundSystem.h"
 #include "ReadLevelFile.h"
+#include "Scene.h"
 
 enum Direction { Up, Down, Left, Right };
 
 namespace fs = std::filesystem;
 namespace dae {
 
+	void LoadLevel01(Scene* scene);
 
 	BurgerTime::BurgerTime() :
 		Game()
@@ -44,13 +46,22 @@ namespace dae {
 			dae::ServiceLocator::register_sound_system(std::make_unique<sdl_sound_system>());
 		#endif
 
-		auto& scene = dae::SceneManager::GetInstance().CreateScene();
-		auto& inputManager = dae::InputManager::GetInstance();
+			//CHANGE HERE SO MAKE SENSE
+
+		auto& scene = dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
+		this->LoadLevel01(s);
+		},
+		"startSceen" ); //USE LAMBDA BECAUSE OF THIS POINTER
+		auto& inputManager = dae::InputManager::GetInstance(); //can be get for every single scene
 
 
 		sdl_sound_system& soundSystem = dynamic_cast<sdl_sound_system&>(ServiceLocator::get_sound_system());
 		soundSystem.RegisterSound(1, "Data/sounds/bubbels.wav");
 
+		dae::SceneManager::GetInstance().SetScene("startSceen");
+
+		//TILL HERE CHANGEEE
 
 		//auto scene01 = std::make_unique<dae::GameObject>();
 		//auto background = std::make_unique<dae::RenderComponent>(scene01.get());
@@ -201,16 +212,13 @@ namespace dae {
 
 		scene.Add(std::move(cook));
 
-		ReadLevelFile file {};
-		file.LoadlevelFromFile(scene, "Data/levelFiles/Level03.txt");
+
 	}
 	//-> initialize the start screen
 	//call here functions to create scene2, 3, and att things + change current scene in the scene manager
 
-	void BurgerTime::loadScene01() { //add BurgerTime::!!!!
-		//fileLoader(fileLevel01)
-		//pass scene to add things, but string filePth
-
+	void BurgerTime::LoadLevel01(Scene* scene) { //add BurgerTime::!!!!
+		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level03.txt");
 	}
 
 }

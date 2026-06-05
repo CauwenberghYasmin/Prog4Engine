@@ -7,21 +7,21 @@
 #include <string>
 #include "Scene.h"
 
+    static const std::string spritePathShortTile {"shortTile.png"};
+    static const std::string spritePathLongTile{"longTile.png"};
+    static const std::string spritePathBasket{"basket.png"};
+    static const std::string spritePathLongLadder{"longLadder.png"};
+   static const std::string spritePathShortLadder{"shortLadder.png"};
+
+
 class ReadLevelFile {
 public:
     ReadLevelFile() = default;
-    void LoadlevelFromFile(dae::Scene& scene, const std::string& fileName);
+    static void LoadlevelFromFile(dae::Scene& scene, const std::string& fileName);
 
 
 
 private:
-    const std::string spritePathShortTile {"shortTile.png"};
-    const std::string spritePathLongTile{"longTile.png"};
-    const std::string spritePathBasket{"basket.png"};
-    const std::string spritePathLongLadder{"longLadder.png"};
-    const std::string spritePathShortLadder{"shortLadder.png"};
-
-
 
     enum class TileType { //each should be a gamobject, with spriterendered, and a collisionComponent (trigger)
         shortTile, //=0
@@ -30,7 +30,6 @@ private:
         longLadder,  //trigger
         basket //=4
     };                          //burger parts need a trigger collider, to check if touching layers, but still need to fall through, SO NO NORMAL COLLIDERS
-
 
     struct Tile
     {

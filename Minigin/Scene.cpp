@@ -4,6 +4,11 @@
 
 using namespace dae;
 
+Scene::Scene(std::function<void(Scene* thisScene)> func): //passing function where the scene loads/initializes their objects
+	loadingFunction(func)
+{
+}
+
 void Scene::Add(std::unique_ptr<GameObject> object)
 {
 	assert(object != nullptr && "Cannot add a null GameObject to the scene.");
@@ -22,7 +27,7 @@ void Scene::Remove(const GameObject& object)
 	);
 }
 
-void Scene::RemoveAll()
+void Scene::RemoveAll() //like unload function! -> okay since if you set the new scene, you reinitialize all your items
 {
 	m_objects.clear();
 }
@@ -51,3 +56,7 @@ void Scene::Render() const
 	}
 }
 
+
+void Scene::LoadScene() {
+	loadingFunction(this);
+}

@@ -5,7 +5,7 @@
 #include "ScoreComponent.h"
 #include "TextComponent.h"
 #include "ServiceLocator.h"
-#include "sdlsoundsystem.h"
+//#include "sdlsoundsystem.h"
 
 namespace dae 
 {

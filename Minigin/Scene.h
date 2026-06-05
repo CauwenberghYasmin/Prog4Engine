@@ -16,6 +16,8 @@ namespace dae
 		void Update();
 		void DelayUpdate();
 		void Render() const;
+		void LoadScene();
+
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;
@@ -25,8 +27,9 @@ namespace dae
 
 	private:
 		friend class SceneManager;
-		explicit Scene() = default;
+		explicit Scene( std::function<void(Scene* thisScene)>);
 
+		std::function<void(Scene* thisScene)> loadingFunction; //CALL FROM SCENE MANAGER
 		std::vector < std::unique_ptr<GameObject>> m_objects{};
 	};
 

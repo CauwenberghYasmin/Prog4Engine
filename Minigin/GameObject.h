@@ -6,6 +6,7 @@
 #include "Component.h"
 #include <vector>
 #include<utility>
+#include <string>
 
 namespace dae 
 {
@@ -19,7 +20,6 @@ namespace dae
 		void Update();
 		void DelayUpdate();
 		void Render() const;
-
 
 		const glm::vec3& GetWorldPosition();
 		GameObject* GetParent();
@@ -78,7 +78,7 @@ namespace dae
 			return nullptr;
 		}
 
-
+		std::string Tag{};//used in colliders
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;

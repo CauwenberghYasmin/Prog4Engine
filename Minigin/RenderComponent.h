@@ -24,8 +24,8 @@ namespace dae
         void SetTexture(const std::string& filename);
         void SetTexture2D(std::shared_ptr<Texture2D> texture); //for textComponent
         void SetPosition(float x, float y);
-       
-
+        glm::vec2 GetTextureSize() const;
+        glm::vec2 currentPosition{};
 
         //recheck rule of 5
         RenderComponent(const RenderComponent&) = delete;
