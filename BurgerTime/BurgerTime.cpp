@@ -51,6 +51,11 @@ namespace dae {
 
 
 		//CHANGE HERE SO MAKE SENSE
+		dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
+		this->PracticeScene(s);
+		},
+		"PracticeScene" );
 
 		dae::SceneManager::GetInstance().CreateScene(
 		[this](Scene* s) {
@@ -70,13 +75,8 @@ namespace dae {
 		},
 		"Level03" );
 
-		dae::SceneManager::GetInstance().CreateScene(
-		[this](Scene* s) {
-		this->PracticeScene(s);
-		},
-		"PracticeScene" );
 
-		dae::SceneManager::GetInstance().SetScene("Level02");
+		dae::SceneManager::GetInstance().SetScene("PracticeScene");
 
 		//TILL HERE CHANGEEE
 
@@ -97,6 +97,8 @@ namespace dae {
 	void BurgerTime::LoadLevel03(Scene* scene) {
 		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level03.txt");
 	}
+
+
 
 	void BurgerTime::PracticeScene(Scene* scene)
 	{ //add BurgerTime::!!!!

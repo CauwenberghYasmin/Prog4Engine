@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Singleton.h"
 #include <utility>
+#include <string>
 
 namespace dae
 {
@@ -14,16 +15,17 @@ namespace dae
 	public:
 		Scene& CreateScene(std::function<void(Scene* thisScene)> loadingFunction, const std::string& id);
 		void SetScene(const std::string& id); //also unloads previous scene
-		Scene* GetScene(const std::string& name) const; //find them back by name!
+		[[nodiscard]] Scene* GetScene(const std::string& name) const; //find them back by name!
 
 		void Update();
 		void DelayUpdate();
-		void Render();
+		void Render() const;
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 
-		Scene* currentScene;
+		Scene* currentScene {nullptr};
+		std::string currentId;
 		std::vector<std::pair<std::unique_ptr<Scene>, std::string>> m_scenes{};
 	};
 }

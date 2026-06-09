@@ -1,6 +1,3 @@
-#level 01 
-# has the platforms, ladders and the burger basket
-#draw the platforms first, than the ladders, and finally the basket!
 4 144 737
 4 338 734
 4 538 736

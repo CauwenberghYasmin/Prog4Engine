@@ -11,7 +11,7 @@ void dae::SceneManager::DelayUpdate()
 	currentScene->DelayUpdate();
 }
 
-void dae::SceneManager::Render()
+void dae::SceneManager::Render() const
 {
 	currentScene->Render();
 }
@@ -22,20 +22,27 @@ dae::Scene& dae::SceneManager::CreateScene(std::function<void(Scene* thisScene)>
 	if (m_scenes.size() == 1)
 	{
 		currentScene = m_scenes[0].first.get();
+		currentId = id;
 	}
 	return *m_scenes.back().first;
 }
 
 void dae::SceneManager::SetScene(const std::string& id)
 {
+
 	for (auto& scene : m_scenes)
 	{
 		if (scene.second == id)
 		{
 			//load first scene
 			scene.first->LoadScene();
-			currentScene->RemoveAll();
-			currentScene = scene.first.get();
+
+			if (id != currentId) { //create scene should not set the scene immediately!
+				currentScene->RemoveAll();
+				currentScene = scene.first.get();
+				currentId = scene.second;
+			}
+
 			break; //don't need to continue loop if already found :)
 		}
 	}
