@@ -30,7 +30,7 @@ namespace dae
 		void SetLocalPosition(const glm::vec3& pos);
 
 		bool IsChild(GameObject* object); //checks if is child from this parentObject
-		glm::vec3 GetLocalPosition() { return m_localPosition; }
+		glm::vec3 GetLocalPosition() const { return m_localPosition; }
 		//void SetLocalPosition(const glm::vec3& pos) { m_localPosition = pos; }
 
 
@@ -51,7 +51,7 @@ namespace dae
 		}
 		
 		template<typename T>
-		T* GetComponent(int id)	//used most
+		T* GetComponent(const int id)	//used most
 		{
 			for (auto& i : m_ComponentVector)
 			{

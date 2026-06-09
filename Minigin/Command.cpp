@@ -6,6 +6,7 @@
 #include "ScoreComponent.h"
 #include <assert.h>
 #include "ObserverManager.h"
+#include "SceneManager.h"
 
 namespace dae {
 
@@ -68,6 +69,9 @@ namespace dae {
 	void HealthCommand::Execute()
 	{
 		assert(m_ObjectsHealthComponent != nullptr && "Healthcomponent = nullptr command");
+
+		//TEMP FOR TESTING, DELETE
+		//dae::SceneManager::GetInstance().SetScene("Level03");
 
 		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange); //inside here observer!
 	}
