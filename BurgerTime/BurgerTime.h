@@ -13,10 +13,20 @@ public:
 	virtual void Initialize() override; //make all scenes + set startscreen
 	//make functions to create other scenes (objects)
 
-	//setScenes done in observer if conditions are met! ->will need to have to loadscene function (set that one in the initialize! soa acces!)
+	//setScenes done in observer if conditions are met!
 	//to unload scene, just clear the object vector :>
 
-	void LoadLevel01(Scene* scene);
+
+	//See how long it takes for each scene to load/unload -> otherwise make a loading scene :> (set image -> do loading/unloading (would freeze) and once done continue) Or maybe on a seperate thread??
+
+	static void LoadLevel01(Scene* scene); //exam question: why made this function static -> BE ABLE TO ANSWER!
+	static void LoadLevel02(Scene* scene);
+	static void LoadLevel03(Scene* scene);
+	//void LoadStartScreen(Scene* scene);
+	//void LoadEndScreen(Scene* scene); //highscore!
+
+
+	static void PracticeScene(Scene* scene);
 private:
 
 }; //cpp file should have to load funciton from main 

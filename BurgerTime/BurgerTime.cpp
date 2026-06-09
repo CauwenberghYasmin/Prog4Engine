@@ -46,23 +46,67 @@ namespace dae {
 			dae::ServiceLocator::register_sound_system(std::make_unique<sdl_sound_system>());
 		#endif
 
-			//CHANGE HERE SO MAKE SENSE
-
-		auto& scene = dae::SceneManager::GetInstance().CreateScene(
-		[this](Scene* s) {
-		this->LoadLevel01(s);
-		},
-		"startSceen" ); //USE LAMBDA BECAUSE OF THIS POINTER
-		auto& inputManager = dae::InputManager::GetInstance(); //can be get for every single scene
-
-
 		sdl_sound_system& soundSystem = dynamic_cast<sdl_sound_system&>(ServiceLocator::get_sound_system());
 		soundSystem.RegisterSound(1, "Data/sounds/bubbels.wav");
 
-		dae::SceneManager::GetInstance().SetScene("startSceen");
+
+		//CHANGE HERE SO MAKE SENSE
+
+		dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
+		this->LoadLevel01(s);
+		},
+		"Level01" ); //USE LAMBDA BECAUSE OF THIS POINTER
+
+		dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
+		this->LoadLevel02(s);
+		},
+		"Level02" );
+
+		dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
+		this->LoadLevel03(s);
+		},
+		"Level03" );
+
+		dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
+		this->PracticeScene(s);
+		},
+		"PracticeScene" );
+
+		dae::SceneManager::GetInstance().SetScene("Level02");
 
 		//TILL HERE CHANGEEE
 
+
+
+	}
+	//-> initialize the start screen
+	//call here functions to create scene2, 3, and att things + change current scene in the scene manager
+
+	void BurgerTime::LoadLevel01(Scene* scene) {
+		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level01.txt");
+	}
+
+	void BurgerTime::LoadLevel02(Scene* scene) {
+		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level02.txt");
+	}
+
+	void BurgerTime::LoadLevel03(Scene* scene) {
+		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level03.txt");
+	}
+
+	void BurgerTime::PracticeScene(Scene* scene)
+	{ //add BurgerTime::!!!!
+		//has everything we made at the beginning!!
+
+		auto& inputManager = dae::InputManager::GetInstance(); //can be get for every single scene
+
+
+
+		//-----------------------------------------------------------------------------
 		//auto scene01 = std::make_unique<dae::GameObject>();
 		//auto background = std::make_unique<dae::RenderComponent>(scene01.get());
 		//background->SetTexture("background.png");
@@ -116,7 +160,7 @@ namespace dae {
 
 		//-----end controlls-----
 
-		//add fps component -> has on it's own: 
+		//add fps component -> has on it's own:
 		auto fpsObject = std::make_unique<dae::GameObject>();
 
 		auto fpsComp = std::make_unique<dae::FPSComponent>(fpsObject.get());
@@ -178,14 +222,14 @@ namespace dae {
 			(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
 			ControllerInputs::DPAD_RIGHT, InputState::Pressed);
 
-		scene.Add(std::move(hotdog));
+		scene->Add(std::move(hotdog));
 
 		//-------------------health output 01--------------------------
 		auto TextOutputHealth = std::make_unique<dae::GameObject>();
 
 
 		//-----------------the health renderer should be a different object to begin with---------------------------
-		// 
+		//
 		auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(TextOutputHealth.get());
 		TextOutputHealth->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
 
@@ -199,7 +243,7 @@ namespace dae {
 		auto healthObserver = std::make_unique<GameEvent>(TextOutputHealth.get());
 		dae::ObserverManager::GetInstance().AddObserver(cook.get(), std::move(healthObserver));
 
-		scene.Add(std::move(TextOutputHealth));
+		scene->Add(std::move(TextOutputHealth));
 		//-----------------------------------------------------------------------------
 
 		inputManager.GetKeyboardInput()->AddBinding(
@@ -210,17 +254,8 @@ namespace dae {
 			(std::make_unique<dae::HealthCommand>(cook.get(), -1)),
 			SDL_SCANCODE_Z, InputState::JustPressed); //should be justpressed or just released BOTH DONT WORK YET
 
-		scene.Add(std::move(cook));
-
-
+		scene->Add(std::move(cook));
 	}
-	//-> initialize the start screen
-	//call here functions to create scene2, 3, and att things + change current scene in the scene manager
-
-	void BurgerTime::LoadLevel01(Scene* scene) { //add BurgerTime::!!!!
-		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level03.txt");
-	}
-
 }
 
 

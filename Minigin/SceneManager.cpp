@@ -18,7 +18,7 @@ void dae::SceneManager::Render()
 
 dae::Scene& dae::SceneManager::CreateScene(std::function<void(Scene* thisScene)> loadingFunction, const std::string& id)//EACH ID HAS TO BE ORIGINAL
 {
-	m_scenes.emplace_back(new Scene(loadingFunction), id); //why is there new here????
+	m_scenes.emplace_back(new Scene(std::move(loadingFunction)), id); //why is there new here????
 	if (m_scenes.size() == 1)
 	{
 		currentScene = m_scenes[0].first.get();
@@ -39,6 +39,8 @@ void dae::SceneManager::SetScene(const std::string& id)
 			break; //don't need to continue loop if already found :)
 		}
 	}
+
+	assert("id level does not exist!"); //assert instead of fallback value since you can fix this immediately!
 }
 
 dae::Scene* dae::SceneManager::GetScene(const std::string& name) const
