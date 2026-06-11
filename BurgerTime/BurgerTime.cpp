@@ -21,10 +21,12 @@
 #include "LoggingSoundSystem.h"
 #include "SoundSystem.h"
 #include "ReadLevelFile.h"
+#include "CollisionComponent.h"
 #include "Scene.h"
 #include <iostream>
 
 enum Direction { Up, Down, Left, Right };
+void colFuncTemp(CollisionComponent* coll); //DELETE TEMP
 
 namespace fs = std::filesystem;
 namespace dae {
@@ -121,7 +123,7 @@ namespace dae {
 			std::move(std::make_unique<dae::ArrowMoveCommand>(arrow.get(), dae::Direction::Down, jumpAmount, 3)),
 			SDL_SCANCODE_S, InputState::JustReleased);
 
-		const float yposStart {arrow->GetLocalPosition().y};
+		const float yposStart {471};
 		auto vec = std::vector<std::pair<float, GameMode>>();
 		vec.emplace_back((std::pair<float, GameMode>{ yposStart, GameMode::single })); //std::move makes no difference here: trivial copyable
 		vec.emplace_back((std::pair<float, GameMode>{ yposStart + jumpAmount, GameMode::Coop }));
@@ -146,7 +148,21 @@ namespace dae {
 		auto& inputManager = dae::InputManager::GetInstance();
 		inputManager.GetKeyboardInput()->RemoveAllBindings(); //no bindings arrow
 
-		//now create bindings skip level + unmute
+		//-----------------SKIP LEVELS BINDINGS && MUTE----------------------------------
+		auto vecLevelNames = std::vector<std::string>();
+		vecLevelNames.emplace_back("Level02");
+		vecLevelNames.emplace_back("Level03");
+
+		inputManager.GetKeyboardInput()->AddBinding(
+			(std::make_unique<dae::SkipLevelCommand>(nullptr, std::move(vecLevelNames))),
+			SDL_SCANCODE_F1, InputState::JustReleased);
+
+		inputManager.GetKeyboardInput()->AddBinding(
+			(std::make_unique<dae::MuteSoundCommand>(nullptr)),
+			SDL_SCANCODE_F2, InputState::JustReleased);
+		//----------------------------------------------------------------------
+
+
 
 		//if gamemode...
 		//add this or this
@@ -169,7 +185,9 @@ namespace dae {
 
 		auto& inputManager = dae::InputManager::GetInstance(); //can be get for every single scene
 
-
+		inputManager.GetKeyboardInput()->AddBinding(
+				(std::make_unique<dae::MuteSoundCommand>(nullptr)),
+				SDL_SCANCODE_F2, InputState::JustReleased);
 
 		//-----------------------------------------------------------------------------
 		//auto scene01 = std::make_unique<dae::GameObject>();
@@ -242,13 +260,26 @@ namespace dae {
 		auto cook = std::make_unique<dae::GameObject>();
 		auto picture = std::make_unique<dae::RenderComponent>(cook.get());
 		picture->SetTexture("ForwardCook.png");
-		picture->SetPosition(300, 300);
+		picture->SetPosition(320, 320);
 		cook->AddComponent(std::move(picture));
 
 		//adding health component
 		auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 3);
 		cook->AddComponent(std::move(HealthComponent));
 
+		auto CollComp = std::make_unique<CollisionComponent>(cook.get(), false, 1); // Changed 'true' to an int ID
+
+		CollComp->SetFunction([](CollisionComponent* coll)
+		{
+			std::string tag = coll->GetOwnerTag();
+			if (tag == "Enemy")
+			{
+				ServiceLocator::get_sound_system().PlaySound(1, 50);
+			}
+		}, CollisionComponent::CollisionType::OnExit); // Proper closing here!
+
+		cook ->AddComponent(std::move(CollComp));
+		cook->Tag = "Player";
 
 		float cookSpeed{ 9600.f };
 		inputManager.GetKeyboardInput()->AddBinding(
@@ -272,6 +303,9 @@ namespace dae {
 		picture2->SetTexture("ForwardHotDog.png");
 		picture2->SetPosition(360, 360);
 		hotdog->AddComponent(std::move(picture2));
+		hotdog->Tag = "Enemy";
+		auto coll = std::make_unique<CollisionComponent>(hotdog.get(), false, 1);
+		hotdog->AddComponent(std::move(coll));
 
 
 		float HotdogSpeed{ 15600.f };
@@ -340,6 +374,14 @@ namespace dae {
 		// }, CollisionComponent::CollisionType::OnEnter);
 
 
+	}
+
+	void colFuncTemp(CollisionComponent* coll) {
+		auto* OtherGameObject = coll->GetOwner();
+
+		if (OtherGameObject->Tag == "Enemy") {
+			ServiceLocator::get_sound_system().PlaySound(1, 50);
+		}
 	}
 }
 

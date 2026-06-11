@@ -4,6 +4,7 @@
 #include "Game.h"
 #include <vector>
 #include <utility>
+#include <string>
 
 namespace dae {
 	enum Direction {Up, Down, Left, Right};
@@ -91,8 +92,23 @@ namespace dae {
 	};
 
 
+	class SkipLevelCommand : public GameObjectCommand {
+	public:
 
+		explicit SkipLevelCommand(GameObject* pGameObject, std::vector<std::string> levelNames );
+		void Execute() override;
 
+	private:
+		std::vector<std::string> m_LevelNames;
+		int m_Index{0};
+	};
+
+	class MuteSoundCommand : public GameObjectCommand {
+	public:
+
+		explicit MuteSoundCommand(GameObject* pGameObject = nullptr);
+		void Execute() override;
+	};
 
 	class ScoreComponent;
 	class ScoreCommand : public GameObjectCommand {

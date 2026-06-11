@@ -16,6 +16,10 @@
 CollisionComponent::CollisionComponent(dae::GameObject* pGameObject, bool isObStatic, bool isDebugDrawingOn, int id)
     :Component(pGameObject, id), isStatic(isObStatic), m_IsDebugDrawingOn(isDebugDrawingOn)
 {
+    //safe here and then pass so no double lookup 
+
+    m_Width = GetOwner()->GetComponent<dae::RenderComponent>()->GetTextureSize().x;
+    m_Height = GetOwner()->GetComponent<dae::RenderComponent>()->GetTextureSize().y;
 }
 
 void CollisionComponent::Update() //check collision     //scenemanager, get curr->Scene::GetVisibleObjects()

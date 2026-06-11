@@ -85,14 +85,14 @@ namespace dae {
 			{
 				m_Game->currGameMode = mapping.second;
 
-				if (m_Game->currGameMode != Game::GameMode::single) {
-					ServiceLocator::get_sound_system().PlaySound(1, 50);
+				if (m_Game->currGameMode == Game::GameMode::single) {
+					//ServiceLocator::get_sound_system().PlaySound(1, 50);
 				}
-				if (m_Game->currGameMode != Game::GameMode::Coop) {
-					ServiceLocator::get_sound_system().PlaySound(1, 50);
+				if (m_Game->currGameMode == Game::GameMode::Coop) {
+					//ServiceLocator::get_sound_system().PlaySound(1, 50);
 				}
-				if (m_Game->currGameMode != Game::GameMode::VS) {
-					ServiceLocator::get_sound_system().PlaySound(1, 50);
+				if (m_Game->currGameMode == Game::GameMode::VS) {
+					//ServiceLocator::get_sound_system().PlaySound(1, 50);
 				}
 
 				break;
@@ -103,6 +103,29 @@ namespace dae {
 		dae::SceneManager::GetInstance().SetScene("Level01");
 	}
 
+	// class SkipLevelCommand : public GameObjectCommand {
+	// public:
+	//
+	// 	explicit SkipLevelCommand(GameObject* pGameObject = nullptr);
+	// 	void Execute() override;
+	//
+	// private:
+	// 	int m_Count{0};
+	// };
+
+	SkipLevelCommand::SkipLevelCommand(GameObject* pGameObject, std::vector<std::string> levelNames):
+	GameObjectCommand(pGameObject), m_LevelNames(std::move(levelNames))
+	{
+	}
+
+	void SkipLevelCommand::Execute()
+	{
+		if (m_Index > m_LevelNames.size()-1) return;
+
+		std::string nextLevelName {m_LevelNames[m_Index]};
+		dae::SceneManager::GetInstance().SetScene(nextLevelName);
+		++m_Index;
+	}
 
 	ArrowMoveCommand::ArrowMoveCommand(GameObject* pGameObject, Direction direction, float space, int amount) :
 		GameObjectCommand(pGameObject), m_Direction (direction), m_JumpBlocks(space), m_RowAmount(amount-1)
@@ -142,7 +165,17 @@ namespace dae {
 	}
 
 
+	// explicit MuteSoundCommand(GameObject* pGameObject = nullptr);
+	// void Execute() override;
 
+	MuteSoundCommand::MuteSoundCommand(GameObject* pGameObject):
+		GameObjectCommand(pGameObject)
+	{
+	}
+	void MuteSoundCommand::Execute()
+	{
+		ServiceLocator::get_sound_system().MuteOrUnmute();
+	}
 
 
 	void HealthCommand::Execute()

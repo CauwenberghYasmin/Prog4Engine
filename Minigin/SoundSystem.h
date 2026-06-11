@@ -12,4 +12,5 @@ public:
 	virtual void PlaySound(const sound_id id, const float volume) = 0;
 	virtual void StopSound(const sound_id id, const float volume) = 0;
 	virtual void StopAllSound() = 0;
+	virtual void MuteOrUnmute() {};
 };

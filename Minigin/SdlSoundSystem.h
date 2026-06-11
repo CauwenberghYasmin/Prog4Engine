@@ -27,7 +27,7 @@ public:
 
 
 	bool isMuted{false};
-	void MuteOrUnmute(); //making binding (see pdf leho)
+	void MuteOrUnmute() override; //making binding (see pdf leho)
 private:
 	struct Impl;
 	std::unique_ptr<Impl> _impl;
