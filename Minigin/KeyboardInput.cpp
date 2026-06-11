@@ -49,6 +49,20 @@ namespace dae {
         m_pBindings.emplace_back(std::make_unique<Binding>(std::move(command), keybind, triggerState));
     }
 
+
+    void KeyboardInput::RemoveBinding(Binding* pBinding)
+    {
+        auto point = std::remove_if(m_pBindings.begin(), m_pBindings.end(),
+            [&pBinding](std::unique_ptr<Binding>& bind) {
+                return pBinding == bind.get();
+            });
+        m_pBindings.erase(point, m_pBindings.end());
+    }
+
+    void KeyboardInput::RemoveAllBindings() {
+        m_pBindings.clear();
+    }
+
     bool KeyboardInput::WasPressedThisFrame(unsigned int button) const
     {
         if (button >= m_CurrentState.size()) return false;

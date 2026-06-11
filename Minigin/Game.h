@@ -8,6 +8,15 @@ public:
 	virtual ~Game();
 	virtual void Initialize() = 0;
 	//no render/update, inside initialize you should still add it to the scene, this will handle the draw for you.
+
+	enum class GameMode {
+		single,
+		Coop,
+		VS
+	};
+
+	GameMode currGameMode = GameMode::single;
+
 };
 }
 

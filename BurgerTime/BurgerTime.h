@@ -19,6 +19,7 @@ public:
 
 	//See how long it takes for each scene to load/unload -> otherwise make a loading scene :> (set image -> do loading/unloading (would freeze) and once done continue) Or maybe on a seperate thread??
 
+	void LoadStartScreen(Scene* scene); //exam question: why made this function static -> BE ABLE TO ANSWER!
 	static void LoadLevel01(Scene* scene); //exam question: why made this function static -> BE ABLE TO ANSWER!
 	static void LoadLevel02(Scene* scene);
 	static void LoadLevel03(Scene* scene);
@@ -27,7 +28,9 @@ public:
 
 
 	static void PracticeScene(Scene* scene);
+
+
 private:
 
-}; //cpp file should have to load funciton from main 
+}; //cpp file should have to load funciton from main
 }

@@ -20,6 +20,8 @@ public:
 	[[nodiscard]] bool WasReleasedThisFrame(unsigned int button) const;
 
 	void AddBinding(std::unique_ptr<Command>&& command, unsigned int keybind, InputState triggerState);
+	void RemoveBinding(Binding* pBinding); //should std::move the binding, so first get, then add, and save th epointer till you need to delet it?
+	void RemoveAllBindings();
 
 private:
 	std::vector<bool> m_CurrentState;

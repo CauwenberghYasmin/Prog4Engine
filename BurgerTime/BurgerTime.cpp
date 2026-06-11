@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "TextComponent.h"
 #include "Scene.h"
+#include "Game.h"
 #include "FpsComponent.h"
 #include "RenderComponent.h"
 #include "HealthComponent.h"
@@ -54,6 +55,12 @@ namespace dae {
 		//CHANGE HERE SO MAKE SENSE
 		dae::SceneManager::GetInstance().CreateScene(
 		[this](Scene* s) {
+		this->LoadStartScreen(s);
+		},
+		"StartScreen" );
+
+		dae::SceneManager::GetInstance().CreateScene(
+		[this](Scene* s) {
 		this->PracticeScene(s);
 		},
 		"PracticeScene" );
@@ -81,16 +88,68 @@ namespace dae {
 
 		dae::SceneManager::GetInstance().SetScene("PracticeScene");
 
-		//TILL HERE CHANGEEE
 
+	//add binding to skip levels
+	//add binding to mute and unmute
 
 
 	}
 	//-> initialize the start screen
 	//call here functions to create scene2, 3, and att things + change current scene in the scene manager
 
+	void BurgerTime::LoadStartScreen(Scene* scene) {
+
+		auto& inputManager = dae::InputManager::GetInstance(); //make binding for the arrows
+
+		auto backgroundObj = std::make_unique<dae::GameObject>();
+		auto background = std::make_unique<dae::RenderComponent>(backgroundObj.get());
+		background->SetTexture("StartScreen.png");
+		backgroundObj->AddComponent(std::move(background));
+		scene->Add(std::move(backgroundObj));
+
+		auto arrow = std::make_unique<dae::GameObject>();
+		auto arrowPic = std::make_unique<dae::RenderComponent>(arrow.get());
+		arrowPic->SetTexture("Arrow.png");
+		arrowPic->SetPosition(329, 471);
+		arrow->AddComponent(std::move(arrowPic));
+
+		constexpr float jumpAmount {50.f};
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::ArrowMoveCommand>(arrow.get(), dae::Direction::Up, jumpAmount, 3))
+			, SDL_SCANCODE_W, InputState::JustReleased);
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::ArrowMoveCommand>(arrow.get(), dae::Direction::Down, jumpAmount, 3)),
+			SDL_SCANCODE_S, InputState::JustReleased);
+
+		const float yposStart {arrow->GetLocalPosition().y};
+		auto vec = std::vector<std::pair<float, GameMode>>();
+		vec.emplace_back((std::pair<float, GameMode>{ yposStart, GameMode::single })); //std::move makes no difference here: trivial copyable
+		vec.emplace_back((std::pair<float, GameMode>{ yposStart + jumpAmount, GameMode::Coop }));
+		vec.emplace_back((std::pair<float, GameMode>{ yposStart + jumpAmount*2, GameMode::VS }));
+
+		inputManager.GetKeyboardInput()->AddBinding(
+			(std::make_unique<dae::SetGameModeCommand>(arrow.get(), dynamic_cast<Game*>(this), std::move(vec))),
+			SDL_SCANCODE_X, InputState::JustReleased);
+
+
+		//once pressed diff binding (x) -> undo bindings and go to new level + set game mode
+
+		//bindings  mute (NOT TO SKIP LEVEL, HAVENT PICKED AN INSTANCE YET)
+
+		scene->Add(std::move(arrow));
+
+	}
+
 	void BurgerTime::LoadLevel01(Scene* scene) {
 		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level01.txt");
+
+		auto& inputManager = dae::InputManager::GetInstance();
+		inputManager.GetKeyboardInput()->RemoveAllBindings(); //no bindings arrow
+
+		//now create bindings skip level + unmute
+
+		//if gamemode...
+		//add this or this
 	}
 
 	void BurgerTime::LoadLevel02(Scene* scene) {
@@ -193,17 +252,18 @@ namespace dae {
 
 		float cookSpeed{ 9600.f };
 		inputManager.GetKeyboardInput()->AddBinding(
-			(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed))
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed))
 			, SDL_SCANCODE_W, InputState::Pressed);
 		inputManager.GetKeyboardInput()->AddBinding(
-			(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Down, cookSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Down, cookSpeed)),
 			SDL_SCANCODE_S, InputState::Pressed);
 		inputManager.GetKeyboardInput()->AddBinding(
-			(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Left, cookSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Left, cookSpeed)),
 			SDL_SCANCODE_A, InputState::Pressed);
 		inputManager.GetKeyboardInput()->AddBinding(
-			(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
 			SDL_SCANCODE_D, InputState::Pressed);
+
 
 
 		//----------------------hotdog man---------------------------------------
@@ -216,16 +276,16 @@ namespace dae {
 
 		float HotdogSpeed{ 15600.f };
 		inputManager.GetControllerInput(0)->AddBinding(
-			(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Up, HotdogSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Up, HotdogSpeed)),
 			ControllerInputs::DPAD_UP, InputState::Pressed);
 		inputManager.GetControllerInput(0)->AddBinding(
-			(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Down, HotdogSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Down, HotdogSpeed)),
 			ControllerInputs::DPAD_DOWN, InputState::Pressed);
 		inputManager.GetControllerInput(0)->AddBinding(
-			(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Left, HotdogSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Left, HotdogSpeed)),
 			ControllerInputs::DPAD_LEFT, InputState::Pressed);
 		inputManager.GetControllerInput(0)->AddBinding(
-			(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
+			std::move(std::make_unique<dae::MoveCommand>(hotdog.get(), dae::Direction::Right, HotdogSpeed)),
 			ControllerInputs::DPAD_RIGHT, InputState::Pressed);
 
 		scene->Add(std::move(hotdog));

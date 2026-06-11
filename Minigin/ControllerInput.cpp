@@ -10,7 +10,7 @@
 #include <XInput.h>
 #endif
 
-namespace dae
+namespace dae //MOSTLY PPT GO RECHECK IF CONFUSDE!!!!!
 {
 
     class ControllerInput::ControllerImpl
@@ -135,6 +135,10 @@ namespace dae
                 return pBinding == bind.get();
             });
         m_pBindings.erase(point, m_pBindings.end());
+    }
+
+    void ControllerInput::RemoveAllBindings() {
+        m_pBindings.clear();
     }
 
     bool ControllerInput::IsDownThisFrame(ControllerInputs button) const { return m_pImpl->IsDownThisFrame(button); }

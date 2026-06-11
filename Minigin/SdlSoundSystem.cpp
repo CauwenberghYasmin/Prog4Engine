@@ -35,16 +35,14 @@ struct sdl_sound_system::Impl
 
     Impl()
     {
-        bool audioReady = false;
 
         if (SDL_WasInit(SDL_INIT_AUDIO) == 0) {
             if (!SDL_Init(SDL_INIT_AUDIO)) {
                 throw std::runtime_error("SDL_INIT_AUDIO failed: " + std::string(SDL_GetError()));
             }
-            audioReady = true;
         }
 
-        if (!audioReady) return;
+        //if (!audioReady) return;
 
         if (!MIX_Init()) {
             throw std::runtime_error("MIX_Init failed: " + std::string(SDL_GetError()));
@@ -288,9 +286,20 @@ void sdl_sound_system::StopAllSound()
 void sdl_sound_system::Mute()
 {
     _impl->push({ SoundRequest::SoundType::Mute, 0, 1.0f, {} });
+    isMuted = true;
 }
 
 void sdl_sound_system::Unmute()
 {
     _impl->push({ SoundRequest::SoundType::UnMute, 0, 1.0f, {} });
+    isMuted = false;
+}
+
+void sdl_sound_system::MuteOrUnmute() {
+    if (isMuted) {
+        Unmute();
+        return;
+    }
+
+    Mute();
 }

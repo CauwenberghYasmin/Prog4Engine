@@ -1,5 +1,9 @@
 #pragma once
+#include "glm/vec2.hpp"
 //go  over inheritance notes again to make sure!! (virtual, etc...)
+#include "Game.h"
+#include <vector>
+#include <utility>
 
 namespace dae {
 	enum Direction {Up, Down, Left, Right};
@@ -17,11 +21,11 @@ namespace dae {
 	{
 	protected:
 		GameObject* m_GameObject; //cache object that calls it!
-		GameObject* GetGameObject() const { return m_GameObject; }
+		[[nodiscard]] GameObject* GetGameObject() const { return m_GameObject; }
 
 	public:
 		explicit GameObjectCommand(GameObject* pGameObject);
-		virtual ~GameObjectCommand() = default;//don't delete -> does not own the pointer!
+		virtual ~GameObjectCommand() = default; //don't delete -> does not own the pointer!
 	};
 
 
@@ -43,6 +47,35 @@ namespace dae {
 	};
 
 
+	class ArrowMoveCommand : public GameObjectCommand {
+	public:
+
+		explicit ArrowMoveCommand(GameObject* pGameObject, Direction direction, float space, int amount);
+		void Execute() override; //implement code from the moveComponent (is deleted now)
+
+	private:
+		Direction m_Direction;
+		const float m_JumpBlocks;
+		const int m_RowAmount;
+
+		float m_MinPosY;
+		float m_MaxPosY;
+	};
+
+
+	class SetGameModeCommand : public GameObjectCommand {
+	public:
+
+		SetGameModeCommand(GameObject* pGameObject, Game* game, std::vector<std::pair<float, Game::GameMode>> modeMappings); //pass game instance? (this)
+		void Execute() override; // use game instance to set the game mode + go to the first level
+		//dae::SceneManager::GetInstance().SetScene("Level01");
+
+	private:
+		Game* m_Game;
+		std::vector<std::pair<float, Game::GameMode>> m_ModeMappings;
+		//vector pair (y pos, GameMode::mode) gamemode passed from base class (or Game)
+
+	};
 
 
 	class HealthComponent;

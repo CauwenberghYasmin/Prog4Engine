@@ -15,8 +15,6 @@ public:
 
 	void RegisterSound(sound_id id, const std::string& filepath);
 
-	void Mute();
-	void Unmute();
 
 	struct SoundRequest
 	{
@@ -27,9 +25,16 @@ public:
 		std::string filepath{};
 	};
 
+
+	bool isMuted{false};
+	void MuteOrUnmute(); //making binding (see pdf leho)
 private:
 	struct Impl;
 	std::unique_ptr<Impl> _impl;
+
+
+	void Mute();
+	void Unmute();
 };
 
 	// void sdl_sound_system::process_queue() {	//FROM PPT FEEDBACK, IMPLEMENT!!!

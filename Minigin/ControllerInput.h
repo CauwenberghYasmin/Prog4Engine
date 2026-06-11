@@ -25,6 +25,7 @@ namespace dae {
 
 		void AddBinding(std::unique_ptr<Command>&& command, ControllerInputs keybind, InputState triggerState);
 		void RemoveBinding(Binding* pBinding);
+		void RemoveAllBindings();
 
 	private:
 		class ControllerImpl; // The Pimpl declaration

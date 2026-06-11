@@ -4,9 +4,11 @@
 #include <iostream>
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
-#include <assert.h>
+#include <cassert>
 #include "ObserverManager.h"
 #include "SceneManager.h"
+#include "Game.h"
+#include "ServiceLocator.h"
 
 namespace dae {
 
@@ -66,6 +68,83 @@ namespace dae {
 		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + (displacementVector * deltaTime));
 	}
 
+
+
+	SetGameModeCommand::SetGameModeCommand( GameObject* pGameObject, Game* game, std::vector<std::pair<float, Game::GameMode>> modeMappings)
+	: GameObjectCommand(pGameObject), m_Game(game), m_ModeMappings(std::move(modeMappings)) // Use std::move for efficiency
+{
+}
+
+	void SetGameModeCommand::Execute()
+	{
+		const float currPosY {m_GameObject->GetLocalPosition().y};
+
+		for (const auto& mapping : m_ModeMappings)
+		{
+			if ((currPosY - mapping.first) < 0.01) //check for error floats
+			{
+				m_Game->currGameMode = mapping.second;
+
+				if (m_Game->currGameMode != Game::GameMode::single) {
+					ServiceLocator::get_sound_system().PlaySound(1, 50);
+				}
+				if (m_Game->currGameMode != Game::GameMode::Coop) {
+					ServiceLocator::get_sound_system().PlaySound(1, 50);
+				}
+				if (m_Game->currGameMode != Game::GameMode::VS) {
+					ServiceLocator::get_sound_system().PlaySound(1, 50);
+				}
+
+				break;
+			}
+		}
+
+
+		dae::SceneManager::GetInstance().SetScene("Level01");
+	}
+
+
+	ArrowMoveCommand::ArrowMoveCommand(GameObject* pGameObject, Direction direction, float space, int amount) :
+		GameObjectCommand(pGameObject), m_Direction (direction), m_JumpBlocks(space), m_RowAmount(amount-1)
+	{
+		m_MinPosY = m_GameObject->GetLocalPosition().y;
+		m_MaxPosY = m_GameObject->GetLocalPosition().y +( m_JumpBlocks * static_cast<float>(m_RowAmount));
+	}
+
+	void ArrowMoveCommand::Execute()
+	{
+		auto currentPosition = m_GameObject->GetLocalPosition();
+
+		switch (m_Direction)
+		{
+			case Direction::Up:
+			if (currentPosition.y != m_MinPosY)
+			{
+				m_GameObject->SetLocalPosition(glm::vec3(currentPosition.x, (currentPosition.y - m_JumpBlocks), 0.f));
+
+			}
+			else//roundabout
+			{
+				m_GameObject->SetLocalPosition(glm::vec3(currentPosition.x, (currentPosition.y + m_JumpBlocks * static_cast<float>(m_RowAmount)), 0.f));
+			}
+			break;
+			case Direction::Down:
+			if (currentPosition.y != m_MaxPosY)
+			{
+				m_GameObject->SetLocalPosition(glm::vec3(currentPosition.x, (currentPosition.y + m_JumpBlocks), 0.f));
+			}
+			else//roundabout
+			{
+				m_GameObject->SetLocalPosition(glm::vec3(currentPosition.x, (currentPosition.y - m_JumpBlocks * static_cast<float>(m_RowAmount)), 0.f));
+			}
+			break;
+		}
+	}
+
+
+
+
+
 	void HealthCommand::Execute()
 	{
 		assert(m_ObjectsHealthComponent != nullptr && "Healthcomponent = nullptr command");
@@ -75,7 +154,9 @@ namespace dae {
 
 		m_ObjectsHealthComponent->ChangeHealth(m_AmountHealthChange); //inside here observer!
 	}
-	
+
+
+
 	void ScoreCommand::Execute()
 	{
 		assert(m_ObjectsScoreComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
