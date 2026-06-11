@@ -52,9 +52,6 @@ namespace dae
 		return &m_KeyboardInput;
 	}
 
-	//get state controller/keyboard
-	//-> executes required command
-
 }
 
 

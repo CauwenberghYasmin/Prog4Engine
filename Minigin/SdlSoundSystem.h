@@ -6,7 +6,7 @@
 class sdl_sound_system final : public sound_system
 {
 public:
-	 sdl_sound_system(); //dont make explicit, needs to get from service locator
+	sdl_sound_system(); // dont make explicit, needs to get from service locator
 	~sdl_sound_system() override;
 
 	void PlaySound(sound_id id, float volume) override;
@@ -15,9 +15,12 @@ public:
 
 	void RegisterSound(sound_id id, const std::string& filepath);
 
+	void Mute();
+	void Unmute();
+
 	struct SoundRequest
 	{
-		enum class SoundType { Play, Stop, StopAll, Load };
+		enum class SoundType { Play, Stop, StopAll, Load, Mute, UnMute };
 		SoundType   type;
 		sound_id    id{0};
 		float       volume{1.f};
@@ -27,7 +30,6 @@ public:
 private:
 	struct Impl;
 	std::unique_ptr<Impl> _impl;
-
 };
 
 	// void sdl_sound_system::process_queue() {	//FROM PPT FEEDBACK, IMPLEMENT!!!

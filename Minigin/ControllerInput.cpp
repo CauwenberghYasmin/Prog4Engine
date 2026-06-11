@@ -32,7 +32,7 @@ namespace dae
 #endif
         }
 
-        bool IsDownThisFrame(ControllerInputs button) const
+        [[nodiscard]]bool IsDownThisFrame(ControllerInputs button) const
         {
 #ifdef _WIN32
             return buttonsPressedThisFrame & ToXInput(button);
@@ -42,7 +42,7 @@ namespace dae
 #endif
         }
 
-        bool IsUpThisFrame(ControllerInputs button) const
+        [[nodiscard]]bool IsUpThisFrame(ControllerInputs button) const
         {
 #ifdef _WIN32
             return buttonsReleasedThisFrame & ToXInput(button);
@@ -52,7 +52,7 @@ namespace dae
 #endif
         }
 
-        bool IsPressed(ControllerInputs button) const
+        [[nodiscard]]bool IsPressed(ControllerInputs button) const
         {
 #ifdef _WIN32
             return currentState.Gamepad.wButtons & ToXInput(button);
@@ -141,82 +141,5 @@ namespace dae
     bool ControllerInput::IsUpThisFrame(ControllerInputs button) const { return m_pImpl->IsUpThisFrame(button); }
     bool ControllerInput::IsPressed(ControllerInputs button) const { return m_pImpl->IsPressed(button); }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//ControllerInput::ControllerInput(size_t id) :
-	//	m_ControllerIndex(id)
-	//{
-	//}
-
-	//void ControllerInput::processInput() //from the ppt
-	//{
-	//	XINPUT_STATE previousState;
-
-	//	CopyMemory(&previousState, &m_CurrentState, sizeof(XINPUT_STATE));
-	//	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-
-	//	XInputGetState(m_ControllerIndex, &m_CurrentState);
-	//	auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ previousState.Gamepad.wButtons; //XOR OPERATION 
-	//	m_ButtonsPressedThisFrame = buttonChanges & m_CurrentState.Gamepad.wButtons;
-	//	m_ButtonsReleasedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
-
-
-	//	for (auto& binding : m_pBindings) ////FIX JUST PRESSED AND JUST RELEASED
-	//	{
-	//		if (binding->m_TriggerState == InputState::JustPressed && IsDownThisFrame(binding->m_KeyBind))
-	//			binding->m_Command->Execute();
-
-	//		else if (binding->m_TriggerState == InputState::JustReleased && IsUpThisFrame(binding->m_KeyBind))
-	//			binding->m_Command->Execute();
-
-	//		else if (binding->m_TriggerState == InputState::Pressed && IsPressed(binding->m_KeyBind))
-	//			binding->m_Command->Execute();
-	//	}
-	//}
-
-	//void ControllerInput::AddBinding(std::unique_ptr<Command>&& command, ControllerInputs keybind, InputState triggerState)
-	//{
-	//	std::unique_ptr binding = std::make_unique<Binding>(std::move(command), keybind, triggerState);
-
-	//	if (binding != nullptr)
-	//	m_pBindings.push_back(std::move(binding));
-	//}
-
-	//void ControllerInput::RemoveBinding(Binding* pBinding) //ask teacher if this is correct!!!
-	//{
-	//	auto point = remove_if(m_pBindings.begin(), m_pBindings.end(),
-	//		[&pBinding](std::unique_ptr<Binding>& bind) {
-	//			return pBinding == bind.get();
-	//		});
-	//	m_pBindings.erase(point, m_pBindings.end());
-	//}
-
-
-	////ppt!
-	//bool ControllerInput::IsDownThisFrame(unsigned int button) const
-	//{
-	//	return m_ButtonsPressedThisFrame & button;
-	//}
-
-	//bool ControllerInput::IsUpThisFrame(unsigned int button) const
-	//{
-	//	return m_ButtonsReleasedThisFrame & button;
-	//}
-
-	//bool ControllerInput::IsPressed(unsigned int button) const
-	//{
-	//	return m_CurrentState.Gamepad.wButtons & button;
-	//}
 
 }

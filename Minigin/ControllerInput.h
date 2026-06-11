@@ -19,9 +19,9 @@ namespace dae {
 
 		void processInput();
 
-		bool IsDownThisFrame(ControllerInputs button) const;
-		bool IsUpThisFrame(ControllerInputs button) const;
-		bool IsPressed(ControllerInputs button) const;
+		[[nodiscard]]bool IsDownThisFrame(ControllerInputs button) const;
+		[[nodiscard]]bool IsUpThisFrame(ControllerInputs button) const;
+		[[nodiscard]]bool IsPressed(ControllerInputs button) const;
 
 		void AddBinding(std::unique_ptr<Command>&& command, ControllerInputs keybind, InputState triggerState);
 		void RemoveBinding(Binding* pBinding);
@@ -29,10 +29,6 @@ namespace dae {
 	private:
 		class ControllerImpl; // The Pimpl declaration
 		std::unique_ptr<ControllerImpl> m_pImpl;
-
-		//XINPUT_STATE m_CurrentState{};
-		//unsigned int m_ButtonsPressedThisFrame{};
-		//unsigned int m_ButtonsReleasedThisFrame{};
 
 		unsigned int m_ControllerIndex{}; //max 4! 
 
