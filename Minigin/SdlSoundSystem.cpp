@@ -32,6 +32,7 @@ struct sdl_sound_system::Impl
     std::condition_variable _cv;
     std::queue<SoundRequest> _queue;
     bool _running = true;
+    
 
     Impl()
     {

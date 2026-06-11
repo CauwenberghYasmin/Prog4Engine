@@ -64,3 +64,12 @@ dae::Scene* dae::SceneManager::GetScene(const std::string& name) const
 
 	return nullptr; //safety, shouldn't happen
 }
+
+dae::Scene* dae::SceneManager::GetCurrentScene() const {
+	if (currentScene == nullptr) {
+		assert("CurrentScene is nullptr!");
+	}
+
+
+	return currentScene;
+}

@@ -5,6 +5,7 @@
 #include "ReadLevelFile.h"
 #include "GameObject.h"
 #include "renderComponent.h"
+#include "CollisionComponent.h"
 
 #include <iostream>
 #include <fstream>
@@ -34,23 +35,28 @@ void ReadLevelFile::LoadlevelFromFile(dae::Scene& scene, const std::string& file
             Tile tile {};
             auto command = line[0];
             std::string filePath {};
+            auto tileObject = std::make_unique<dae::GameObject>();
 
             switch (command) {
                 case '0': //shorttile
                     tile.type = TileType::shortTile;
                     filePath = spritePathShortTile;
+                    tileObject->Tag = "Tile";
                     break;
                 case '1'://longtile
                     tile.type = TileType::longTile;
                     filePath = spritePathLongTile;
+                    tileObject->Tag = "Tile";
                     break;
                 case '2'://shortladder
                     tile.type = TileType::shortLadder;
                     filePath = spritePathShortLadder;
+                    tileObject->Tag = "Ladder";
                     break;
                 case '3'://longladder
                     tile.type = TileType::longLadder;
                     filePath = spritePathLongLadder;
+                    tileObject->Tag = "Ladder";
                     break;
                 case '4'://basket
                     tile.type = TileType::basket;
@@ -74,12 +80,13 @@ void ReadLevelFile::LoadlevelFromFile(dae::Scene& scene, const std::string& file
                 tile.posY = y;
             }
 
-            auto tileObject = std::make_unique<dae::GameObject>();
+            //gave tag in switch case!
             auto sprite = std::make_unique<dae::RenderComponent>(tileObject.get());
             sprite->SetTexture(filePath);
             sprite->SetPosition(tile.posX, tile.posY);
             tileObject->AddComponent(std::move(sprite));
-            //add collision component, STILL NEED TO MAKE
+            tileObject->AddComponent(std::make_unique<CollisionComponent>(tileObject.get(), true));
+            //dont add tile logic here? (on collision function)
             scene.Add(std::move(tileObject));
         }
     }

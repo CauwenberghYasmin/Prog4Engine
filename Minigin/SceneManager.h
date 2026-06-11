@@ -17,6 +17,8 @@ namespace dae
 		void SetScene(const std::string& id); //also unloads previous scene
 		[[nodiscard]] Scene* GetScene(const std::string& name) const; //find them back by name!
 
+		[[nodiscard]] Scene* GetCurrentScene() const;
+
 		void Update();
 		void DelayUpdate();
 		void Render() const;

@@ -12,6 +12,8 @@ namespace dae
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(const GameObject& object);
 		void RemoveAll();
+		std::vector <GameObject*> GetCollisionObjects();
+
 
 		void Update();
 		void DelayUpdate();
@@ -31,6 +33,10 @@ namespace dae
 
 		std::function<void(Scene* thisScene)> loadingFunction; //CALL FROM SCENE MANAGER
 		std::vector < std::unique_ptr<GameObject>> m_objects{};
+
+
+		std::vector <GameObject*> visibleObjects {};
+		bool hasVecChanged = false;
 	};
 
 }

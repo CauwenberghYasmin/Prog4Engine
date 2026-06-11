@@ -21,6 +21,7 @@
 #include "SoundSystem.h"
 #include "ReadLevelFile.h"
 #include "Scene.h"
+#include <iostream>
 
 enum Direction { Up, Down, Left, Right };
 
@@ -76,6 +77,8 @@ namespace dae {
 		"Level03" );
 
 
+
+
 		dae::SceneManager::GetInstance().SetScene("PracticeScene");
 
 		//TILL HERE CHANGEEE
@@ -96,6 +99,7 @@ namespace dae {
 
 	void BurgerTime::LoadLevel03(Scene* scene) {
 		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level03.txt");
+		//only this level needs box colliders so the chef doesn't fall off!!!!
 	}
 
 
@@ -257,6 +261,25 @@ namespace dae {
 			SDL_SCANCODE_Z, InputState::JustPressed); //should be justpressed or just released BOTH DONT WORK YET
 
 		scene->Add(std::move(cook));
+
+
+		//FOR COOK:
+		// playerCollisionComp->SetFunction([](CollisionComponent* other)
+		// {
+		// 	// The player handles the reaction based on WHO they hit
+		// 	std::string tag = other->GetOwnerTag();
+		//
+		// 	if (tag == "Tile_Walkable")
+		// 	{
+		//
+		// 	}
+		// 	else if (tag == "Tile_Lava")
+		// 	{
+		//
+		// 	}
+		// }, CollisionComponent::CollisionType::OnEnter);
+
+
 	}
 }
 

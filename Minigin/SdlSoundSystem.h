@@ -27,6 +27,7 @@ public:
 private:
 	struct Impl;
 	std::unique_ptr<Impl> _impl;
+
 };
 
 	// void sdl_sound_system::process_queue() {	//FROM PPT FEEDBACK, IMPLEMENT!!!
