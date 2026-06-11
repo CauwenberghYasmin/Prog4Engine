@@ -5,6 +5,8 @@
 #include "HealthComponent.h"
 #include "ScoreComponent.h"
 #include <cassert>
+
+#include "CookCollisionBehaviours.h"
 #include "ObserverManager.h"
 #include "SceneManager.h"
 #include "Game.h"
@@ -23,6 +25,7 @@ namespace dae {
 	MoveCommand::MoveCommand(GameObject* pGameObject, Direction direction, float speed) :
 		GameObjectCommand(pGameObject), m_Direction (direction), m_Speed(speed)
 	{
+		m_CollisionComponent = pGameObject->GetComponent<CookCollisionBehaviours>();
 	}
 
 	SprayCommand::SprayCommand(GameObject* pGameObject) :
@@ -52,16 +55,20 @@ namespace dae {
 		switch (m_Direction) //game only requires straight up, down, left and right. no circle movement behaviours!
 		{
 		case Direction::Left:
-			displacementVector.x -= m_Speed * deltaTime; //look into normalized value * speed or smth
+			if (m_CollisionComponent->m_IsTouchingTile)
+				displacementVector.x -= m_Speed * deltaTime; //look into normalized value * speed or smth
 			break;
 		case Direction::Right:
-			displacementVector.x += m_Speed * deltaTime; //maybe use geometric algebra from class!!!
+			if (m_CollisionComponent->m_IsTouchingTile)
+				displacementVector.x += m_Speed * deltaTime; //maybe use geometric algebra from class!!!
 			break;
 		case Direction::Up:
-			displacementVector.y -= m_Speed * deltaTime;
+			if (m_CollisionComponent->m_IsTouchingLadder)
+				displacementVector.y -= m_Speed * deltaTime;
 			break;
 		case Direction::Down:
-			displacementVector.y += m_Speed * deltaTime;
+			if (m_CollisionComponent->m_IsTouchingLadder)
+				displacementVector.y += m_Speed * deltaTime;
 			break;
 		}
 
@@ -103,15 +110,7 @@ namespace dae {
 		dae::SceneManager::GetInstance().SetScene("Level01");
 	}
 
-	// class SkipLevelCommand : public GameObjectCommand {
-	// public:
-	//
-	// 	explicit SkipLevelCommand(GameObject* pGameObject = nullptr);
-	// 	void Execute() override;
-	//
-	// private:
-	// 	int m_Count{0};
-	// };
+
 
 	SkipLevelCommand::SkipLevelCommand(GameObject* pGameObject, std::vector<std::string> levelNames):
 	GameObjectCommand(pGameObject), m_LevelNames(std::move(levelNames))
@@ -120,9 +119,11 @@ namespace dae {
 
 	void SkipLevelCommand::Execute()
 	{
-		if (m_Index > m_LevelNames.size()-1) return;
+		//Move this to a levelManager?
 
-		std::string nextLevelName {m_LevelNames[m_Index]};
+		int index = m_Index % 3;
+
+		std::string nextLevelName {m_LevelNames[index]};
 		dae::SceneManager::GetInstance().SetScene(nextLevelName);
 		++m_Index;
 	}

@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include "HotDogState.h"
 
-//namespace dae
+//namespace dae //TRIGGERED BY COLLISIONS!!!!
 //{
 //    class GameObject;
 //    class HotDogBehaviourComponent final : public Component

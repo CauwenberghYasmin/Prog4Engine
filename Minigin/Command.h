@@ -6,6 +6,8 @@
 #include <utility>
 #include <string>
 
+#include "CookCollisionBehaviours.h"
+
 namespace dae {
 	enum Direction {Up, Down, Left, Right};
 
@@ -43,7 +45,8 @@ namespace dae {
 
 	private:
 		Direction m_Direction{};
-		float m_Speed{}; //not const yet, should find way to change it!
+		float m_Speed{};
+		CookCollisionBehaviours* m_CollisionComponent;
 		//don't cache gameObject again, it'a already saved in parent class
 	};
 
@@ -100,7 +103,7 @@ namespace dae {
 
 	private:
 		std::vector<std::string> m_LevelNames;
-		int m_Index{0};
+		int m_Index{1};
 	};
 
 	class MuteSoundCommand : public GameObjectCommand {

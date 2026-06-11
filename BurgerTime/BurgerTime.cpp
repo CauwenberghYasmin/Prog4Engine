@@ -88,7 +88,7 @@ namespace dae {
 
 
 
-		dae::SceneManager::GetInstance().SetScene("PracticeScene");
+		dae::SceneManager::GetInstance().SetScene("StartScreen");
 
 
 	//add binding to skip levels
@@ -150,6 +150,7 @@ namespace dae {
 
 		//-----------------SKIP LEVELS BINDINGS && MUTE----------------------------------
 		auto vecLevelNames = std::vector<std::string>();
+		vecLevelNames.emplace_back("Level01");
 		vecLevelNames.emplace_back("Level02");
 		vecLevelNames.emplace_back("Level03");
 
@@ -262,6 +263,11 @@ namespace dae {
 		picture->SetTexture("ForwardCook.png");
 		picture->SetPosition(320, 320);
 		cook->AddComponent(std::move(picture));
+
+		auto collBeh = std::make_unique<CookCollisionBehaviours>(cook.get());	//still need to pass functions to the collider!! (manually or do in class?)
+		cook->AddComponent(std::move(collBeh));
+
+		
 
 		//adding health component
 		auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 3);

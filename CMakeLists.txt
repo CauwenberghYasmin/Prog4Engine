@@ -51,7 +51,9 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/ReadLevelFile.cpp
         Minigin/ReadLevelFile.h
         Minigin/CollisionComponent.cpp
-        Minigin/CollisionComponent.h)
+        Minigin/CollisionComponent.h
+        BurgerTime/CookCollisionBehaviours.cpp
+        BurgerTime/CookCollisionBehaviours.h)
 
 
 # enable c++20 features
