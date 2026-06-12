@@ -9,7 +9,7 @@ namespace dae {
 	void RenderComponent::Render()
 	{
 
-		if (m_texture)	//draws game objects who don't have components
+		if (m_texture && m_IsRendering)	//draws game objects who don't have components
 		{
 			//const auto& pos = m_transform.GetPosition();
 			const auto& pos = GetOwner()->GetWorldPosition();

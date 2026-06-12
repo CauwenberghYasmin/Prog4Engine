@@ -7,6 +7,7 @@
 #include <string>
 
 #include "CookCollisionBehaviours.h"
+#include "PlayerStateComponent.h"
 
 namespace dae {
 	enum Direction {Up, Down, Left, Right};
@@ -54,11 +55,11 @@ namespace dae {
 	class ArrowMoveCommand : public GameObjectCommand {
 	public:
 
-		explicit ArrowMoveCommand(GameObject* pGameObject, Direction direction, float space, int amount);
+		explicit ArrowMoveCommand(GameObject* pGameObject, dae::Direction direction, float space, int amount);
 		void Execute() override; //implement code from the moveComponent (is deleted now)
 
 	private:
-		Direction m_Direction;
+		dae::Direction m_Direction;
 		const float m_JumpBlocks;
 		const int m_RowAmount;
 

@@ -10,7 +10,9 @@
 #include "ObserverManager.h"
 #include "SceneManager.h"
 #include "Game.h"
+#include "PlayerStateComponent.h"
 #include "ServiceLocator.h"
+#include "SprayAttackComponent.h"
 
 namespace dae {
 
@@ -80,7 +82,14 @@ namespace dae {
 
 		m_CollisionComponent->m_OldPos = m_GameObject->GetLocalPosition();
 		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + displacementVector);
-		//set direction in spray component?
+		auto* stateComp = m_GameObject->GetComponent<PlayerStateComponent>();
+		if (stateComp)
+		{
+			stateComp->SetDirection(static_cast<int>(m_Direction));
+		}
+
+
+		//set direction in spray component? (can keep personal by getower->playerstat)
 	}
 
 
@@ -210,6 +219,15 @@ namespace dae {
 
 	void SprayCommand::Execute()
 	{
+
+		auto sprayComp = m_GameObject->GetComponent<SprayAttackComponent>();
+		auto cookState = m_GameObject->GetComponent<PlayerStateComponent>();
+
+		if (sprayComp && cookState) {
+			sprayComp->Spray(cookState->m_CurrDirection);
+		}
+
+
 		//GetGameActor()->Spray(); //put in cpp file so can include the h file
 
 			//can spray in direction last looked (up/down/left/right)

@@ -25,7 +25,9 @@ namespace dae
 
     private:
         const int m_StartHealth{};
-        int m_CurrentHealth{};
+        int m_CurrentHealth{}; //MAKE STATIC
     };
+
+
 
 }

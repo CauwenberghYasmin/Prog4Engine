@@ -39,7 +39,7 @@ void CollisionComponent::Update() //check collision     //scenemanager, get curr
     {
         auto compOther = gameObj->GetComponent<CollisionComponent>();
 
-        if (compOther == this) continue;
+        if (compOther == this || !m_IsCollisionOn) continue;
 
         if (IsOverlapping(myRect, compOther->GetRect()))
         {

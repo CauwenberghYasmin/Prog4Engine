@@ -22,8 +22,11 @@
 #include "SoundSystem.h"
 #include "ReadLevelFile.h"
 #include "CollisionComponent.h"
+#include "PlayerStateComponent.h"
 #include "Scene.h"
 #include <iostream>
+
+#include "SprayAttackComponent.h"
 
 enum Direction { Up, Down, Left, Right };
 void colFuncTemp(CollisionComponent* coll); //DELETE TEMP
@@ -144,7 +147,7 @@ namespace dae {
 		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level01.txt");
 
 		auto& inputManager = dae::InputManager::GetInstance();
-		//inputManager.GetKeyboardInput()->RemoveBinding()
+		inputManager.GetKeyboardInput()->RemoveAllBindings();
 
 		//-----------------SKIP LEVELS BINDINGS && MUTE----------------------------------
 		auto vecLevelNames = std::vector<std::string>();
@@ -169,6 +172,27 @@ namespace dae {
 		picture->SetPosition(320, 320);
 		const glm::vec2 picSize = picture->GetTextureSize();
 		cook->AddComponent(std::move(picture));
+		auto playerState = std::make_unique<PlayerStateComponent>(cook.get());
+		cook->AddComponent(std::move(playerState));
+
+		//-------------------------SPRAY OBJECT - CHILD------------------------------------
+		auto spray = std::make_unique<dae::GameObject>();
+
+		spray->Tag = "Spray";
+		auto pic = std::make_unique<dae::RenderComponent>(spray.get());
+		pic->SetTexture("Spray.png");
+		pic->SetPosition(24, 4);
+		pic->m_IsRendering = false;
+		spray->AddComponent(std::move(pic));
+		auto collSpray = std::make_unique<CollisionComponent>(spray.get(), false);
+		collSpray->m_IsCollisionOn = false;
+		spray ->AddComponent(std::move(collSpray));
+		spray->SetParent(cook.get(), false);
+
+
+		cook->AddComponent(std::move(std::make_unique<SprayAttackComponent>(cook.get(), spray.get(), 5)));
+		scene->Add(std::move(spray));
+		//-------------------------------------------------------------------------------------
 
 		//adding health component
 		auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 4);
@@ -196,6 +220,10 @@ namespace dae {
 			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
 			SDL_SCANCODE_D, InputState::Pressed);
 
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::SprayCommand>(cook.get())),
+			SDL_SCANCODE_Z, InputState::JustPressed);
+
 		//---------------------------CONNECT HEALTH---------------------------------
 
 		auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 21);
@@ -203,7 +231,7 @@ namespace dae {
 		auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(TextOutputHealth.get());
 		TextOutputHealth->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
 
-		auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("Amount Lives: 4"), textFont); //don't need this component ref anymore, so no need to safe the id
+		auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("PLayer 1 Lives: 4"), textFont); //don't need this component ref anymore, so no need to safe the id
 		textHealth->SetColor({ 255, 255, 255, 255 });
 		textHealth->SetPosition(20, 20);
 		TextOutputHealth->AddComponent(std::move(textHealth));

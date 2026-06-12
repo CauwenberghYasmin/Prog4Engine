@@ -47,7 +47,7 @@ public:
     //set function to check + pick which function   //so owner calls child and passes this!!
     //-> inside function should check for tag! (owner responsibility)
 
-
+    bool m_IsCollisionOn{true};
 
 private:
     static bool IsOverlapping(const Rect& a, const Rect& b); //give in par for 2 rectangles.

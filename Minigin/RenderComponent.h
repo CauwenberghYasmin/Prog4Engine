@@ -31,6 +31,8 @@ namespace dae
         RenderComponent(const RenderComponent&) = delete;
         RenderComponent& operator=(const RenderComponent&) = delete;
 
+
+        bool m_IsRendering{true}; //public!
     private:
         Transform m_transform{};
         std::shared_ptr<Texture2D> m_texture{};

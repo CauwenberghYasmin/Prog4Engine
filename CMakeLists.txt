@@ -10,7 +10,12 @@ if(EMSCRIPTEN)
   set(TARGET_PARAM )
 else()
   set(TARGET_NAME minigin)
-  set(TARGET_PARAM WIN32)
+  set(TARGET_PARAM WIN32
+          BurgerTime/PlayerStateComponent.cpp
+          BurgerTime/PlayerStateComponent.h
+          BurgerTime/EnemyCollisionLogic.cpp
+          BurgerTime/EnemyCollisionLogic.h
+          Minigin/EnemyCrushedState.cpp)
 endif()
 
 # list source files here
@@ -41,21 +46,27 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
  "Minigin/MovementComponent.cpp" "Minigin/Command.cpp" "Minigin/KeyboardInput.cpp" "Minigin/Binding.cpp" 
  "Minigin/HealthComponent.h" "Minigin/HealthComponent.cpp" "Minigin/ScoreComponent.h" "Minigin/ScoreComponent.cpp" 
  "Minigin/Observer.h" "Minigin/ObserverManager.h" "Minigin/ObserverManager.cpp" "Minigin/Observer.cpp" 
- "Minigin/HotDogState.h" "Minigin/HotDogChaseState.h" "Minigin/HotDogStunState.h" "Minigin/HotDogClimbingState.h" 
- "Minigin/HotDogCrushedState.h" "Minigin/HotDogBehaviourComponent.h" 
- "Minigin/HotDogBehaviourComponent.cpp" 
+ "Minigin/EnemyState.h" "Minigin/EnemyChaseState.h" "BurgerTime/EnemyStunState.h" "Minigin/EnemyClimbingState.h"
+ "Minigin/EnemyCrushedState.h" "Minigin/EnemyBehaviourComponent.h"
+ "Minigin/EnemyBehaviourComponent.cpp"
  "Minigin/Game.h" 
  "BurgerTime/BurgerTime.cpp"
  "BurgerTime/BurgerTime.h"
  "Minigin/Game.cpp" "Minigin/SoundSystem.h" "Minigin/ServiceLocator.h" "Minigin/SdlSoundSystem.h" "Minigin/SdlSoundSystem.cpp" "Minigin/LoggingSoundSystem.h" "Minigin/NullSoundSystem.h"
-        Minigin/ReadLevelFile.cpp
-        Minigin/ReadLevelFile.h
-        Minigin/CollisionComponent.cpp
-        Minigin/CollisionComponent.h
-        BurgerTime/CookCollisionBehaviours.cpp
-        BurgerTime/CookCollisionBehaviours.h
-        BurgerTime/SprayAttack.cpp
-        BurgerTime/SprayAttack.h)
+  Minigin/ReadLevelFile.cpp
+  Minigin/ReadLevelFile.h
+  Minigin/CollisionComponent.cpp
+  Minigin/CollisionComponent.h
+  BurgerTime/CookCollisionBehaviours.cpp
+  BurgerTime/CookCollisionBehaviours.h
+  BurgerTime/SprayAttackComponent.cpp
+  BurgerTime/SprayAttackComponent.h
+  BurgerTime/EnemySpawner.cpp
+  BurgerTime/EnemySpawner.h
+  BurgerTime/EnemyStunState.cpp
+        Minigin/EnemyChaseState.cpp
+        Minigin/EnemyCrushedState.cpp
+        Minigin/EnemyClimbingState.cpp)
 
 
 # enable c++20 features
