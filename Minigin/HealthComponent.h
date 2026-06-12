@@ -8,17 +8,17 @@ namespace dae
     {
     public:
         HealthComponent(GameObject* pGameObject, int startingHealth, int id = 0 );
-        ~HealthComponent() = default;
+        ~HealthComponent() override = default;
        
 
-        int GetCurrentHealth();
-        bool isDead();
+        [[nodiscard]] int GetCurrentHealth() const;
+        [[nodiscard]] bool isDead() const;
         //void DoDamage(int amountDamage);
         void ChangeHealth(int amountHealthChange); //add pos for healing, add negative for damage
         void ResetHealth();
 
-        void Render() {}; //adding these because both are pure functions
-        void Update() {};
+        void Render() override{}; //adding these because both are pure functions
+        void Update() override{};
 
         HealthComponent(const HealthComponent&) = delete;
         HealthComponent& operator=(const HealthComponent&) = delete;

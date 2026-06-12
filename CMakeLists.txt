@@ -53,7 +53,9 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/CollisionComponent.cpp
         Minigin/CollisionComponent.h
         BurgerTime/CookCollisionBehaviours.cpp
-        BurgerTime/CookCollisionBehaviours.h)
+        BurgerTime/CookCollisionBehaviours.h
+        BurgerTime/SprayAttack.cpp
+        BurgerTime/SprayAttack.h)
 
 
 # enable c++20 features

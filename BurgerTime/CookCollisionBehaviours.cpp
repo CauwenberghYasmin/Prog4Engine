@@ -3,17 +3,36 @@
 //
 
 #include "CookCollisionBehaviours.h"
+#include "CollisionComponent.h"
+#include "HealthComponent.h"
 
 
 
 CookCollisionBehaviours:: CookCollisionBehaviours(dae::GameObject* owner, int id) :
     Component(owner, id)
-
 {
+    m_OldPos = owner->GetLocalPosition();
+    m_ObjectsHealthComponent = GetOwner()->GetComponent<dae::HealthComponent>();
 }
 
 void CookCollisionBehaviours::Update() {
 
+    if (m_OnAwake) //works like onawake, unity (make init function?)
+    {
+
+        auto* coll = GetOwner()->GetComponent<CollisionComponent>();
+        if (coll == nullptr) assert("create collision component before adding collisionBehaviour!");
+
+        coll->SetFunction([this](CollisionComponent* other) {
+            this->OnEnterCook(other);
+        }, CollisionComponent::CollisionType::OnEnter);
+
+        coll->SetFunction([this](CollisionComponent* other) {
+            this->OnExitCook(other);
+        }, CollisionComponent::CollisionType::OnExit);
+
+        m_OnAwake = false;
+    }
 }
 
 void CookCollisionBehaviours::Render() {
@@ -25,19 +44,22 @@ void CookCollisionBehaviours::OnEnterCook(CollisionComponent* other) {
 
     std::string tag {other->GetOwnerTag()};
 
-
     if (tag == "Tile")
     {
-        m_IsTouchingTile = true;
+        ++m_TileTouchCount;
     }
 
     if (tag == "Ladder")
     {
-        m_IsTouchingLadder = true;
+        ++m_LadderTouchCount;
     }
 
     if (tag == "Enemy")
     {
+        if (m_ObjectsHealthComponent == nullptr) {
+            m_ObjectsHealthComponent = GetOwner()->GetComponent<dae::HealthComponent>();
+        }
+        m_ObjectsHealthComponent->ChangeHealth(-1);
         //call damage, like in the command class
         //update all the observers!!!
         //make a list of observers to make!
@@ -68,11 +90,13 @@ void CookCollisionBehaviours::OnExitCook(CollisionComponent* other) {
 
     if (tag == "Tile")
     {
-        m_IsTouchingTile = false;
+       --m_TileTouchCount;
+        if (m_TileTouchCount < 0) m_TileTouchCount = 0;
     }
 
     if (tag == "Ladder")
     {
-        m_IsTouchingLadder = false;
+       --m_LadderTouchCount;
+        if (m_LadderTouchCount < 0) m_LadderTouchCount = 0;
     }
 }

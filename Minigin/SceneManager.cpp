@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
+#include <string>
 
 void dae::SceneManager::Update()
 {
@@ -9,6 +10,26 @@ void dae::SceneManager::Update()
 void dae::SceneManager::DelayUpdate()
 {
 	currentScene->DelayUpdate();
+
+	if (!m_SceneToLoad.empty())
+	{
+		for (auto& scene : m_scenes)
+		{
+			if (scene.second == m_SceneToLoad)
+			{
+				scene.first->LoadScene();
+
+				if (m_SceneToLoad != currentId) {
+					if (currentScene) currentScene->RemoveAll();
+					currentScene = scene.first.get();
+					currentId = scene.second;
+				}
+				break;
+			}
+		}
+
+		m_SceneToLoad = "";
+	}
 }
 
 void dae::SceneManager::Render() const
@@ -30,24 +51,25 @@ dae::Scene& dae::SceneManager::CreateScene(std::function<void(Scene* thisScene)>
 void dae::SceneManager::SetScene(const std::string& id)
 {
 
-	for (auto& scene : m_scenes)
-	{
-		if (scene.second == id)
-		{
-			//load first scene
-			scene.first->LoadScene();
+	m_SceneToLoad = id; //SHOLD BE DONE IN DELAYED UPDATE!!
+	// for (auto& scene : m_scenes)
+	// {
+	// 	if (scene.second == id)
+	// 	{
+	// 		//load first scene
+	// 		scene.first->LoadScene();
+	//
+	// 		if (id != currentId) { //create scene should not set the scene immediately!
+	// 			currentScene->RemoveAll();
+	// 			currentScene = scene.first.get();
+	// 			currentId = scene.second;
+	// 		}
+	//
+	// 		break; //don't need to continue loop if already found :)
+	// 	}
+	// }
 
-			if (id != currentId) { //create scene should not set the scene immediately!
-				currentScene->RemoveAll();
-				currentScene = scene.first.get();
-				currentId = scene.second;
-			}
-
-			break; //don't need to continue loop if already found :)
-		}
-	}
-
-	assert("id level does not exist!"); //assert instead of fallback value since you can fix this immediately!
+	//assert("id level does not exist!"); //assert instead of fallback value since you can fix this immediately!
 }
 
 dae::Scene* dae::SceneManager::GetScene(const std::string& name) const

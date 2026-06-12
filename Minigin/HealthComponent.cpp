@@ -5,7 +5,7 @@
 
 namespace dae {
 
-HealthComponent::HealthComponent(GameObject* pGameObject, int id, int startingHealth):
+HealthComponent::HealthComponent(GameObject* pGameObject, int startingHealth, int id):
 	Component(pGameObject, id), m_StartHealth(startingHealth), m_CurrentHealth(startingHealth)
 {
 }
@@ -13,12 +13,12 @@ HealthComponent::HealthComponent(GameObject* pGameObject, int id, int startingHe
 
 
 
-int HealthComponent::GetCurrentHealth()
+int HealthComponent::GetCurrentHealth()const
 {
 	return m_CurrentHealth;
 }
 
-bool HealthComponent::isDead()	//will later properly add an event dispatcher when a player dies....?
+bool HealthComponent::isDead()	const //will later properly add an event dispatcher when a player dies....?
 {
 	if (m_CurrentHealth == 0)
 		return true;

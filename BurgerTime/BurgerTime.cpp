@@ -86,8 +86,6 @@ namespace dae {
 		"Level03" );
 
 
-
-
 		dae::SceneManager::GetInstance().SetScene("StartScreen");
 
 
@@ -146,7 +144,7 @@ namespace dae {
 		ReadLevelFile::LoadlevelFromFile(*scene, "Data/levelFiles/Level01.txt");
 
 		auto& inputManager = dae::InputManager::GetInstance();
-		inputManager.GetKeyboardInput()->RemoveAllBindings(); //no bindings arrow
+		//inputManager.GetKeyboardInput()->RemoveBinding()
 
 		//-----------------SKIP LEVELS BINDINGS && MUTE----------------------------------
 		auto vecLevelNames = std::vector<std::string>();
@@ -163,10 +161,128 @@ namespace dae {
 			SDL_SCANCODE_F2, InputState::JustReleased);
 		//----------------------------------------------------------------------
 
+		//------------------------------COOK---------------------------------------
+	 	auto cook = std::make_unique<dae::GameObject>();
+	 	cook->Tag = "Player";
+		auto picture = std::make_unique<dae::RenderComponent>(cook.get());
+		picture->SetTexture("Cook.png");
+		picture->SetPosition(320, 320);
+		const glm::vec2 picSize = picture->GetTextureSize();
+		cook->AddComponent(std::move(picture));
 
+		//adding health component
+		auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 4);
+		cook->AddComponent(std::move(HealthComponent));
 
-		//if gamemode...
-		//add this or this
+	 	//coll behaviour + comp
+		auto collBeh = std::make_unique<CookCollisionBehaviours>(cook.get());
+		cook->AddComponent(std::move(collBeh));
+		auto CollComp = std::make_unique<CollisionComponent>(cook.get(), false, 1);
+		CollComp->SetCollisionBox(picSize.x, picSize.y/2, CollisionComponent::Alignment::Bottom);
+		cook ->AddComponent(std::move(CollComp));
+
+	 	//------------------------------player inputs------------------------------------
+		float cookSpeed{ 100.f };
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Up, cookSpeed))
+			, SDL_SCANCODE_W, InputState::Pressed);
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Down, cookSpeed)),
+			SDL_SCANCODE_S, InputState::Pressed);
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Left, cookSpeed)),
+			SDL_SCANCODE_A, InputState::Pressed);
+		inputManager.GetKeyboardInput()->AddBinding(
+			std::move(std::make_unique<dae::MoveCommand>(cook.get(), dae::Direction::Right, cookSpeed)),
+			SDL_SCANCODE_D, InputState::Pressed);
+
+		//---------------------------CONNECT HEALTH---------------------------------
+
+		auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 21);
+		auto TextOutputHealth = std::make_unique<dae::GameObject>();
+		auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(TextOutputHealth.get());
+		TextOutputHealth->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
+
+		auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("Amount Lives: 4"), textFont); //don't need this component ref anymore, so no need to safe the id
+		textHealth->SetColor({ 255, 255, 255, 255 });
+		textHealth->SetPosition(20, 20);
+		TextOutputHealth->AddComponent(std::move(textHealth));
+
+		auto healthObserver = std::make_unique<GameEvent>(TextOutputHealth.get());
+		dae::ObserverManager::GetInstance().AddObserver(cook.get(), std::move(healthObserver));
+		scene->Add(std::move(TextOutputHealth));
+
+		//--------------------------------------------------------------------------------------------------
+
+	 	scene->Add(std::move(cook));
+		// -------------------------------------------------------------------------------------------------------------------------
+
+		if (currGameMode == GameMode::Coop) {
+			//create second player
+			auto cook2 = std::make_unique<dae::GameObject>();
+			cook2->Tag = "Player";
+			auto picture2 = std::make_unique<dae::RenderComponent>(cook2.get());
+			picture2->SetTexture("Cook2.png");
+			picture2->SetPosition(220, 320);
+			cook2->AddComponent(std::move(picture2));
+
+			//adding health component
+			auto HealthComponent2 = std::make_unique<dae::HealthComponent>(cook2.get(), 3);
+			cook2->AddComponent(std::move(HealthComponent2));
+
+			//coll behaviour + comp
+			auto collBeh2 = std::make_unique<CookCollisionBehaviours>(cook2.get());	//CREATE BEFORE COLLCOMP
+			cook2->AddComponent(std::move(collBeh2));
+			auto CollComp2 = std::make_unique<CollisionComponent>(cook2.get(), false, 1); // Changed 'true' to an int ID
+			CollComp2->SetCollisionBox(picSize.x, picSize.y/2, CollisionComponent::Alignment::Bottom);
+			cook2 ->AddComponent(std::move(CollComp2)); //SET FUNCTION DONE IN COLLBEH
+
+			//player inputs
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(cook2.get(), dae::Direction::Up, cookSpeed))
+				, SDL_SCANCODE_UP, InputState::Pressed);
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(cook2.get(), dae::Direction::Down, cookSpeed)),
+				SDL_SCANCODE_DOWN, InputState::Pressed);
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(cook2.get(), dae::Direction::Left, cookSpeed)),
+				SDL_SCANCODE_LEFT, InputState::Pressed);
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(cook2.get(), dae::Direction::Right, cookSpeed)),
+				SDL_SCANCODE_RIGHT, InputState::Pressed);
+			scene->Add(std::move(cook2));
+		}
+
+		if (currGameMode == GameMode::VS) {
+			auto HotDogPlayer = std::make_unique<dae::GameObject>();
+			HotDogPlayer->Tag = "Enemy";
+			auto picture2 = std::make_unique<dae::RenderComponent>(HotDogPlayer.get());
+			picture2->SetTexture("HotDog.png");
+			picture2->SetPosition(220, 320);
+			HotDogPlayer->AddComponent(std::move(picture2));
+
+			//coll behaviour + comp
+			auto collBeh2 = std::make_unique<CookCollisionBehaviours>(HotDogPlayer.get());	//CREATE BEFORE COLLCOMP
+			HotDogPlayer->AddComponent(std::move(collBeh2));
+			auto CollComp2 = std::make_unique<CollisionComponent>(HotDogPlayer.get(), false, 1); // Changed 'true' to an int ID
+			CollComp2->SetCollisionBox(picSize.x, picSize.y/2, CollisionComponent::Alignment::Bottom);
+			HotDogPlayer ->AddComponent(std::move(CollComp2)); //SET FUNCTION DONE IN COLLBEH
+
+			//player inputs
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(HotDogPlayer.get(), dae::Direction::Up, cookSpeed))
+				, SDL_SCANCODE_UP, InputState::Pressed);
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(HotDogPlayer.get(), dae::Direction::Down, cookSpeed)),
+				SDL_SCANCODE_DOWN, InputState::Pressed);
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(HotDogPlayer.get(), dae::Direction::Left, cookSpeed)),
+				SDL_SCANCODE_LEFT, InputState::Pressed);
+			inputManager.GetKeyboardInput()->AddBinding(
+				std::move(std::make_unique<dae::MoveCommand>(HotDogPlayer.get(), dae::Direction::Right, cookSpeed)),
+				SDL_SCANCODE_RIGHT, InputState::Pressed);
+			scene->Add(std::move(HotDogPlayer));
+		}
 	}
 
 	void BurgerTime::LoadLevel02(Scene* scene) {
@@ -183,13 +299,7 @@ namespace dae {
 	void BurgerTime::PracticeScene(Scene* scene)
 	{ //add BurgerTime::!!!!
 		//has everything we made at the beginning!!
-
-		auto& inputManager = dae::InputManager::GetInstance(); //can be get for every single scene
-
-		inputManager.GetKeyboardInput()->AddBinding(
-				(std::make_unique<dae::MuteSoundCommand>(nullptr)),
-				SDL_SCANCODE_F2, InputState::JustReleased);
-
+		auto& inputManager = dae::InputManager::GetInstance();
 		//-----------------------------------------------------------------------------
 		//auto scene01 = std::make_unique<dae::GameObject>();
 		//auto background = std::make_unique<dae::RenderComponent>(scene01.get());
@@ -264,27 +374,19 @@ namespace dae {
 		picture->SetPosition(320, 320);
 		cook->AddComponent(std::move(picture));
 
-		auto collBeh = std::make_unique<CookCollisionBehaviours>(cook.get());	//still need to pass functions to the collider!! (manually or do in class?)
-		cook->AddComponent(std::move(collBeh));
-
-		
-
 		//adding health component
 		auto HealthComponent = std::make_unique<dae::HealthComponent>(cook.get(), 3);
 		cook->AddComponent(std::move(HealthComponent));
 
+
+
+
+		auto collBeh = std::make_unique<CookCollisionBehaviours>(cook.get());	//CREATE BEFORE COLLCOMP
+		cook->AddComponent(std::move(collBeh));
+
 		auto CollComp = std::make_unique<CollisionComponent>(cook.get(), false, 1); // Changed 'true' to an int ID
+		cook ->AddComponent(std::move(CollComp)); //SET FUNCTION DONE IN COLLBEH
 
-		CollComp->SetFunction([](CollisionComponent* coll)
-		{
-			std::string tag = coll->GetOwnerTag();
-			if (tag == "Enemy")
-			{
-				ServiceLocator::get_sound_system().PlaySound(1, 50);
-			}
-		}, CollisionComponent::CollisionType::OnExit); // Proper closing here!
-
-		cook ->AddComponent(std::move(CollComp));
 		cook->Tag = "Player";
 
 		float cookSpeed{ 9600.f };
@@ -331,25 +433,25 @@ namespace dae {
 		scene->Add(std::move(hotdog));
 
 		//-------------------health output 01--------------------------
-		auto TextOutputHealth = std::make_unique<dae::GameObject>();
 
 
 		//-----------------the health renderer should be a different object to begin with---------------------------
 		//
+
+		auto TextOutputHealth = std::make_unique<dae::GameObject>();
 		auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(TextOutputHealth.get());
 		TextOutputHealth->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
 
-		auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("Amount Lives: 3"), textFont); //don't need this component ref anymore, so no need to safe the id
+		auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("Amount Lives: 4"), textFont); //don't need this component ref anymore, so no need to safe the id
 		textHealth->SetColor({ 255, 255, 255, 255 });
 		textHealth->SetPosition(20, 300);
 		TextOutputHealth->AddComponent(std::move(textHealth));
 
-
-		//MAKING OBSERVERS AND CONNECTING THEM!!!!!!!
 		auto healthObserver = std::make_unique<GameEvent>(TextOutputHealth.get());
 		dae::ObserverManager::GetInstance().AddObserver(cook.get(), std::move(healthObserver));
-
 		scene->Add(std::move(TextOutputHealth));
+
+
 		//-----------------------------------------------------------------------------
 
 		inputManager.GetKeyboardInput()->AddBinding(

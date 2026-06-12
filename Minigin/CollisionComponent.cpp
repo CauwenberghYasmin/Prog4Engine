@@ -83,10 +83,9 @@ void CollisionComponent::Update() //check collision     //scenemanager, get curr
 }
 
 CollisionComponent::Rect CollisionComponent::GetRect() {
+
     const glm::vec2 pos = GetOwner()->GetWorldPosition();
-
     const glm::vec2 size  = GetOwner()->GetComponent<dae::RenderComponent>()->GetTextureSize();
-
 
     float offsetX = 0.f;
     float offsetY = 0.f;
@@ -141,9 +140,6 @@ void CollisionComponent::Render()
 
     const SDL_FRect rectangle{ rect.x, rect.y, rect.width, rect.height };
     SDL_RenderRect(sdlRenderer, &rectangle);
-
-    //SDL_DrawRect = { rect.x, rect.y, rect.width, rect.height };
-
 }
 
 std::string CollisionComponent::GetOwnerTag()

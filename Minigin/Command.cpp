@@ -52,27 +52,35 @@ namespace dae {
 		glm::vec3 displacementVector{ 0,0,0 };
 		float deltaTime = dae::GameTime::GetInstance().GetDeltaTime();
 
+		if (!m_CollisionComponent->IsTouchingTile() && !m_CollisionComponent->IsTouchingLadder()) {
+			m_GameObject->SetLocalPosition(m_CollisionComponent->m_OldPos);
+		}
+
+
+
 		switch (m_Direction) //game only requires straight up, down, left and right. no circle movement behaviours!
 		{
 		case Direction::Left:
-			if (m_CollisionComponent->m_IsTouchingTile)
+			if (m_CollisionComponent->IsTouchingTile())
 				displacementVector.x -= m_Speed * deltaTime; //look into normalized value * speed or smth
 			break;
 		case Direction::Right:
-			if (m_CollisionComponent->m_IsTouchingTile)
+			if (m_CollisionComponent->IsTouchingTile())
 				displacementVector.x += m_Speed * deltaTime; //maybe use geometric algebra from class!!!
 			break;
 		case Direction::Up:
-			if (m_CollisionComponent->m_IsTouchingLadder)
+			if (m_CollisionComponent->IsTouchingLadder())
 				displacementVector.y -= m_Speed * deltaTime;
 			break;
 		case Direction::Down:
-			if (m_CollisionComponent->m_IsTouchingLadder)
+			if (m_CollisionComponent->IsTouchingLadder())
 				displacementVector.y += m_Speed * deltaTime;
 			break;
 		}
 
-		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + (displacementVector * deltaTime));
+		m_CollisionComponent->m_OldPos = m_GameObject->GetLocalPosition();
+		m_GameObject->SetLocalPosition(m_GameObject->GetLocalPosition() + displacementVector);
+		//set direction in spray component?
 	}
 
 
@@ -206,9 +214,10 @@ namespace dae {
 
 			//can spray in direction last looked (up/down/left/right)
 			//show sparkle effect
-			//look if sound effect..?
-			//make somewhere a collision system so that the enemies know what they are hit
-			//make counter of amount of sprays go down (event system?)
+			//let observer play the sound! (call notify!)
+			//make temp collision + check hit enemy tag (pass function with lambda)
+			//--count amount sprays
+			// -> observer also changes the text with amount!
 	}
 
 }

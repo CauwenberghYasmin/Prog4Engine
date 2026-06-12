@@ -29,5 +29,7 @@ namespace dae
 		Scene* currentScene {nullptr};
 		std::string currentId;
 		std::vector<std::pair<std::unique_ptr<Scene>, std::string>> m_scenes{};
+
+		std::string m_SceneToLoad{};
 	};
 }

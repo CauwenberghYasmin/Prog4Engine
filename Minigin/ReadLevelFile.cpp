@@ -84,9 +84,15 @@ void ReadLevelFile::LoadlevelFromFile(dae::Scene& scene, const std::string& file
             auto sprite = std::make_unique<dae::RenderComponent>(tileObject.get());
             sprite->SetTexture(filePath);
             sprite->SetPosition(tile.posX, tile.posY);
+            auto size = sprite->GetTextureSize();
             tileObject->AddComponent(std::move(sprite));
-            tileObject->AddComponent(std::make_unique<CollisionComponent>(tileObject.get(), true));
-            //dont add tile logic here? (on collision function)
+
+            auto collComp = std::make_unique<CollisionComponent>(tileObject.get(), true);
+             if (tile.type == TileType::shortTile || tile.type == TileType::longTile)
+             {
+                 collComp->SetCollisionBox(size.x, (size.y/10), CollisionComponent::Alignment::Top); //smaller area!
+             }
+            tileObject->AddComponent(std::move(collComp));
             scene.Add(std::move(tileObject));
         }
     }
