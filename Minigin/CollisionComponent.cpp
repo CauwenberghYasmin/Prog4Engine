@@ -25,7 +25,7 @@ CollisionComponent::CollisionComponent(dae::GameObject* pGameObject, bool isObSt
 void CollisionComponent::Update() //check collision     //scenemanager, get curr->Scene::GetVisibleObjects()
 {
 
-    if (isStatic) return; //should only check moving objects, or special objects that have logic (icecream, bnus points)
+    if (isStatic || !m_IsCollisionOn) return; //should only check moving objects, or special objects that have logic (icecream, bnus points)
 
 
     auto* scene = dae::SceneManager::GetInstance().GetCurrentScene();
@@ -39,7 +39,7 @@ void CollisionComponent::Update() //check collision     //scenemanager, get curr
     {
         auto compOther = gameObj->GetComponent<CollisionComponent>();
 
-        if (compOther == this || !m_IsCollisionOn) continue;
+        if (compOther == this || !compOther->m_IsCollisionOn) continue;
 
         if (IsOverlapping(myRect, compOther->GetRect()))
         {

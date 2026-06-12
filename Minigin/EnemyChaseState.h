@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL3/SDL_stdinc.h>
+
 #include "EnemyState.h"
 
 
@@ -10,7 +12,7 @@ public:
     std::unique_ptr<EnemyState> Update(dae::GameObject* pOwner) override;
 
 private:
-    float m_WalkSpeed{ 90.0f };
+    float m_WalkSpeed{ 90 };
     glm::vec3 m_MoveDirection{ 1.0f, 0.0f, 0.0f };
 
     glm::vec3 m_LastPosition{};

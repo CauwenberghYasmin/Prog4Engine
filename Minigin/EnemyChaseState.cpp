@@ -58,6 +58,29 @@ std::unique_ptr<EnemyState> EnemyChaseState::Update(dae::GameObject* pOwner)
     //if (collision->m_IsOnBurger && burgerFalling (notify by observer?)) return std::make_unique<EnemyFallingState>();
 
 
+    if (!collision->IsTouchingLadder() && !collision->IsTouchingTile()) //while off level (usually spawn)
+    {
+        glm::vec3 targetPos = m_pTargetPlayer->GetLocalPosition();
+        if (targetPos.x < myPos.x)
+            m_MoveDirection = glm::vec3{ -1.f, 0.f, 0.f };//left
+        else
+        {
+            m_MoveDirection = glm::vec3{ 1.f, 0.f, 0.f };
+        }
+        if (targetPos.y < myPos.y)
+            m_MoveDirection = glm::vec3{ 1.f, 0.f, 0.f };//left
+        else
+        {
+            m_MoveDirection = glm::vec3{ -1.f, 0.f, 0.f };
+        }
+
+
+        myPos += m_MoveDirection * (m_WalkSpeed * deltaTime);
+        pOwner->SetLocalPosition(myPos);
+
+        return nullptr;
+    }
+
     // check if stuck
     if (glm::distance(myPos, m_LastPosition) < 0.1f * deltaTime)
     {

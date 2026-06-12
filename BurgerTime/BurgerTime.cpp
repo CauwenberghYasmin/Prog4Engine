@@ -23,6 +23,7 @@
 #include "ReadLevelFile.h"
 #include "CollisionComponent.h"
 #include "PlayerStateComponent.h"
+#include "EnemySpawner.h"
 #include "Scene.h"
 #include <iostream>
 
@@ -164,6 +165,8 @@ namespace dae {
 			SDL_SCANCODE_F2, InputState::JustReleased);
 		//----------------------------------------------------------------------
 
+		std::vector<GameObject*> players;
+
 		//------------------------------COOK---------------------------------------
 	 	auto cook = std::make_unique<dae::GameObject>();
 	 	cook->Tag = "Player";
@@ -241,7 +244,7 @@ namespace dae {
 		scene->Add(std::move(TextOutputHealth));
 
 		//--------------------------------------------------------------------------------------------------
-
+		players.emplace_back(cook.get()); //fake error
 	 	scene->Add(std::move(cook));
 		// -------------------------------------------------------------------------------------------------------------------------
 
@@ -278,6 +281,8 @@ namespace dae {
 			inputManager.GetKeyboardInput()->AddBinding(
 				std::move(std::make_unique<dae::MoveCommand>(cook2.get(), dae::Direction::Right, cookSpeed)),
 				SDL_SCANCODE_RIGHT, InputState::Pressed);
+
+			players.emplace_back(cook2.get());
 			scene->Add(std::move(cook2));
 		}
 
@@ -311,6 +316,25 @@ namespace dae {
 				SDL_SCANCODE_RIGHT, InputState::Pressed);
 			scene->Add(std::move(HotDogPlayer));
 		}
+
+
+
+		//--------------------------ENEMY SPAWNER-----------------------------
+		std::vector<glm::vec2> positions{};
+		const int enemyAmount{7};
+		positions.reserve(enemyAmount);
+		positions.emplace_back(2, 40);
+		positions.emplace_back(2, 261);
+		positions.emplace_back(2, 566);
+		positions.emplace_back(990, 0);
+		positions.emplace_back(990, 62);
+		positions.emplace_back(990, 262);
+		positions.emplace_back(990, 566);
+
+		auto EnemySpawn = std::make_unique<dae::GameObject>();
+		EnemySpawn->AddComponent(std::make_unique<EnemySpawner>(EnemySpawn.get(), players, positions, enemyAmount, scene));
+		scene->Add(std::move(EnemySpawn));
+
 	}
 
 	void BurgerTime::LoadLevel02(Scene* scene) {

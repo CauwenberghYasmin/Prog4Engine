@@ -62,7 +62,7 @@ EnemySpawner::EnemySpawner(dae::GameObject* owner, std::vector<dae::GameObject*>
 
         auto renderComp = std::make_unique<dae::RenderComponent>(enemyObj.get());
         renderComp->SetTexture(texturePath);
-        glm::vec2 startPos = m_SpawnPositions[i % m_SpawnPositions.size()];
+        glm::vec2 startPos = m_SpawnPositions[i];
         renderComp->SetPosition(startPos.x, startPos.y);
         const glm::vec2 size = renderComp->GetTextureSize(); //bottom coll
         enemyObj->AddComponent(std::move(renderComp));
