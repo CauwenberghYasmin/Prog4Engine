@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include <string>
 
+#include "ObserverManager.h"
+
 void dae::SceneManager::Update()
 {
 	currentScene->Update();
@@ -17,17 +19,17 @@ void dae::SceneManager::DelayUpdate()
 		{
 			if (scene.second == m_SceneToLoad)
 			{
-				scene.first->LoadScene();
-
 				if (m_SceneToLoad != currentId) {
 					if (currentScene) currentScene->RemoveAll();
+					dae::ObserverManager::GetInstance().ClearAllObservers();
+
 					currentScene = scene.first.get();
 					currentId = scene.second;
 				}
+				currentScene->LoadScene();
 				break;
 			}
 		}
-
 		m_SceneToLoad = "";
 	}
 }

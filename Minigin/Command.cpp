@@ -10,6 +10,7 @@
 #include "ObserverManager.h"
 #include "SceneManager.h"
 #include "Game.h"
+#include "LevelManager.h"
 #include "PlayerStateComponent.h"
 #include "ServiceLocator.h"
 #include "SprayAttackComponent.h"
@@ -137,12 +138,7 @@ namespace dae {
 	void SkipLevelCommand::Execute()
 	{
 		//Move this to a levelManager?
-
-		int index = m_Index % 3;
-
-		std::string nextLevelName {m_LevelNames[index]};
-		dae::SceneManager::GetInstance().SetScene(nextLevelName);
-		++m_Index;
+		LevelManager::GetInstance().NextLevel();
 	}
 
 	ArrowMoveCommand::ArrowMoveCommand(GameObject* pGameObject, Direction direction, float space, int amount) :

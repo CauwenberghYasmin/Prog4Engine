@@ -18,5 +18,7 @@ public:
 	virtual void OnExit(dae::GameObject* pOwner)=0;
 
 	virtual std::unique_ptr<EnemyState> Update(dae::GameObject* pOwner) = 0; //return new state pointer
+
+	bool m_HasReachedGrid{false};
 };
 #endif // ENEMYSTATE_H

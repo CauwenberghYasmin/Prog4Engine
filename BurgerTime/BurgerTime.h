@@ -1,5 +1,6 @@
 #pragma once
 #include "Game.h"
+#include "GameObject.h"
 
 namespace dae {
 
@@ -21,16 +22,17 @@ public:
 
 	void LoadStartScreen(Scene* scene); //exam question: why made this function static -> BE ABLE TO ANSWER!
 	void LoadLevel01(Scene* scene); //exam question: why made this function static -> BE ABLE TO ANSWER!
-	static void LoadLevel02(Scene* scene);
-	static void LoadLevel03(Scene* scene);
+	 void LoadLevel02(Scene* scene);
+	 void LoadLevel03(Scene* scene);
+	 void LoadHighScore(Scene* scene);
 	//void LoadStartScreen(Scene* scene);
 	//void LoadEndScreen(Scene* scene); //highscore!
 
 
 	static void PracticeScene(Scene* scene);
-
+	bool m_GameStarted{false};
 
 private:
-
+	void SetupPlayersAndUI(dae::Scene* scene, std::vector<GameObject*>& players);
 }; //cpp file should have to load funciton from main
 }

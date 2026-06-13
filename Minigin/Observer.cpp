@@ -2,15 +2,13 @@
 #include "Observer.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
+#include "PickUpComponent.h"
 #include "ScoreComponent.h"
 #include "TextComponent.h"
 #include "ServiceLocator.h"
 //#include "sdlsoundsystem.h"
 
-namespace dae 
-{
-
-
+namespace dae {
 	GameEvent::GameEvent(GameObject* listener) :
 		IObserver(), m_pListener(listener)
 	{
@@ -21,29 +19,41 @@ namespace dae
 	{
 
 		switch (event) {
-		case Event::PlayerDies:
-			if (event == Event::PlayerDies)
-			{
-				HealthComponent* pHealth = actor->GetComponent<HealthComponent>();
-				TextComponent* m_pTextComponent = m_pListener->GetComponent<TextComponent>(); //prefer to cash it somewhere, but it's all pretty hard coded here
-																							 //not in constructor, since now it's gameobject and not component -> BETTER
-				if (pHealth != nullptr && m_pTextComponent != nullptr)
+			case Event::PlayerDies:
+				if (event == Event::PlayerDies)
 				{
-					int currentHealth = pHealth->GetCurrentHealth();
+					LevelManager::GetInstance().LoseLife();
+					if (TextComponent* pText = m_pListener->GetComponent<TextComponent>())
+					{
+						int currentLives = LevelManager::GetInstance().GetLives();
+						pText->SetText("Amount Lives: " + std::to_string(currentLives));
+						ServiceLocator::get_sound_system().PlaySound(1, 50);
 
-					std::string newText = "Amount Lives: " + std::to_string(currentHealth);
-					m_pTextComponent->SetText(newText);
+						if (LevelManager::GetInstance().GetLives() <= 0) {
+							LevelManager::GetInstance().HighscoreLevel();
+						}
+						break;
+					}
+					case Event::ItemPickedUp:
+					{
+						PickUpComponent* pPickup = actor->GetComponent<PickUpComponent>();
+						if (pPickup != nullptr)
+						{
+							LevelManager::GetInstance().AddScore(pPickup->GetScoreValue());
 
-					ServiceLocator::get_sound_system().PlaySound(1, 50);
+							if (TextComponent* pText = m_pListener->GetComponent<TextComponent>())
+							{
+								int currentScore = LevelManager::GetInstance().GetScore();
+								pText->SetText("Score: " + std::to_string(currentScore));
+								ServiceLocator::get_sound_system().PlaySound(2, 50);
+							}
+						}
+						break;
+					}
 				}
-			}
 
-			//case Event::PlayerRecievesScore:
-			//	break;
 		}
 
 	}
-
 }
-
 

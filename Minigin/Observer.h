@@ -4,6 +4,7 @@
 #include "ScoreComponent.h"
 #include "TextComponent.h"
 #include "Component.h"
+#include "LevelManager.h"
 
 
 namespace dae {
@@ -11,11 +12,15 @@ namespace dae {
 enum class Event
 {
 	PlayerDies,
-	EnemyDied
+	EnemyDied,
+	BurgerLayerFell,
+	EnemyRidingLayer, //hehe riding
+	EnemySquashedByLayer,
+	ItemPickedUp,
+	LevelComplete
 	//PlayerRecievesScore,
 	//PlayerWinsFirstGame
 };
-
 
 
 struct IObserver
@@ -61,7 +66,18 @@ private:
 //	}
 //};
 
-
+	class GameManagerObserver : public dae::IObserver
+	{
+	public:
+		void Notify(dae::Event event, dae::GameObject* actor) override
+		{
+			if (event == dae::Event::LevelComplete)
+			{
+				LevelManager::GetInstance().NextLevel();
+				if (actor == nullptr) return;
+			}
+		}
+	};
 
 
 

@@ -36,6 +36,7 @@ namespace dae
 
 		void RemoveComponent(float id);
 		bool CheckComponentExist(float id);
+		std::vector<GameObject*> GetChildren(){return m_pChildren;} //fake error
 
 
 		template<typename T>

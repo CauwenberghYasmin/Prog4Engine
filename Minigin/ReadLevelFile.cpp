@@ -87,13 +87,13 @@ void ReadLevelFile::LoadlevelFromFile(dae::Scene& scene, const std::string& file
             auto size = sprite->GetTextureSize();
             tileObject->AddComponent(std::move(sprite));
 
-            auto collComp = std::make_unique<CollisionComponent>(tileObject.get(), true, true);
+            auto collComp = std::make_unique<CollisionComponent>(tileObject.get(), true);
              if (tile.type == TileType::shortTile || tile.type == TileType::longTile)
              {
                  collComp->SetCollisionBox(size.x, (size.y/10), CollisionComponent::Alignment::Top); //smaller area!
              }
             if (tile.type == TileType::shortLadder || tile.type == TileType::longLadder) {
-                collComp->SetCollisionBox(size.x/2, (size.y), CollisionComponent::Alignment::Center); //smaller area!
+                collComp->SetCollisionBox(size.x/4, (size.y), CollisionComponent::Alignment::Center); //smaller area!
 
             }
             tileObject->AddComponent(std::move(collComp));

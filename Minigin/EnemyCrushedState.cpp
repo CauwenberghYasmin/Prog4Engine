@@ -10,6 +10,7 @@ void EnemyCrushedState::OnEnter(dae::GameObject* pOwner, const std::vector<dae::
 {
     if (players[0] == nullptr) return; //warning unreferenced paramterer-> might as well use for safety check
 
+    m_HasReachedGrid = false;
     auto behaviour = pOwner->GetComponent<EnemyBehaviourComponent>();
     if (behaviour) {
         dae::ObserverManager::GetInstance().NotifyObserver(pOwner, dae::Event::EnemyDied);

@@ -5,7 +5,7 @@
 #include "CookCollisionBehaviours.h"
 #include "CollisionComponent.h"
 #include "HealthComponent.h"
-
+#include "PickUpComponent.h"
 
 
 CookCollisionBehaviours:: CookCollisionBehaviours(dae::GameObject* owner, int id) :
@@ -75,12 +75,13 @@ void CookCollisionBehaviours::OnEnterCook(CollisionComponent* other) {
 
 
 
-    if (tag == "PickUp")
+    if (tag == "PickUp") //-> extra!!! wasn't in the requirements!
     {
-        //do bonus points
-        //update observer for the text
-        //remove image after!
-        // -> object pooling?
+        dae::GameObject* itemObject = other->GetOwner();
+        if (auto pickupComp = itemObject->GetComponent<PickUpComponent>())
+        {
+            pickupComp->Collect(GetOwner());
+        }
     }
 
 }

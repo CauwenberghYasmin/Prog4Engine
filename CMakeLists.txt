@@ -15,7 +15,9 @@ else()
           BurgerTime/PlayerStateComponent.h
           BurgerTime/EnemyCollisionLogic.cpp
           BurgerTime/EnemyCollisionLogic.h
-          Minigin/EnemyCrushedState.cpp)
+          Minigin/EnemyCrushedState.cpp
+          BurgerTime/BurgerLayerComponent.cpp
+          BurgerTime/BurgerLayerComponent.h)
 endif()
 
 # list source files here
@@ -64,9 +66,22 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   BurgerTime/EnemySpawner.cpp
   BurgerTime/EnemySpawner.h
   BurgerTime/EnemyStunState.cpp
+  BurgerTime/BurgerLayerComponent.cpp
         Minigin/EnemyChaseState.cpp
         Minigin/EnemyCrushedState.cpp
-        Minigin/EnemyClimbingState.cpp)
+        Minigin/EnemyClimbingState.cpp
+        BurgerTime/Burger.cpp
+        BurgerTime/Burger.h
+        BurgerTime/BurgerSectionCollisionBehaviour.cpp
+        BurgerTime/BurgerSectionCollisionBehaviour.h
+        BurgerTime/BurgerLayerCollisionBehaviour.cpp
+        BurgerTime/BurgerLayerCollisionBehaviour.h
+        BurgerTime/PickUpSpawner.cpp
+        BurgerTime/PickUpSpawner.h
+        BurgerTime/PickUpComponent.cpp
+        BurgerTime/PickUpComponent.h
+        BurgerTime/LevelManager.cpp
+        BurgerTime/LevelManager.h)
 
 
 # enable c++20 features

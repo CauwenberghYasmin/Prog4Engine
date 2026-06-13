@@ -18,6 +18,10 @@ public:
 	void RemoveObserver(GameObject* subject, IObserver* observer); //should this also be a unique ptr? the observe manager own them, so how pass?
 	void NotifyObserver(GameObject* subject, const Event& event);
 
+	void ClearAllObservers() {
+		m_Map.clear();
+	}
+
 private:
 
 	std::unordered_map<GameObject*, std::vector<std::unique_ptr<IObserver>>> m_Map{}; //see if polymorphism works with the parent struct

@@ -15,6 +15,7 @@ void EnemyClimbingState::OnEnter(dae::GameObject* pOwner, const std::vector<dae:
     glm::vec3 myPos = pOwner->GetLocalPosition();
     dae::GameObject* pTargetPlayer = nullptr;
     float closestDistance = FLT_MAX;
+    m_Players = players;
 
     for (auto* player : players)
     {
@@ -24,7 +25,6 @@ void EnemyClimbingState::OnEnter(dae::GameObject* pOwner, const std::vector<dae:
             closestDistance = distance;
             pTargetPlayer = player;
         }
-        m_Players.emplace_back(pTargetPlayer);
     }
 
     if (pTargetPlayer)
@@ -71,13 +71,24 @@ std::unique_ptr<EnemyState> EnemyClimbingState::Update(dae::GameObject* pOwner)
         }
     }
 
-    if (!collision->IsTouchingLadder() && collision->IsTouchingTile())
+    if (!collision->IsTouchingLadder())
     {
         return std::make_unique<EnemyChaseState>();
     }
 
-    //might need some behaviour when stuck on bottoms ladder and not touching a tile...
 
+    //safety here
+    if (glm::distance(pos, m_LastPos) < 0.1f * deltaTime) {
+        m_StuckTimer += deltaTime;
+    } else {
+        m_StuckTimer = 0.0f;
+    }
+    m_LastPos = pos;
+
+    if (m_StuckTimer > 0.2f) {
+        m_StuckTimer = 0.0f;
+        return std::make_unique<EnemyChaseState>();
+    }
 
     pos.y += m_ClimbDirection * (m_ClimbSpeed * deltaTime);
     pOwner->SetLocalPosition(pos);

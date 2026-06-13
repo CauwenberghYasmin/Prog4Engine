@@ -70,6 +70,8 @@ std::vector<GameObject*> Scene::GetCollisionObjects() {
 
 	if (visibleObjects.empty() || hasVecChanged == true) //knows if there was a change
 	{
+		visibleObjects.clear();
+
 		for (const auto& object : m_objects) {
 
 			if (object->GetComponent<CollisionComponent>() != nullptr) {

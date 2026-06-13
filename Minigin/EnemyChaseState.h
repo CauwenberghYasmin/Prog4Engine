@@ -12,7 +12,7 @@ public:
     std::unique_ptr<EnemyState> Update(dae::GameObject* pOwner) override;
 
 private:
-    float m_WalkSpeed{ 90 };
+    float m_WalkSpeed{ 80 };
     glm::vec3 m_MoveDirection{ 1.0f, 0.0f, 0.0f };
 
     glm::vec3 m_LastPosition{};

@@ -48,9 +48,16 @@ void EnemyChaseState::OnExit(dae::GameObject *pOwner)
 
 std::unique_ptr<EnemyState> EnemyChaseState::Update(dae::GameObject* pOwner)
 {
+
+
     float deltaTime = dae::GameTime::GetInstance().GetDeltaTime();
     auto collision = pOwner->GetComponent<EnemyCollisionLogic>();
     glm::vec3 myPos = pOwner->GetLocalPosition();
+
+    if (collision->IsTouchingLadder() || collision->IsTouchingTile())
+    {
+        m_HasReachedGrid = true; // Lock out spawn behavior forever!
+    }
 
     //priorities
     if (collision->m_IsHitBySpray) return std::make_unique<EnemyStunState>();
@@ -58,28 +65,30 @@ std::unique_ptr<EnemyState> EnemyChaseState::Update(dae::GameObject* pOwner)
     //if (collision->m_IsOnBurger && burgerFalling (notify by observer?)) return std::make_unique<EnemyFallingState>();
 
 
-    if (!collision->IsTouchingLadder() && !collision->IsTouchingTile()) //while off level (usually spawn)
+    if (!m_HasReachedGrid) //while off level (usually spawn)
     {
         glm::vec3 targetPos = m_pTargetPlayer->GetLocalPosition();
         if (targetPos.x < myPos.x)
-            m_MoveDirection = glm::vec3{ -1.f, 0.f, 0.f };//left
+            m_MoveDirection.x = -1.f;//left
         else
         {
-            m_MoveDirection = glm::vec3{ 1.f, 0.f, 0.f };
+            m_MoveDirection.x = 1;
         }
         if (targetPos.y < myPos.y)
-            m_MoveDirection = glm::vec3{ 1.f, 0.f, 0.f };//left
+            m_MoveDirection.y = -1;
         else
         {
-            m_MoveDirection = glm::vec3{ -1.f, 0.f, 0.f };
+            m_MoveDirection.y = 1;
         }
-
 
         myPos += m_MoveDirection * (m_WalkSpeed * deltaTime);
         pOwner->SetLocalPosition(myPos);
 
         return nullptr;
     }
+
+    m_MoveDirection.y = 0.f; //clear direction if on grid again
+    //m_MoveDirection.x = 0.f; //clear direction if on grid again
 
     // check if stuck
     if (glm::distance(myPos, m_LastPosition) < 0.1f * deltaTime)
@@ -110,6 +119,13 @@ std::unique_ptr<EnemyState> EnemyChaseState::Update(dae::GameObject* pOwner)
         }
     }
 
+    if (!collision->IsTouchingLadder() && !collision->IsTouchingTile()) //walking back
+    {
+        m_MoveDirection.x *= -1.f; // Reverse direction
+        myPos.x += m_MoveDirection.x * (m_WalkSpeed * deltaTime);
+        pOwner->SetLocalPosition(myPos);
+        return nullptr;
+    }
 
     myPos += m_MoveDirection * (m_WalkSpeed * deltaTime);
     pOwner->SetLocalPosition(myPos);
