@@ -15,61 +15,62 @@ else()
           BurgerTime/PlayerStateComponent.h
           BurgerTime/EnemyCollisionLogic.cpp
           BurgerTime/EnemyCollisionLogic.h
-          Minigin/EnemyCrushedState.cpp
+          BurgerTime/EnemyCrushedState.cpp
           BurgerTime/BurgerLayerComponent.cpp
           BurgerTime/BurgerLayerComponent.h)
 endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/Font.cpp
-  Minigin/GameObject.cpp
-  Minigin/InputManager.cpp
-  Minigin/Main.cpp
-  Minigin/Minigin.cpp
-  Minigin/Renderer.cpp
-  Minigin/ResourceManager.cpp
-  Minigin/Scene.cpp
-  Minigin/SceneManager.cpp
-  "Minigin/TextComponent.cpp"
-  Minigin/Texture2D.cpp
-  Minigin/Transform.cpp
- "Minigin/Component.h" 
- "Minigin/Component.cpp" 
- "Minigin/GameTime.h" 
- "Minigin/FpsComponent.h" 
- "Minigin/FPSComponent.cpp" 
- "Minigin/RenderComponent.h" 
- "Minigin/RenderComponent.cpp" 
- "Minigin/RotatorComponent.h" 
- "Minigin/RotatorComponent.cpp" 
- "Minigin/imgui_plot.cpp" "Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h" 
- "Minigin/InputOptions.h" "Minigin/ControllerInput.cpp" "Minigin/Binding.h" "Minigin/MovementComponent.h" 
- "Minigin/MovementComponent.cpp" "Minigin/Command.cpp" "Minigin/KeyboardInput.cpp" "Minigin/Binding.cpp" 
- "Minigin/HealthComponent.h" "Minigin/HealthComponent.cpp" "Minigin/ScoreComponent.h" "Minigin/ScoreComponent.cpp" 
- "Minigin/Observer.h" "Minigin/ObserverManager.h" "Minigin/ObserverManager.cpp" "Minigin/Observer.cpp" 
- "Minigin/EnemyState.h" "Minigin/EnemyChaseState.h" "BurgerTime/EnemyStunState.h" "Minigin/EnemyClimbingState.h"
- "Minigin/EnemyCrushedState.h" "Minigin/EnemyBehaviourComponent.h"
- "Minigin/EnemyBehaviourComponent.cpp"
- "Minigin/Game.h" 
- "BurgerTime/BurgerTime.cpp"
- "BurgerTime/BurgerTime.h"
- "Minigin/Game.cpp" "Minigin/SoundSystem.h" "Minigin/ServiceLocator.h" "Minigin/SdlSoundSystem.h" "Minigin/SdlSoundSystem.cpp" "Minigin/LoggingSoundSystem.h" "Minigin/NullSoundSystem.h"
-  Minigin/ReadLevelFile.cpp
-  Minigin/ReadLevelFile.h
-  Minigin/CollisionComponent.cpp
-  Minigin/CollisionComponent.h
-  BurgerTime/CookCollisionBehaviours.cpp
-  BurgerTime/CookCollisionBehaviours.h
-  BurgerTime/SprayAttackComponent.cpp
-  BurgerTime/SprayAttackComponent.h
-  BurgerTime/EnemySpawner.cpp
-  BurgerTime/EnemySpawner.h
-  BurgerTime/EnemyStunState.cpp
-  BurgerTime/BurgerLayerComponent.cpp
-        Minigin/EnemyChaseState.cpp
-        Minigin/EnemyCrushedState.cpp
-        Minigin/EnemyClimbingState.cpp
+        Minigin/Font.cpp
+        Minigin/GameObject.cpp
+        Minigin/InputManager.cpp
+        Minigin/Main.cpp
+        Minigin/Minigin.cpp
+        Minigin/Renderer.cpp
+        Minigin/ResourceManager.cpp
+        Minigin/Scene.cpp
+        Minigin/SceneManager.cpp
+        "Minigin/TextComponent.cpp"
+        Minigin/Texture2D.cpp
+        Minigin/Transform.cpp
+        "Minigin/Component.h"
+        "Minigin/Component.cpp"
+        "Minigin/GameTime.h"
+        "Minigin/FpsComponent.h"
+        "Minigin/FPSComponent.cpp"
+        "Minigin/RenderComponent.h"
+        "Minigin/RenderComponent.cpp"
+        "Minigin/RotatorComponent.h"
+        "Minigin/RotatorComponent.cpp"
+        "Minigin/imgui_plot.cpp" "Minigin/Command.h" "Minigin/ControllerInput.h" "Minigin/KeyboardInput.h"
+        "Minigin/InputOptions.h" "Minigin/ControllerInput.cpp" "Minigin/Binding.h" "Minigin/MovementComponent.h"
+        "Minigin/MovementComponent.cpp" "Minigin/Command.cpp" "Minigin/KeyboardInput.cpp" "Minigin/Binding.cpp"
+        "BurgerTime/HealthComponent.h" "BurgerTime/HealthComponent.cpp" "Minigin/ScoreComponent.h" "Minigin/ScoreComponent.cpp"
+        "Minigin/Observer.h" "Minigin/ObserverManager.h" "Minigin/ObserverManager.cpp" "Minigin/Observer.cpp"
+        "BurgerTime/EnemyState.h" "BurgerTime/EnemyChaseState.h" "BurgerTime/EnemyStunState.h" "BurgerTime/EnemyClimbingState.h"
+        "BurgerTime/EnemyCrushedState.h" "BurgerTime/EnemyBehaviourComponent.h"
+        "BurgerTime/EnemyBehaviourComponent.cpp"
+        "Minigin/Game.h"
+        "BurgerTime/BurgerTime.cpp"
+        "BurgerTime/BurgerTime.h"
+        "Minigin/Game.cpp" "Minigin/SoundSystem.h" "Minigin/ServiceLocator.h" "Minigin/SdlSoundSystem.h"
+        "Minigin/SdlSoundSystem.cpp" "Minigin/LoggingSoundSystem.h" "Minigin/NullSoundSystem.h"
+        BurgerTime/ReadLevelFile.cpp
+        BurgerTime/ReadLevelFile.h
+        Minigin/CollisionComponent.cpp
+        Minigin/CollisionComponent.h
+        BurgerTime/CookCollisionBehaviours.cpp
+        BurgerTime/CookCollisionBehaviours.h
+        BurgerTime/SprayAttackComponent.cpp
+        BurgerTime/SprayAttackComponent.h
+        BurgerTime/EnemySpawner.cpp
+        BurgerTime/EnemySpawner.h
+        BurgerTime/EnemyStunState.cpp
+        BurgerTime/BurgerLayerComponent.cpp
+        BurgerTime/EnemyChaseState.cpp
+        BurgerTime/EnemyCrushedState.cpp
+        BurgerTime/EnemyClimbingState.cpp
         BurgerTime/Burger.cpp
         BurgerTime/Burger.h
         BurgerTime/BurgerSectionCollisionBehaviour.cpp
@@ -81,7 +82,12 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         BurgerTime/PickUpComponent.cpp
         BurgerTime/PickUpComponent.h
         BurgerTime/LevelManager.cpp
-        BurgerTime/LevelManager.h)
+        BurgerTime/LevelManager.h
+        BurgerTime/PlayerStateComponent.cpp
+        BurgerTime/PlayerStateComponent.h
+        BurgerTime/EnemyCollisionLogic.cpp
+        BurgerTime/EnemyCollisionLogic.h
+)
 
 
 # enable c++20 features

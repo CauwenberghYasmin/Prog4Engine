@@ -28,8 +28,6 @@ public:
 	//void LoadStartScreen(Scene* scene);
 	//void LoadEndScreen(Scene* scene); //highscore!
 
-
-	static void PracticeScene(Scene* scene);
 	bool m_GameStarted{false};
 
 private:
