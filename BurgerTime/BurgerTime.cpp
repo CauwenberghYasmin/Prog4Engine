@@ -114,11 +114,31 @@ namespace dae {
 
 		if (scene == nullptr) return;
 
+
+
+
+		auto backgroundObj = std::make_unique<dae::GameObject>();
+		auto background = std::make_unique<dae::RenderComponent>(backgroundObj.get());
+		background->SetTexture("EndScreen.png");
+		backgroundObj->AddComponent(std::move(background));
+		scene->Add(std::move(backgroundObj));
+
+
+		// int result = LevelManager::GetInstance().GetScore();
+		// auto textFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 21);
+		// auto TextOutputHealth = std::make_unique<dae::GameObject>();
+		// auto HealthOutput1Renderer = std::make_unique<dae::RenderComponent>(TextOutputHealth.get());
+		// TextOutputHealth->AddComponent(std::move(HealthOutput1Renderer));	//everything that wants to get rendered (like text) needs a render component!
+		//
+		// auto textHealth = std::make_unique<dae::TextComponent>(TextOutputHealth.get(), std::string("Score:" + std::to_string(result)), textFont); //don't need this component ref anymore, so no need to safe the id
+		// textHealth->SetColor({ 255, 255, 255, 255 });
+		// textHealth->SetPosition(20, 20);
+		// TextOutputHealth->AddComponent(std::move(textHealth));
+		// scene->Add(std::move(TextOutputHealth));
+
+
+
 		LevelManager::GetInstance().ResetGame();
-		//background blac!
-
-
-
 	}
 
 
@@ -147,6 +167,13 @@ namespace dae {
 			std::move(std::make_unique<dae::ArrowMoveCommand>(arrow.get(), dae::Direction::Down, jumpAmount, 3)),
 			SDL_SCANCODE_S, InputState::JustReleased);
 
+		inputManager.GetControllerInput(0)->AddBinding(
+		std::move(std::make_unique<dae::ArrowMoveCommand>(arrow.get(), dae::Direction::Up, jumpAmount, 3))
+		, ControllerInputs::DPAD_UP, InputState::JustReleased);
+		inputManager.GetControllerInput(0)->AddBinding(
+			std::move(std::make_unique<dae::ArrowMoveCommand>(arrow.get(), dae::Direction::Down, jumpAmount, 3)),
+			ControllerInputs::DPAD_DOWN, InputState::JustReleased);
+
 		const float yposStart {471};
 		auto vec = std::vector<std::pair<float, GameMode>>();
 		vec.emplace_back((std::pair<float, GameMode>{ yposStart, GameMode::single })); //std::move makes no difference here: trivial copyable
@@ -156,6 +183,9 @@ namespace dae {
 		inputManager.GetKeyboardInput()->AddBinding(
 			(std::make_unique<dae::SetGameModeCommand>(arrow.get(), dynamic_cast<Game*>(this), std::move(vec))),
 			SDL_SCANCODE_X, InputState::JustReleased);
+		inputManager.GetControllerInput(0)->AddBinding(
+			(std::make_unique<dae::SetGameModeCommand>(arrow.get(), dynamic_cast<Game*>(this), std::move(vec))),
+			ControllerInputs::BUTTON_X, InputState::JustReleased);
 
 		//once pressed diff binding (x) -> undo bindings and go to new level + set game mode
 		//bindings  mute (NOT TO SKIP LEVEL, HAVENT PICKED AN INSTANCE YET)
