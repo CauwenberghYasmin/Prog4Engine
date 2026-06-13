@@ -4,6 +4,7 @@
 
 #include "SprayAttackComponent.h"
 #include "GameTime.h"
+#include "ServiceLocator.h"
 
 SprayAttackComponent::SprayAttackComponent(dae::GameObject* pOwner, dae::GameObject* pSprayChild, int amountSprays, int id)
         : Component(pOwner, id), m_pSprayChild(pSprayChild), m_AmountSprays(amountSprays)
@@ -22,7 +23,7 @@ void SprayAttackComponent::Spray(PlayerStateComponent::Direction facingDir) {
     m_IsActive = true;
     m_Timer = m_SprayDuration;
 
-    //notify observers (Sound & UI)
+    dae::ServiceLocator::get_sound_system().PlaySound(3, 50); //pass by observer!!
 
     float offset = 27.f;
     switch (facingDir)

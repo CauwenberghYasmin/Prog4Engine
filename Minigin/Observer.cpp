@@ -27,7 +27,7 @@ namespace dae {
 				{
 					int currentLives = LevelManager::GetInstance().GetLives();
 					pText->SetText("Amount Lives: " + std::to_string(currentLives));
-					ServiceLocator::get_sound_system().PlaySound(1, 50);
+					ServiceLocator::get_sound_system().PlaySound(2, 200);
 
 					if (LevelManager::GetInstance().GetLives() <= 0)
 					{
@@ -47,7 +47,7 @@ namespace dae {
 					{
 						int currentScore = LevelManager::GetInstance().GetScore();
 						pText->SetText("Score: " + std::to_string(currentScore));
-						ServiceLocator::get_sound_system().PlaySound(2, 50);
+						ServiceLocator::get_sound_system().PlaySound(1, 50);
 					}
 				}
 				break;

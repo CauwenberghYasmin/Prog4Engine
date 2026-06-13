@@ -58,6 +58,8 @@ namespace dae {
 
 		sdl_sound_system& soundSystem = dynamic_cast<sdl_sound_system&>(ServiceLocator::get_sound_system());
 		soundSystem.RegisterSound(1, "Data/sounds/bubbels.wav");
+		soundSystem.RegisterSound(2, "Data/sounds/Death.wav");
+		soundSystem.RegisterSound(3, "Data/sounds/PepperShake.wav");
 
 
 		//CHANGE HERE SO MAKE SENSE
@@ -167,7 +169,9 @@ namespace dae {
 		auto& inputManager = dae::InputManager::GetInstance();
 		inputManager.GetKeyboardInput()->RemoveAllBindings(); //-> just put by every scene load or not??
 		std::vector<GameObject*> players;
-		SetupPlayersAndUI(scene, players);
+		glm::vec2 pos1 {496, 559};
+		glm::vec2 pos2 {497, 62};
+		SetupPlayersAndUI(scene, players,  pos1, pos2);
 
 		//--------------------------ENEMY SPAWNER-----------------------------
 		std::vector<glm::vec2> positions{};
@@ -211,19 +215,20 @@ namespace dae {
 		auto& inputManager = dae::InputManager::GetInstance();
 		inputManager.GetKeyboardInput()->RemoveAllBindings(); //-> just put by every scene load or not??
 		std::vector<GameObject*> players;
-		SetupPlayersAndUI(scene, players);
+		glm::vec2 pos1 {496, 559};
+		glm::vec2 pos2 {497, 229};
+		SetupPlayersAndUI(scene, players,  pos1, pos2);
 
 		//--------------------------ENEMY SPAWNER-----------------------------
 		std::vector<glm::vec2> positions{};
-		const int enemyAmount{7};
+		const int enemyAmount{6};
 		positions.reserve(enemyAmount);
-		positions.emplace_back(699, 140);
-		positions.emplace_back(90, 61);
-		positions.emplace_back(104, 268);
-		positions.emplace_back(103, 445);
-		positions.emplace_back(904, 54);
-		positions.emplace_back(904, 140);
-		positions.emplace_back(901, 376);
+		positions.emplace_back(88, 74);
+		positions.emplace_back(892, 71);
+		positions.emplace_back(901, 189);
+		positions.emplace_back(894, 302);
+		positions.emplace_back(595, 71);
+		positions.emplace_back(89, 302);
 
 		auto EnemySpawn = std::make_unique<dae::GameObject>();
 		EnemySpawn->AddComponent(std::make_unique<EnemySpawner>(EnemySpawn.get(), players, positions, enemyAmount, scene));
@@ -232,15 +237,14 @@ namespace dae {
 		//-------------------ice cream spawner-----------------------------------
 
 		std::vector<glm::vec2> posItem{};
-		const int itemAmount{7};
+		const int itemAmount{6};
 		posItem.reserve(itemAmount);
-		posItem.emplace_back(699, 140);
-		posItem.emplace_back(90, 61);
-		posItem.emplace_back(104, 268);
-		posItem.emplace_back(103, 445);
-		posItem.emplace_back(904, 54);
-		posItem.emplace_back(904, 140);
-		posItem.emplace_back(901, 376);
+		posItem.emplace_back(88, 74);
+		posItem.emplace_back(892, 71);
+		posItem.emplace_back(901, 189);
+		posItem.emplace_back(894, 302);
+		posItem.emplace_back(595, 71);
+		posItem.emplace_back(89, 302);
 
 		auto Item = std::make_unique<dae::GameObject>();
 		Item->AddComponent(std::make_unique<PickUpSpawner>(Item.get(), posItem, itemAmount, scene));
@@ -256,19 +260,22 @@ namespace dae {
 		auto& inputManager = dae::InputManager::GetInstance();
 		inputManager.GetKeyboardInput()->RemoveAllBindings(); //-> just put by every scene load or not??
 		std::vector<GameObject*> players;
-		SetupPlayersAndUI(scene, players);
+		glm::vec2 pos1 {501, 687};
+		glm::vec2 pos2 {498, 132};
+		SetupPlayersAndUI(scene, players,  pos1, pos2);
 
 		//--------------------------ENEMY SPAWNER-----------------------------
 		std::vector<glm::vec2> positions{};
 		const int enemyAmount{7};
 		positions.reserve(enemyAmount);
-		positions.emplace_back(699, 140);
-		positions.emplace_back(90, 61);
-		positions.emplace_back(104, 268);
-		positions.emplace_back(103, 445);
-		positions.emplace_back(904, 54);
-		positions.emplace_back(904, 140);
-		positions.emplace_back(901, 376);
+		positions.reserve(enemyAmount);
+		positions.emplace_back(87, 68);
+		positions.emplace_back(89, 191);
+		positions.emplace_back(89, 426);
+		positions.emplace_back(89, 571);
+		positions.emplace_back(595, 71);
+		positions.emplace_back(902, 192);
+		positions.emplace_back(910, 448);
 
 		auto EnemySpawn = std::make_unique<dae::GameObject>();
 		EnemySpawn->AddComponent(std::make_unique<EnemySpawner>(EnemySpawn.get(), players, positions, enemyAmount, scene));
@@ -279,13 +286,11 @@ namespace dae {
 		std::vector<glm::vec2> posItem{};
 		const int itemAmount{7};
 		posItem.reserve(itemAmount);
-		posItem.emplace_back(699, 140);
-		posItem.emplace_back(90, 61);
-		posItem.emplace_back(104, 268);
-		posItem.emplace_back(103, 445);
-		posItem.emplace_back(904, 54);
-		posItem.emplace_back(904, 140);
-		posItem.emplace_back(901, 376);
+		posItem.emplace_back(89, 191);
+		posItem.emplace_back(89, 426);
+		posItem.emplace_back(89, 571);
+		posItem.emplace_back(595, 71);
+		posItem.emplace_back(902, 192);
 
 		auto Item = std::make_unique<dae::GameObject>();
 		Item->AddComponent(std::make_unique<PickUpSpawner>(Item.get(), posItem, itemAmount, scene));
@@ -297,7 +302,7 @@ namespace dae {
 
 
 
-	void BurgerTime::SetupPlayersAndUI(dae::Scene* scene, std::vector<GameObject*>& players)
+	void BurgerTime::SetupPlayersAndUI(dae::Scene* scene, std::vector<GameObject*>& players, glm::vec2& positionPlayer01, glm::vec2& positionPlayer02)
 	{
 		auto& inputManager = dae::InputManager::GetInstance();
 		inputManager.GetKeyboardInput()->RemoveAllBindings();
@@ -325,7 +330,7 @@ namespace dae {
 	 	cook->Tag = "Player";
 		auto picture = std::make_unique<dae::RenderComponent>(cook.get());
 		picture->SetTexture("Cook.png");
-		picture->SetPosition(320, 320);
+		picture->SetPosition(positionPlayer01.x, positionPlayer01.y);
 		const glm::vec2 picSize = picture->GetTextureSize();
 		cook->AddComponent(std::move(picture));
 		auto playerState = std::make_unique<PlayerStateComponent>(cook.get());
@@ -442,7 +447,7 @@ namespace dae {
 			cook2->Tag = "Player";
 			auto picture2 = std::make_unique<dae::RenderComponent>(cook2.get());
 			picture2->SetTexture("Cook2.png");
-			picture2->SetPosition(220, 320);
+			picture2->SetPosition(positionPlayer02.x, positionPlayer02.y);
 			cook2->AddComponent(std::move(picture2));
 
 			//adding health component
@@ -479,7 +484,7 @@ namespace dae {
 			HotDogPlayer->Tag = "Enemy";
 			auto picture2 = std::make_unique<dae::RenderComponent>(HotDogPlayer.get());
 			picture2->SetTexture("HotDog.png");
-			picture2->SetPosition(220, 320);
+			picture2->SetPosition(positionPlayer02.x, positionPlayer02.y);
 			HotDogPlayer->AddComponent(std::move(picture2));
 
 			//coll behaviour + comp

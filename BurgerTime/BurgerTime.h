@@ -30,7 +30,12 @@ public:
 
 	bool m_GameStarted{false};
 
+	BurgerTime(const BurgerTime& other) = delete;
+	BurgerTime& operator=(const BurgerTime& other) = delete;
+	BurgerTime(BurgerTime&& other) = delete;
+	BurgerTime& operator=(BurgerTime&& other) = delete;
+
 private:
-	void SetupPlayersAndUI(dae::Scene* scene, std::vector<GameObject*>& players);
+	void SetupPlayersAndUI(dae::Scene* scene, std::vector<GameObject*>& players, glm::vec2& positionPlayer01, glm::vec2& positionPlayer02);
 }; //cpp file should have to load funciton from main
 }
