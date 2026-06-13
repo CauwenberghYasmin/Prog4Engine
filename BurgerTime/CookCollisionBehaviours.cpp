@@ -5,6 +5,7 @@
 #include "CookCollisionBehaviours.h"
 #include "CollisionComponent.h"
 #include "HealthComponent.h"
+#include "ObserverManager.h"
 #include "PickUpComponent.h"
 
 
@@ -82,6 +83,8 @@ void CookCollisionBehaviours::OnEnterCook(CollisionComponent* other) {
         {
             pickupComp->Collect(GetOwner());
         }
+        //dae::ObserverManager::GetInstance().NotifyObserver(GetOwner(), dae::Event::ItemPickedUp); //yes this is how to send stuff!
+
     }
 
 }

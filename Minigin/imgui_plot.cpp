@@ -94,7 +94,7 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
             const int v_idx = cursor_to_idx(g.IO.MousePos, inner_bb, conf, x_min, x_max);
             const size_t data_idx = conf.values.offset + (v_idx % conf.values.count);
             const float x0 = conf.values.xs ? conf.values.xs[data_idx] : v_idx;
-            const float y0 = ys_list[0][data_idx]; // TODO: tooltip is only shown for the first y-value!
+            const float y0 = ys_list[0][data_idx];
             SetTooltip(conf.tooltip.format, x0, y0);
             v_hovered = v_idx;
         }
@@ -176,7 +176,6 @@ PlotStatus Plot(const char* label, const PlotConfig& conf) {
                     rescale(t1, x_min, x_max, conf.scale.type),
                     1.0f - ImSaturate((v1 - conf.scale.min) * inv_scale));
 
-            // NB: Draw calls are merged together by the DrawList system. Still, we should render our batch are lower level to save a bit of CPU.
                 ImVec2 pos0 = ImLerp(inner_bb.Min, inner_bb.Max, tp0);
                 ImVec2 pos1 = ImLerp(inner_bb.Min, inner_bb.Max, tp1);
 

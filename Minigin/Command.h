@@ -114,17 +114,7 @@ namespace dae {
 		void Execute() override;
 	};
 
-	class ScoreComponent;
-	class ScoreCommand : public GameObjectCommand {
-	public:
 
-		explicit ScoreCommand(GameObject* pGameObject, int ChangeScorePoints); //add neg for damage, pos for heal!
-		void Execute() override; //implement code from the moveComponent (is deleted now)
-
-	private:
-		int m_AmountScoreChange{};
-		ScoreComponent* m_ObjectsScoreComponent;
-	};
 
 
 

@@ -101,7 +101,6 @@ void ReadLevelFile::LoadlevelFromFile(dae::Scene& scene, const std::string& file
         }
     }
 }
-//HOW TO ADD EACH OBJECT
 
 // auto scene02 = std::make_unique<dae::GameObject>();
 // auto logo = std::make_unique<dae::RenderComponent>(scene02.get());

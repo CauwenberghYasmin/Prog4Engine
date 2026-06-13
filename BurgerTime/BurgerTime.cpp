@@ -498,6 +498,8 @@ namespace dae {
 		inputManager.GetKeyboardInput()->RemoveAllBindings();
 		inputManager.GetControllerInput(0)->RemoveAllBindings();
 		inputManager.GetControllerInput(1)->RemoveAllBindings();
+		players.clear();
+		dae::ObserverManager::GetInstance().ClearAllObservers();
 
 		auto vecLevelNames = std::vector<std::string>();
 		vecLevelNames.emplace_back("Level01");
@@ -611,7 +613,18 @@ namespace dae {
 		dae::ObserverManager::GetInstance().AddObserver(cook.get(), std::move(healthObserver));
 		scene->Add(std::move(TextOutputHealth));
 
-		//-> do same thing for score, but no score component!!
+		// int currentScore = LevelManager::GetInstance().GetScore();
+		// auto scoreTextObj = std::make_unique<dae::GameObject>();
+		// auto scoreRenderer = std::make_unique<dae::RenderComponent>(scoreTextObj.get());
+		// scoreTextObj->AddComponent(std::move(scoreRenderer));
+		// auto textScore = std::make_unique<dae::TextComponent>(scoreTextObj.get(), "Score: " + std::to_string(currentScore), textFont);
+		// textScore->SetColor({ 255, 255, 255, 255 });
+		// textScore->SetPosition(20, 50);
+		// scoreTextObj->AddComponent(std::move(textScore));
+
+		//auto scoreObserver = std::make_unique<GameEvent>(scoreTextObj.get());
+		//dae::ObserverManager::GetInstance().AddObserver(cook.get(), std::move(scoreObserver));
+		//scene->Add(std::move(scoreTextObj));	//NOT WORKING
 
 		//--------------------------------------------------------------------------------------------------
 		players.emplace_back(cook.get()); //fake error

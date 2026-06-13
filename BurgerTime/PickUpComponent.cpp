@@ -26,7 +26,6 @@ void PickUpComponent::Collect(dae::GameObject* collector) {
         m_OnCollectCallback(GetOwner());
     }
 
-    //notify been collected!
     if (collector) return; //CHECK IF NEED
 }
 

@@ -43,12 +43,6 @@ namespace dae {
 	}
 
 
-	ScoreCommand::ScoreCommand(GameObject* pGameObject, int ChangeScorePoints) :
-		GameObjectCommand(pGameObject), m_AmountScoreChange(ChangeScorePoints)
-	{
-		m_ObjectsScoreComponent = m_GameObject->GetComponent<ScoreComponent>(); //cashing health component
-	}
-
 
 	void MoveCommand::Execute() //how to I pass the direction enum??
 	{
@@ -204,12 +198,7 @@ namespace dae {
 
 
 
-	void ScoreCommand::Execute()
-	{
-		assert(m_ObjectsScoreComponent != nullptr && "Healthcomponent was a nullpointer in the command execute.");
-		//m_ObjectsScoreComponent->AddScorePoints(m_AmountScoreChange);
-		m_AmountScoreChange++;
-	}
+
 
 
 
