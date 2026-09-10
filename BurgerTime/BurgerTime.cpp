@@ -27,7 +27,6 @@
 #include "Scene.h"
 #include <iostream>
 
-#include "Burger.h"
 #include "PickUpSpawner.h"
 #include "SprayAttackComponent.h"
 

@@ -15,9 +15,7 @@ else()
           BurgerTime/PlayerStateComponent.h
           BurgerTime/EnemyCollisionLogic.cpp
           BurgerTime/EnemyCollisionLogic.h
-          BurgerTime/EnemyCrushedState.cpp
-          BurgerTime/BurgerLayerComponent.cpp
-          BurgerTime/BurgerLayerComponent.h)
+          BurgerTime/EnemyCrushedState.cpp)
 endif()
 
 # list source files here
@@ -67,16 +65,9 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         BurgerTime/EnemySpawner.cpp
         BurgerTime/EnemySpawner.h
         BurgerTime/EnemyStunState.cpp
-        BurgerTime/BurgerLayerComponent.cpp
         BurgerTime/EnemyChaseState.cpp
         BurgerTime/EnemyCrushedState.cpp
         BurgerTime/EnemyClimbingState.cpp
-        BurgerTime/Burger.cpp
-        BurgerTime/Burger.h
-        BurgerTime/BurgerSectionCollisionBehaviour.cpp
-        BurgerTime/BurgerSectionCollisionBehaviour.h
-        BurgerTime/BurgerLayerCollisionBehaviour.cpp
-        BurgerTime/BurgerLayerCollisionBehaviour.h
         BurgerTime/PickUpSpawner.cpp
         BurgerTime/PickUpSpawner.h
         BurgerTime/PickUpComponent.cpp
